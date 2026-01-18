@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>寄賣官網 B</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans TC",sans-serif;max-width:920px;margin:32px auto;padding:0 16px;line-height:1.6}
+    header{display:flex;gap:12px;align-items:center;justify-content:space-between}
+    .box{border:1px solid #ddd;border-radius:12px;padding:16px;margin:14px 0}
+    input,button{font-size:16px;padding:10px;border-radius:10px;border:1px solid #ccc}
+    button{cursor:pointer}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .muted{color:#666;font-size:14px}
+    pre{background:#f7f7f7;padding:12px;border-radius:10px;overflow:auto}
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1 style="margin:0">寄賣官網 B</h1>
+      <div class="muted">API：<span id="api"></span></div>
+    </div>
+  </header>
+
+  <div class="box">
+    <h2 style="margin-top:0">商品列表</h2>
+    <div class="row">
+      <button id="btnLoad">載入商品</button>
+      <span class="muted">從後端抓商品（你之後再把後端的 /public/products 做好）</span>
+    </div>
+    <pre id="products">尚未載入</pre>
+  </div>
+
+  <div class="box">
+    <h2 style="margin-top:0">加入購物車（測試）</h2>
+    <div class="row">
+      <input id="cartToken" placeholder="cart_token（先隨便輸入，例如 test123）" style="flex:1;min-width:260px" />
+      <input id="sku" placeholder="sku" style="width:160px" />
+      <input id="qty" placeholder="qty" value="1" style="width:90px" />
+      <button id="btnAdd">加入</button>
+    </div>
+    <pre id="addResult">尚未操作</pre>
+  </div>
+
+  <script>
+    const API = "https://api2.murain.tw"; // ✅ B 後端（固定）
+    document.getElementById("api").textContent = API;
+
+    async function jget(url){
+      const r = await fetch(url, { method:"GET" });
+      const t = await r.text();
+      try { return JSON.parse(t); } catch { return t; }
+    }
+    async function jpost(url, body){
+      const r = await fetch(url, {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify(body || {})
+      });
+      const t = await r.text();
+      try { return JSON.parse(t); } catch { return t; }
+    }
+
+    document.getElementById("btnLoad").onclick = async () => {
+      const out = document.getElementById("products");
+      out.textContent = "載入中...";
+      try{
+        const data = await jget(API + "/public/products");
+        out.textContent = JSON.stringify(data, null, 2);
+      }catch(e){
+        out.textContent = "錯誤：" + (e?.message || e);
+      }
+    };
+
+    document.getElementById("btnAdd").onclick = async () => {
+      const cart_token = (document.getElementById("cartToken").value || "").trim();
+      const sku = (document.getElementById("sku").value || "").trim();
+      const qty = Number(document.getElementById("qty").value || 1) || 1;
+      const out = document.getElementById("addResult");
+      out.textContent = "送出中...";
+      try{
+        const data = await jpost(API + "/cart/add", { cart_token, sku, qty });
+        out.textContent = JSON.stringify(data, null, 2);
+      }catch(e){
+        out.textContent = "錯誤：" + (e?.message || e);
+      }
+    };
+  </script>
+</body>
+</html>
