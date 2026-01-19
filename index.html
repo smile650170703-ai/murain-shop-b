@@ -2,90 +2,241 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>寄賣官網 B</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MURAIN 寄賣官網</title>
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans TC",sans-serif;max-width:920px;margin:32px auto;padding:0 16px;line-height:1.6}
-    header{display:flex;gap:12px;align-items:center;justify-content:space-between}
-    .box{border:1px solid #ddd;border-radius:12px;padding:16px;margin:14px 0}
-    input,button{font-size:16px;padding:10px;border-radius:10px;border:1px solid #ccc}
-    button{cursor:pointer}
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .muted{color:#666;font-size:14px}
-    pre{background:#f7f7f7;padding:12px;border-radius:10px;overflow:auto}
+    :root{
+      --bg:#0b0a0a;
+      --card:#141212;
+      --text:#f3f1f1;
+      --muted:#b9b3b3;
+      --gold:#c8a25a;
+      --border:rgba(200,162,90,.25);
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans TC"; background:radial-gradient(1200px 700px at 50% 0%, #191414 0%, var(--bg) 55%, #050404 100%); color:var(--text);}
+    a{color:inherit}
+    .wrap{max-width:1100px; margin:0 auto; padding:18px;}
+    .hero{
+      display:flex; gap:16px; align-items:stretch; flex-wrap:wrap;
+      border:1px solid var(--border); border-radius:18px; overflow:hidden;
+      background:linear-gradient(180deg, rgba(200,162,90,.08), rgba(0,0,0,.12));
+    }
+    .heroLeft{flex:1 1 520px; padding:18px;}
+    .heroRight{flex:0 0 420px; min-height:180px; background:#0c0b0b;}
+    .brandImg{width:100%; height:100%; object-fit:cover; display:block; filter:saturate(1.05) contrast(1.05);}
+    h1{margin:0 0 6px; letter-spacing:.6px}
+    .sub{color:var(--muted); font-size:14px; line-height:1.5}
+    .pill{display:inline-flex; gap:8px; align-items:center; padding:8px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); font-size:13px}
+    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+    .btn{
+      padding:10px 12px; border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      cursor:pointer;
+    }
+    .btn.primary{
+      background:linear-gradient(135deg, rgba(200,162,90,.25), rgba(200,162,90,.10));
+      border-color:rgba(200,162,90,.55);
+    }
+    .btn:disabled{opacity:.5; cursor:not-allowed;}
+    .section{margin-top:16px;}
+    .panel{
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.03);
+      border-radius:18px;
+      padding:16px;
+    }
+    .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+    .card{
+      border:1px solid var(--border);
+      border-radius:16px;
+      overflow:hidden;
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.10));
+    }
+    .pimg{width:100%; aspect-ratio:1/1; object-fit:cover; background:#0f0d0d; display:block;}
+    .pad{padding:12px;}
+    .name{font-weight:700; letter-spacing:.3px}
+    .muted{color:var(--muted); font-size:13px}
+    .price{color:var(--gold); font-weight:800; font-size:16px}
+    .sep{height:1px; background:rgba(200,162,90,.15); margin:10px 0;}
+    input,select{
+      padding:10px 12px; border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(0,0,0,.25);
+      color:var(--text);
+      outline:none;
+    }
+    .iframe{width:100%; aspect-ratio:16/9; border:0; border-radius:14px; background:#000;}
+    @media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:560px){.grid{grid-template-columns:1fr}.heroRight{flex:1 1 100%}}
   </style>
 </head>
 <body>
-  <header>
-    <div>
-      <h1 style="margin:0">寄賣官網 B</h1>
-      <div class="muted">API：<span id="api"></span></div>
-    </div>
-  </header>
+  <div class="wrap">
+    <div class="hero">
+      <div class="heroLeft">
+        <div class="row" style="justify-content:space-between">
+          <div class="pill">寄賣官網 B · 正式上線版</div>
+          <div class="pill">API：<span id="apiText"></span></div>
+        </div>
+        <h1 style="margin-top:10px;">MURAIN 寄賣精品</h1>
+        <div class="sub">
+          只顯示「上架」且「有庫存」商品。<br>
+          影片使用 YouTube（可不公開）快速上線。
+        </div>
+        <div style="height:12px"></div>
+        <div class="row">
+          <button class="btn" onclick="loadProducts()">重新載入商品</button>
+          <button class="btn primary" onclick="goCheckout()">前往結帳購物車</button>
+          <span class="muted">cart_token：<b id="cartTokenText"></b></span>
+        </div>
+        <div id="msg" class="muted" style="margin-top:10px"></div>
+      </div>
 
-  <div class="box">
-    <h2 style="margin-top:0">商品列表</h2>
-    <div class="row">
-      <button id="btnLoad">載入商品</button>
-      <span class="muted">從後端抓商品（你之後再把後端的 /public/products 做好）</span>
+      <div class="heroRight">
+        <!-- 你的品牌圖：請上傳到 repo -> assets/brand.png -->
+        <img class="brandImg" src="assets/brand.png" alt="MURAIN" />
+      </div>
     </div>
-    <pre id="products">尚未載入</pre>
+
+    <div class="section panel">
+      <div class="row" style="justify-content:space-between">
+        <b>商品列表</b>
+        <div class="row">
+          <select id="sort" onchange="renderProducts()">
+            <option value="new">預設</option>
+            <option value="price_asc">價格：低 → 高</option>
+            <option value="price_desc">價格：高 → 低</option>
+          </select>
+          <input id="q" placeholder="搜尋 SKU / 名稱" oninput="renderProducts()" />
+        </div>
+      </div>
+      <div style="height:12px"></div>
+      <div id="products" class="grid"></div>
+      <div id="empty" class="muted" style="margin-top:10px"></div>
+    </div>
   </div>
 
-  <div class="box">
-    <h2 style="margin-top:0">加入購物車（測試）</h2>
-    <div class="row">
-      <input id="cartToken" placeholder="cart_token（先隨便輸入，例如 test123）" style="flex:1;min-width:260px" />
-      <input id="sku" placeholder="sku" style="width:160px" />
-      <input id="qty" placeholder="qty" value="1" style="width:90px" />
-      <button id="btnAdd">加入</button>
-    </div>
-    <pre id="addResult">尚未操作</pre>
-  </div>
+<script>
+  // ====== 你只要改這裡（如果之後換網域）======
+  const API = "https://api2.murain.tw";
+  document.getElementById("apiText").textContent = API;
 
-  <script>
-    const API = "https://api2.murain.tw"; // ✅ B 後端（固定）
-    document.getElementById("api").textContent = API;
+  // cart token
+  const KEY_CART = "b_cart_token";
+  function getCartToken(){
+    let t = localStorage.getItem(KEY_CART);
+    if(!t){ t = "b" + Math.random().toString(36).slice(2,10); localStorage.setItem(KEY_CART, t); }
+    return t;
+  }
+  function showCartToken(){ document.getElementById("cartTokenText").textContent = getCartToken(); }
 
-    async function jget(url){
-      const r = await fetch(url, { method:"GET" });
-      const t = await r.text();
-      try { return JSON.parse(t); } catch { return t; }
+  function money(n){ return (Number(n||0)||0).toLocaleString("zh-Hant"); }
+
+  let products = [];
+
+  async function loadProducts(){
+    showCartToken();
+    document.getElementById("msg").textContent = "載入中…";
+    try{
+      const r = await fetch(`${API}/public/products`);
+      const d = await r.json();
+      if(!d.ok) throw new Error(d.message || d.error || "load_failed");
+      products = Array.isArray(d.items) ? d.items : [];
+      document.getElementById("msg").textContent = "";
+      renderProducts();
+    }catch(e){
+      document.getElementById("msg").textContent = "載入失敗：" + (e?.message || e);
     }
-    async function jpost(url, body){
-      const r = await fetch(url, {
+  }
+
+  function renderProducts(){
+    const q = document.getElementById("q").value.trim().toLowerCase();
+    const sort = document.getElementById("sort").value;
+
+    let list = products.slice();
+    if(q){
+      list = list.filter(p =>
+        String(p.sku||"").toLowerCase().includes(q) ||
+        String(p.name||"").toLowerCase().includes(q)
+      );
+    }
+
+    if(sort === "price_asc") list.sort((a,b)=>(a.price||0)-(b.price||0));
+    if(sort === "price_desc") list.sort((a,b)=>(b.price||0)-(a.price||0));
+
+    const el = document.getElementById("products");
+    const empty = document.getElementById("empty");
+
+    if(!list.length){
+      el.innerHTML = "";
+      empty.textContent = "目前沒有符合條件的上架商品（Status=on 且 Stock>0 才會顯示）。";
+      return;
+    }
+    empty.textContent = "";
+
+    el.innerHTML = list.map(p => `
+      <div class="card">
+        <img class="pimg" src="${p.image || ""}" alt="">
+        <div class="pad">
+          <div class="name">${escapeHtml(p.name || "")}</div>
+          <div class="muted">SKU：${escapeHtml(p.sku||"")}　庫存：${Number(p.stock||0)||0}</div>
+          <div class="sep"></div>
+          <div class="row" style="justify-content:space-between">
+            <div class="price">$ ${money(p.price)}</div>
+            <button class="btn primary" onclick="addToCart('${escapeAttr(p.sku)}',1)">加入購物車</button>
+          </div>
+
+          ${p.youtube_embed ? `
+            <div style="height:10px"></div>
+            <iframe class="iframe" src="${p.youtube_embed}" allowfullscreen></iframe>
+          ` : ``}
+
+          ${p.desc ? `
+            <div style="height:10px"></div>
+            <div class="muted">${escapeHtml(p.desc)}</div>
+          ` : ``}
+        </div>
+      </div>
+    `).join("");
+  }
+
+  async function addToCart(sku, qty){
+    const cart_token = getCartToken();
+    try{
+      const r = await fetch(`${API}/cart/add`, {
         method:"POST",
         headers:{ "Content-Type":"application/json" },
-        body: JSON.stringify(body || {})
+        body: JSON.stringify({ cart_token, sku, qty })
       });
-      const t = await r.text();
-      try { return JSON.parse(t); } catch { return t; }
+      const d = await r.json();
+      if(!d.ok) throw new Error(d.message || d.error || "add_failed");
+      alert(`已加入購物車：${sku} x ${qty}`);
+    }catch(e){
+      alert("加入失敗：" + (e?.message || e));
     }
+  }
 
-    document.getElementById("btnLoad").onclick = async () => {
-      const out = document.getElementById("products");
-      out.textContent = "載入中...";
-      try{
-        const data = await jget(API + "/public/products");
-        out.textContent = JSON.stringify(data, null, 2);
-      }catch(e){
-        out.textContent = "錯誤：" + (e?.message || e);
-      }
-    };
+  function goCheckout(){
+    const t = getCartToken();
+    location.href = `checkout.html?cart=${encodeURIComponent(t)}`;
+  }
 
-    document.getElementById("btnAdd").onclick = async () => {
-      const cart_token = (document.getElementById("cartToken").value || "").trim();
-      const sku = (document.getElementById("sku").value || "").trim();
-      const qty = Number(document.getElementById("qty").value || 1) || 1;
-      const out = document.getElementById("addResult");
-      out.textContent = "送出中...";
-      try{
-        const data = await jpost(API + "/cart/add", { cart_token, sku, qty });
-        out.textContent = JSON.stringify(data, null, 2);
-      }catch(e){
-        out.textContent = "錯誤：" + (e?.message || e);
-      }
-    };
-  </script>
+  function escapeHtml(s){
+    return String(s||"")
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#39;");
+  }
+  function escapeAttr(s){ return escapeHtml(s).replaceAll('"',''); }
+
+  // init
+  showCartToken();
+  loadProducts();
+</script>
 </body>
 </html>
