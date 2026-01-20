@@ -339,7 +339,7 @@
     state.items = data.items || [];
     initBrandFilter();
     render();
-    updateCartUI();
+    await refreshCartFromServer();
   }
 
   function initBrandFilter() {
@@ -435,36 +435,81 @@
   };
 
   $("mAdd").onclick = async () => {
-    if(!state.picked) return;
-    const p = state.picked;
-    if(localCart.some(x => x.sku === p.sku)){
-      toast("此商品已在購物車中");
+  if(!state.picked) return;
+  const p = state.picked;
+
+  // 先以後端為真相：直接打 /cart/add，成功後再回拉 /cart/get
+  try{
+    const r = await fetch(`${API}/cart/add`, {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ cart_token: cartToken, sku: p.sku, qty: 1 })
+    });
+    const j = await r.json().catch(()=>null);
+    if (!r.ok || !j?.ok) {
+      toast("加入失敗：" + (j?.error || r.status));
       return;
     }
-    try {
-      fetch(`${API}/cart/add`, {
-        method:"POST",
-        headers:{ "Content-Type":"application/json" },
-        body: JSON.stringify({ cart_token: cartToken, sku: p.sku, qty: 1 })
-      });
-    } catch(e){}
-    localCart.push(p);
-    saveLocalCart();
+
+    await refreshCartFromServer();
     toast("已加入購物車");
     closeModal();
     toggleCart(true);
-  };
+  }catch(e){
+    toast("加入失敗：network");
+  }
+};
 
-  window.removeFromCart = (sku) => {
-    localCart = localCart.filter(item => String(item.sku) !== String(sku));
-    saveLocalCart();
+
+  window.removeFromCart = async (sku) => {
+  try{
+    const r = await fetch(`${API}/cart/remove`, {
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ cart_token: cartToken, sku })
+    });
+    const j = await r.json().catch(()=>null);
+    if(!r.ok || !j?.ok) throw new Error(j?.error || r.status);
+
+    await refreshCartFromServer();
     toast("已移除商品");
-  };
+  }catch(e){
+    toast("移除失敗");
+  }
+};
 
   function saveLocalCart(){
     localStorage.setItem("murain_local_cart", JSON.stringify(localCart));
     updateCartUI();
   }
+
+  async function refreshCartFromServer(){
+  try{
+    const r = await fetch(`${API}/cart/get?cart_token=${encodeURIComponent(cartToken)}`);
+    const j = await r.json();
+    if(!j?.ok) throw new Error(j?.error || "cart_get_failed");
+
+    // 把後端 items 轉成你 UI 需要的資料（補 image/name）
+    const bySku = new Map((state.items||[]).map(p=>[String(p.sku), p]));
+    localCart = (j.items||[]).map(it=>{
+      const p = bySku.get(String(it.sku)) || {};
+      return {
+        sku: it.sku,
+        name: p.name || it.title || it.sku,
+        price: it.price || p.price || 0,
+        image: p.image || "",
+        qty: Number(it.qty||1)||1
+      };
+    });
+
+    saveLocalCart(); // 讓 UI 走同一套 updateCartUI()
+  }catch(e){
+    // 讀不到就不要亂顯示假資料
+    localCart = [];
+    saveLocalCart();
+  }
+}
+
 
   function updateCartUI(){
     $("cartCount").textContent = localCart.length;
