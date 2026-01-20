@@ -225,13 +225,67 @@
   }
 
   function escapeHtml(s){
-    return String(s||"")
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#39;");
-  }
+  return String(s ?? '').replace(/[&<>"']/g, m => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[m]));
+}
+
+function renderProducts(items){
+  const list = document.getElementById('productList'); // 你的商品列表容器 id
+  if (!list) return;
+
+  list.innerHTML = '';
+
+  items.forEach(p=>{
+    const sku = escapeHtml(p.sku);
+    const name = escapeHtml(p.name);
+    const img = String(p.image || '').trim();
+    const yt  = String(p.youtube_embed || '').trim();
+    const desc = escapeHtml(p.desc || '');
+
+    const card = document.createElement('div');
+    card.className = 'product-card';
+
+    card.innerHTML = `
+      <div class="p-img">
+        ${img ? `<img src="${escapeHtml(img)}" alt="${name}" loading="lazy" />` : `<div class="img-placeholder"></div>`}
+      </div>
+
+      <div class="p-name">${name}</div>
+      <div class="p-meta">SKU：${sku}　庫存：${Number(p.stock||0)}</div>
+      <div class="p-price">$ ${Number(p.price||0).toLocaleString('en-US')}</div>
+
+      <div class="p-actions">
+        <button class="btn-add" data-sku="${sku}" data-price="${Number(p.price||0)}">加入購物車</button>
+      </div>
+
+      ${yt ? `
+        <div class="p-video">
+          <iframe
+            src="${escapeHtml(yt)}"
+            title="YouTube video"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen></iframe>
+        </div>
+      ` : ''}
+
+      ${desc ? `<div class="p-desc">${desc}</div>` : ''}
+    `;
+
+    list.appendChild(card);
+  });
+
+  // 綁定加入購物車按鈕
+  list.querySelectorAll('.btn-add').forEach(btn=>{
+    btn.addEventListener('click', async ()=>{
+      const sku = btn.dataset.sku;
+      const price = Number(btn.dataset.price || 0);
+      await addToCart(sku, 1, price); // 你原本的 addToCart 函式
+    });
+  });
+}
+
   function escapeAttr(s){ return escapeHtml(s).replaceAll('"',''); }
 
   // init
