@@ -2,170 +2,264 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
   <title>MURAIN 寄賣精品｜結帳</title>
   <meta name="robots" content="noindex,nofollow" />
   <style>
+    /* --- 核心變數：與首頁一致的奢華黑金主題 --- */
     :root{
-      --bg:#07060a; --card:#0f0e14; --gold:#c9a24a; --gold2:#f2d27a;
-      --text:#f2f2f2; --muted:#b7b7b7; --line:rgba(201,162,74,.28);
-      --shadow:0 12px 40px rgba(0,0,0,.55); --radius:18px;
+      --bg: #050505;
+      --surface: #141414;
+      --surface-glass: rgba(20, 20, 20, 0.95);
+      --card-bg: #18181b;
+      --gold: #D4AF37;
+      --gold-light: #F2D266;
+      --text: #ffffff;
+      --text-sub: #9e9e9e;
+      --line: rgba(255, 255, 255, 0.12);
+      --danger: #d64d4d;
+      --font-main: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      --font-serif: "Times New Roman", serif; 
     }
-    *{box-sizing:border-box}
+
+    *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
     body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, "Noto Sans TC", Segoe UI, Arial;
-      background:
-        radial-gradient(1200px 600px at 20% 10%, rgba(201,162,74,.12), transparent 55%),
-        radial-gradient(900px 500px at 80% 0%, rgba(242,210,122,.10), transparent 60%),
-        var(--bg);
-      color:var(--text);
+      margin: 0; font-family: var(--font-main);
+      background-color: var(--bg);
+      background-image: radial-gradient(circle at 50% 0%, #1a1a20 0%, var(--bg) 60%);
+      color: var(--text); padding-bottom: 60px;
     }
-    .wrap{max-width:980px;margin:0 auto;padding:26px 18px 60px;}
-    .card{
-      border:1px solid var(--line);
-      border-radius: var(--radius);
-      background: linear-gradient(180deg, rgba(18,17,26,.92), rgba(10,10,14,.92));
-      box-shadow: var(--shadow);
-      padding:16px;
+    
+    .wrap{ max-width: 800px; margin: 0 auto; padding: 0; }
+
+    /* --- Topbar --- */
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 20px; background: var(--surface-glass);
+      backdrop-filter: blur(12px); border-bottom: 1px solid var(--line);
+      position: sticky; top: 0; z-index: 50;
     }
-    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    .k{color:var(--muted);font-size:12px}
-    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
-    .btn{
-      cursor:pointer;
-      border:1px solid var(--line);
-      background: radial-gradient(120px 60px at 30% 30%, rgba(242,210,122,.16), rgba(201,162,74,.10));
-      color:var(--text);
-      padding:10px 12px;border-radius: 12px;font-weight:800;
+    .brand { font-family: var(--font-serif); font-size: 20px; color: var(--gold); letter-spacing: 1px; }
+    .btn-ghost {
+      background: transparent; border: 1px solid var(--line); color: var(--text-sub);
+      padding: 6px 12px; border-radius: 99px; font-size: 12px; cursor: pointer; text-decoration: none;
     }
-    .btnGhost{
-      cursor:pointer;border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.25);color:var(--text);
-      padding:10px 12px;border-radius: 12px;font-weight:800;
+
+    /* --- Hero Banner --- */
+    .hero-banner {
+      height: 180px; position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center; flex-direction: column;
+      background: linear-gradient(135deg, #0f0f12 0%, #1a1a20 100%);
+      border-bottom: 1px solid var(--line); margin-bottom: 24px;
     }
-    .input,.select,.textarea{
-      width:100%;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.25);
-      color:var(--text);
-      padding:10px 12px;border-radius: 12px;outline:none;
+    .hero-banner::before {
+      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.10) 0%, transparent 60%);
+      animation: rotateLight 20s linear infinite;
     }
-    .textarea{min-height:90px;resize:vertical}
-    h1{margin:0 0 8px;font-size:20px}
-    .items{margin-top:10px;border-top:1px solid rgba(255,255,255,.10)}
-    .item{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.10)}
-    .price{color:var(--gold2);font-weight:900}
-    .hr{height:1px;background:rgba(255,255,255,.10);margin:14px 0}
-    .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:rgba(0,0,0,.75);border:1px solid rgba(201,162,74,.35);color:var(--text);padding:10px 12px;border-radius:999px;display:none;z-index:999}
+    @keyframes rotateLight { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
+    .hero-title { font-family: var(--font-serif); font-size: 28px; color: var(--gold); letter-spacing: 2px; position: relative; z-index: 2; }
+    .hero-sub { font-size: 11px; color: var(--text-sub); letter-spacing: 3px; text-transform: uppercase; position: relative; z-index: 2; margin-top: 8px;}
+
+    /* --- Layout Components --- */
+    .container { padding: 0 16px; }
+    
+    .section-title {
+      font-size: 16px; color: var(--gold); margin: 30px 0 12px;
+      font-weight: 500; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;
+    }
+    .section-title::after { content:''; flex:1; height:1px; background:var(--line); }
+
+    .card {
+      background: var(--card-bg); border: 1px solid var(--line);
+      border-radius: 16px; padding: 20px; margin-bottom: 20px;
+    }
+
+    /* --- Inputs --- */
+    .input-group { margin-bottom: 16px; }
+    .label { font-size: 12px; color: var(--text-sub); margin-bottom: 6px; display: block; }
+    input, select, textarea {
+      width: 100%; background: rgba(255,255,255,0.06);
+      border: 1px solid var(--line); color: var(--text);
+      border-radius: 12px; padding: 14px 16px; font-size: 14px; outline: none;
+      font-family: inherit; transition: border-color 0.3s;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--gold); }
+    textarea { min-height: 100px; resize: vertical; }
+    
+    /* 兩欄排列 */
+    .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* --- Cart Items --- */
+    .cart-item {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .cart-item:last-child { border-bottom: none; }
+    .item-info { flex: 1; margin-right: 12px; }
+    .item-name { font-size: 14px; line-height: 1.4; color: #fff; margin-bottom: 4px; }
+    .item-meta { font-size: 12px; color: var(--text-sub); font-family: monospace; }
+    .item-price { font-family: var(--font-serif); color: var(--gold); font-size: 16px; white-space: nowrap; }
+
+    .total-row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line);
+    }
+    .total-label { font-size: 14px; color: var(--text-sub); }
+    .total-amount { font-family: var(--font-serif); font-size: 24px; color: var(--gold); }
+
+    /* --- Action Buttons --- */
+    .btn-submit {
+      width: 100%; background: var(--gold); color: #000;
+      padding: 16px; border-radius: 12px; font-size: 16px; font-weight: bold;
+      border: none; cursor: pointer; margin-top: 10px;
+      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+    }
+    .btn-submit:active { transform: scale(0.98); }
+
+    .note-text { font-size: 12px; color: var(--text-sub); line-height: 1.5; margin-top: 12px; text-align: center; }
+
+    /* --- Toast & Utility --- */
+    .toast {
+      position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%);
+      background: #fff; color: #000; padding: 10px 20px;
+      border-radius: 99px; font-size: 14px; font-weight: 600;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.5); display: none; z-index: 999;
+    }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
+
   <div class="wrap">
-    <div class="card">
-      <div class="row" style="justify-content:space-between">
-        <div>
-          <h1>結帳購物車</h1>
-          <div class="k">API：<span class="mono" id="apiText"></span></div>
-          <div class="k">cart_token：<span class="mono" id="cartText"></span></div>
+    <div class="topbar">
+      <div class="brand">MURAIN</div>
+      <a href="./index.html" class="btn-ghost">← 回官網</a>
+    </div>
+
+    <div class="hero-banner">
+      <div class="hero-title">CHECKOUT</div>
+      <div class="hero-sub">SECURE PAYMENT</div>
+    </div>
+
+    <div class="container">
+      
+      <div class="section-title">購物車內容 (ORDER SUMMARY)</div>
+      <div class="card">
+        <div id="items">載入中...</div>
+        <div class="total-row">
+          <div class="total-label">總金額 (Total)</div>
+          <div class="total-amount">$ <span id="total">0</span></div>
         </div>
-        <div class="row">
-          <button class="btnGhost" onclick="location.href='./index.html'">回寄賣官網</button>
-          <button class="btnGhost" id="btnReload">刷新</button>
-          <button class="btnGhost" id="btnChange">換一個 token</button>
+      </div>
+
+      <div class="section-title">顧客資料 (CUSTOMER INFO)</div>
+      <div class="card">
+        <div class="row-2">
+          <div class="input-group">
+            <label class="label">姓名 Name</label>
+            <input id="name" placeholder="請填寫真實姓名" />
+          </div>
+          <div class="input-group">
+            <label class="label">電話 Phone</label>
+            <input id="phone" placeholder="09xxxxxxxx" />
+          </div>
+        </div>
+        <div class="input-group">
+          <label class="label">Email (接收發票與訂單通知)</label>
+          <input id="email" placeholder="example@email.com" />
         </div>
       </div>
 
-      <div class="items" id="items"></div>
-      <div class="row" style="justify-content:space-between;margin-top:10px">
-        <div class="k" id="cartMsg"></div>
-        <div style="font-size:18px;font-weight:900">合計 <span class="price">$ <span id="total">0</span></span></div>
-      </div>
-
-      <div class="hr"></div>
-
-      <h1 style="font-size:16px;margin-top:0">填寫資料並送出訂單</h1>
-      <div class="k">（匯款 / 面交 / 7-11 貨到付款：你確認收款後再按後台開發票；線上支付：之後串 PayUNI 回呼成功自動開）</div>
-
-      <div class="row" style="margin-top:12px">
-        <input class="input" id="name" placeholder="姓名（必填）" style="flex:1;min-width:180px" />
-        <input class="input" id="phone" placeholder="手機（必填）" style="flex:1;min-width:180px" />
-      </div>
-      <div class="row">
-        <input class="input" id="email" placeholder="Email（必填：發票寄送用）" style="flex:1;min-width:260px" />
-      </div>
-
-      <div class="row" style="margin-top:8px">
-        <select class="select" id="shipMethod" style="flex:1;min-width:220px">
-          <option value="cvs_711">7-11 取貨 / 貨到付款（先填門市資料）</option>
-          <option value="home">郵寄 / 宅配（填地址）</option>
-          <option value="meet">面交</option>
-        </select>
-
-        <select class="select" id="payMethod" style="flex:1;min-width:260px">
-          <option value="cvs_cod">7-11 貨到付款</option>
-          <option value="bank_transfer">匯款</option>
-          <option value="meet_pay">面交付款</option>
-          <option value="payuni_card">線上支付：信用卡一次付（待串接）</option>
-          <option value="payuni_3">線上支付：3 期零利率（待串接）</option>
-          <option value="payuni_6">線上支付：6 期零利率（待串接）</option>
-          <option value="payuni_9">線上支付：9 期零利率（待串接）</option>
-          <option value="payuni_af">線上支付：AF 先享後付（待串接）</option>
-          <option value="payuni_linepay">線上支付：LINE PAY（待串接）</option>
-        </select>
-      </div>
-
-      <!-- 7-11 -->
-      <div id="cvsBox" style="margin-top:10px">
-        <div class="k">7-11 門市資訊（先用手動填；之後你要串「跳門市選擇」我再幫你接）</div>
-        <div class="row" style="margin-top:8px">
-          <input class="input" id="cvsStoreId" placeholder="門市代號（例：123456）" style="flex:1;min-width:160px" />
-          <input class="input" id="cvsStoreName" placeholder="門市名稱" style="flex:2;min-width:240px" />
+      <div class="section-title">付款與運送 (PAYMENT & SHIPPING)</div>
+      <div class="card">
+        
+        <div class="input-group">
+          <label class="label">付款方式 Payment Method</label>
+          <select id="payMethod">
+            <option value="" disabled selected>請選擇付款方式</option>
+            <option value="cvs_cod">7-11 貨到付款 (Pay at 7-11)</option>
+            <option value="bank_transfer">銀行匯款 (Bank Transfer)</option>
+            <option value="payuni_card">線上刷卡 (Credit Card)</option>
+            <option value="payuni_3">線上刷卡 - 3期零利率</option>
+            <option value="payuni_6">線上刷卡 - 6期零利率</option>
+            <option value="payuni_9">線上刷卡 - 9期零利率</option>
+            <option value="payuni_af">AF 先享後付 (AfterPay)</option>
+            <option value="payuni_linepay">LINE Pay</option>
+          </select>
         </div>
-        <input class="input" id="cvsAddr" placeholder="門市地址（可選）" style="margin-top:8px" />
+
+        <div class="input-group">
+          <label class="label">運送方式 Shipping Method</label>
+          <select id="shipMethod">
+            <option value="cvs_711">7-11 門市取貨</option>
+            <option value="home">郵寄 / 宅配</option>
+          </select>
+        </div>
+
+        <div id="cvsBox" class="hidden">
+          <div class="input-group">
+            <label class="label" style="color:var(--gold)">請填寫 7-11 門市資訊</label>
+            <div class="row-2" style="margin-bottom:10px">
+              <input id="cvsStoreId" placeholder="門市代號 (例: 123456)" />
+              <input id="cvsStoreName" placeholder="門市名稱" />
+            </div>
+            <input id="cvsAddr" placeholder="門市地址 (可選填)" />
+            <div style="font-size:11px;color:var(--text-sub);margin-top:6px">
+              * 若不知道代號，請至 7-11 網站查詢後填入
+            </div>
+          </div>
+        </div>
+
+        <div id="homeBox" class="hidden">
+          <div class="input-group">
+            <label class="label" style="color:var(--gold)">收件地址 Address</label>
+            <textarea id="address" placeholder="請填寫完整收件地址 (縣市/區/路/號)"></textarea>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <label class="label">備註 Note (可選)</label>
+          <textarea id="note" style="min-height:60px" placeholder="例如：匯款帳號末五碼、管理室代收..."></textarea>
+        </div>
+
       </div>
 
-      <!-- home -->
-      <div id="homeBox" style="margin-top:10px;display:none">
-        <div class="k">郵寄 / 宅配地址</div>
-        <textarea class="textarea" id="address" placeholder="地址（例：台南市xx區xx路xx號）" style="margin-top:8px"></textarea>
+      <button class="btn-submit" id="btnSubmit">送出訂單 (PLACE ORDER)</button>
+      <div id="submitMsg" style="text-align:center;margin-top:10px;color:var(--gold)"></div>
+      <div class="note-text" id="result">
+        點擊送出即代表同意購買條款。<br>
+        匯款訂單請於 24 小時內完成付款。
       </div>
 
-      <textarea class="textarea" id="note" placeholder="備註（可選：匯款末五碼 / 取件偏好等）" style="margin-top:10px"></textarea>
-
-      <div class="row" style="margin-top:12px">
-        <button class="btn" id="btnSubmit" style="min-width:160px">送出訂單</button>
-        <div class="k" id="submitMsg"></div>
-      </div>
-
-      <div class="hr"></div>
-
-      <div class="k" id="result"></div>
     </div>
   </div>
 
   <div class="toast" id="toast"></div>
 
-  <!-- LIFF -->
+  <div style="display:none">
+    <span id="apiText"></span>
+    <span id="cartText"></span>
+  </div>
+
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
   <script>
+    [cite_start]/* --- 核心設定 [cite: 83, 84] --- */
     const API_DEFAULT = "https://api2.murain.tw";
-    const LIFF_ID = ""; // 你要強制 LINE 登入就填上
+    const LIFF_ID = ""; // 若需要強制 LINE 登入請填入
     const API = new URL(location.href).searchParams.get("api") || API_DEFAULT;
-
-    const elApi = document.getElementById("apiText");
-    const elCart = document.getElementById("cartText");
-    const itemsEl = document.getElementById("items");
-    const cartMsg = document.getElementById("cartMsg");
-    const totalEl = document.getElementById("total");
-    const toastEl = document.getElementById("toast");
-
-    elApi.textContent = API;
-
+    
+    document.getElementById("apiText").textContent = API;
     const LS_TOKEN = "murain_b_cart_token";
+    
+    // UI Elements
+    const toastEl = document.getElementById("toast");
+    const itemsEl = document.getElementById("items");
+    const totalEl = document.getElementById("total");
+    
+    /* --- 工具函式 --- */
     function genToken(){
-      const s = Math.random().toString(36).slice(2, 6) + Date.now().toString(36).slice(-4);
-      return "b" + s;
+      return "b" + Math.random().toString(36).slice(2, 6) + Date.now().toString(36).slice(-4);
     }
     function getToken(){
       const u = new URL(location.href);
@@ -175,16 +269,17 @@
       if (!t){ t = genToken(); localStorage.setItem(LS_TOKEN, t); }
       return t;
     }
+    const cart_token = getToken();
+    document.getElementById("cartText").textContent = cart_token;
 
-    function money(n){
-      try{ return new Intl.NumberFormat("zh-TW").format(Number(n||0)); }catch{ return String(n||0); }
-    }
+    function money(n){ try{ return new Intl.NumberFormat("zh-TW").format(Number(n||0)); }catch{ return String(n||0); } }
+    
     function toast(t){
-      toastEl.textContent = t;
-      toastEl.style.display = "block";
-      clearTimeout(toastEl._t);
-      toastEl._t = setTimeout(()=> toastEl.style.display="none", 1800);
+      toastEl.textContent = t; toastEl.style.display = "block";
+      clearTimeout(toastEl._t); toastEl._t = setTimeout(()=> toastEl.style.display="none", 2000);
     }
+
+    [cite_start]/* --- API 函式 [cite: 93, 95] --- */
     async function apiGet(u){
       const res = await fetch(u, { method:"GET" });
       const j = await res.json().catch(()=>null);
@@ -193,15 +288,14 @@
     }
     async function apiPost(u, data){
       const res = await fetch(u, {
-        method:"POST",
-        headers:{ "Content-Type":"application/json" },
-        body: JSON.stringify(data||{})
+        method:"POST", headers:{ "Content-Type":"application/json" }, body: JSON.stringify(data||{})
       });
       const j = await res.json().catch(()=>null);
       if (!res.ok) throw new Error(j?.message || j?.error || "post_failed");
       return j;
     }
 
+    [cite_start]/* --- LINE Login (Optional) [cite: 98] --- */
     let LINE = { ok:false, userId:"", idToken:"", name:"" };
     async function initLINE(){
       if (!LIFF_ID) return;
@@ -209,35 +303,58 @@
         await liff.init({ liffId: LIFF_ID });
         if (!liff.isLoggedIn()) liff.login();
         const prof = await liff.getProfile();
-        LINE.ok = true;
-        LINE.userId = prof.userId || "";
-        LINE.name = prof.displayName || "";
-        LINE.idToken = liff.getIDToken() || "";
+        LINE.ok = true; LINE.userId = prof.userId || ""; LINE.name = prof.displayName || "";
       }catch(e){}
     }
     initLINE();
 
-    const cart_token = getToken();
-    elCart.textContent = cart_token;
+    /* --- 邏輯控制核心 --- */
 
-    document.getElementById("btnReload").onclick = ()=> loadCart();
-    document.getElementById("btnChange").onclick = ()=>{
-      const t = genToken();
-      localStorage.setItem(LS_TOKEN, t);
-      location.href = `./checkout.html?cart=${encodeURIComponent(t)}`;
-    };
+    // 1. 監聽付款方式，連動運送選項
+    const elPay = document.getElementById("payMethod");
+    const elShip = document.getElementById("shipMethod");
+    const elCvsBox = document.getElementById("cvsBox");
+    const elHomeBox = document.getElementById("homeBox");
 
-    function setShipUI(){
-      const ship = document.getElementById("shipMethod").value;
-      document.getElementById("cvsBox").style.display = (ship === "cvs_711") ? "block" : "none";
-      document.getElementById("homeBox").style.display = (ship === "home") ? "block" : "none";
+    function updateShipOptions() {
+      const pay = elPay.value;
+      
+      // 先清空運送選項
+      elShip.innerHTML = "";
+
+      if(pay === "cvs_cod") {
+        // 若選 7-11 貨到付款 -> 只能選 7-11 取貨
+        let opt = new Option("7-11 門市取貨", "cvs_711");
+        elShip.add(opt);
+      } else {
+        // 其他 (匯款、線上支付) -> 可選 7-11 或 宅配
+        elShip.add(new Option("7-11 門市取貨", "cvs_711"));
+        elShip.add(new Option("郵寄 / 宅配", "home"));
+      }
+      
+      // 更新完選項後，觸發一次 UI 顯示更新
+      updateInputBoxes();
     }
-    document.getElementById("shipMethod").addEventListener("change", setShipUI);
-    setShipUI();
 
+    function updateInputBoxes() {
+      const ship = elShip.value;
+      if(ship === "cvs_711") {
+        elCvsBox.style.display = "block";
+        elHomeBox.style.display = "none";
+      } else {
+        elCvsBox.style.display = "none";
+        elHomeBox.style.display = "block";
+      }
+    }
+
+    elPay.addEventListener("change", updateShipOptions);
+    elShip.addEventListener("change", updateInputBoxes);
+    
+    // 初始化
+    updateShipOptions(); 
+
+    [cite_start]/* --- 載入購物車 [cite: 105] --- */
     async function loadCart(){
-      itemsEl.innerHTML = "";
-      cartMsg.textContent = "載入購物車…";
       try{
         const data = await apiGet(`${API}/cart/get?cart_token=${encodeURIComponent(cart_token)}`);
         const items = Array.isArray(data.items) ? data.items : [];
@@ -245,45 +362,38 @@
         totalEl.textContent = money(total);
 
         if (!items.length){
-          cartMsg.textContent = "購物車是空的，請回官網加入商品。";
-          itemsEl.innerHTML = "";
+          itemsEl.innerHTML = `<div style="text-align:center;color:#666;padding:20px">購物車是空的</div>`;
           return;
         }
 
-        cartMsg.textContent = "";
-        itemsEl.innerHTML = items.map(it=>`
-          <div class="item">
-            <div>
-              <div style="font-weight:900">${escapeHtml(it.title||it.sku||"")}</div>
-              <div class="k mono">SKU：${escapeHtml(it.sku||"")}　qty：${Number(it.qty||0)}　單價：$ ${money(it.price||0)}</div>
+        itemsEl.innerHTML = items.map(it => `
+          <div class="cart-item">
+            <div class="item-info">
+              <div class="item-name">${escapeHtml(it.title||it.sku||"")}</div>
+              <div class="item-meta">SKU: ${escapeHtml(it.sku)} | Qty: ${it.qty}</div>
             </div>
-            <div class="price">$ ${money((Number(it.qty||0)||0) * (Number(it.price||0)||0))}</div>
+            <div class="item-price">$ ${money(Number(it.price)*Number(it.qty))}</div>
           </div>
         `).join("");
 
       }catch(e){
-        cartMsg.textContent = "讀取失敗：" + (e?.message || "error");
+        itemsEl.innerHTML = "讀取失敗";
       }
     }
 
+    [cite_start]/* --- 送出訂單 [cite: 112] --- */
     document.getElementById("btnSubmit").onclick = async ()=>{
-      // 強制 LINE 登入（你正式要「一定要」就把 LIFF_ID 填上）
-      if (LIFF_ID && !LINE.ok){
-        toast("請先完成 LINE 登入");
-        return;
-      }
+      if (LIFF_ID && !LINE.ok){ toast("請先完成 LINE 登入"); return; }
 
-      const name = (document.getElementById("name").value||"").trim();
-      const phone = (document.getElementById("phone").value||"").trim();
-      const email = (document.getElementById("email").value||"").trim();
-      const note = (document.getElementById("note").value||"").trim();
-      const shipMethod = document.getElementById("shipMethod").value;
-      const payMethod = document.getElementById("payMethod").value;
+      const name = document.getElementById("name").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const note = document.getElementById("note").value.trim();
+      const payMethod = elPay.value;
+      const shipMethod = elShip.value;
 
-      if (!name || !phone || !email){
-        toast("請填姓名 / 手機 / Email");
-        return;
-      }
+      if (!payMethod) { toast("請選擇付款方式"); return; }
+      if (!name || !phone || !email){ toast("請填寫完整聯絡資料"); return; }
 
       const shippingInfo = {
         line_user_id: LINE.userId || "",
@@ -294,24 +404,24 @@
       };
 
       let address = "";
+      // 驗證地址或門市資料
       if (shipMethod === "home"){
-        address = (document.getElementById("address").value||"").trim();
+        address = document.getElementById("address").value.trim();
         if (!address){ toast("請填寫郵寄地址"); return; }
         shippingInfo.address = address;
       }
       if (shipMethod === "cvs_711"){
-        const storeId = (document.getElementById("cvsStoreId").value||"").trim();
-        const storeName = (document.getElementById("cvsStoreName").value||"").trim();
-        const storeAddr = (document.getElementById("cvsAddr").value||"").trim();
-        if (!storeId || !storeName){
-          toast("請填 7-11 門市代號 / 名稱");
-          return;
-        }
+        const storeId = document.getElementById("cvsStoreId").value.trim();
+        const storeName = document.getElementById("cvsStoreName").value.trim();
+        const storeAddr = document.getElementById("cvsAddr").value.trim();
+        if (!storeId || !storeName){ toast("請填寫 7-11 門市代號與名稱"); return; }
         shippingInfo.cvs = { store_id: storeId, store_name: storeName, store_addr: storeAddr };
       }
 
-      const submitMsg = document.getElementById("submitMsg");
-      submitMsg.textContent = "送出中…";
+      const btn = document.getElementById("btnSubmit");
+      const msg = document.getElementById("submitMsg");
+      btn.disabled = true;
+      msg.textContent = "處理中 (Processing)...";
 
       try{
         const r = await apiPost(`${API}/checkout`, {
@@ -325,28 +435,45 @@
           shipping_info_json: JSON.stringify(shippingInfo),
         });
 
-        submitMsg.textContent = "";
+        msg.textContent = "";
         const orderId = r.order_id || "";
         const total = r.total_amount || 0;
-        document.getElementById("result").innerHTML =
-          `<div style="font-weight:900;color:var(--gold2)">✅ 已建立訂單：${escapeHtml(orderId)}　金額 $ ${money(total)}</div>
-           <div class="k" style="margin-top:6px">
-             匯款/面交/貨到付款：到後台確認收款後再按「開立發票」。<br/>
-             線上支付：下一步會接 PayUNI（你要我接回呼與自動開票，我再幫你接到後端 routes）。
-           </div>`;
+        
+        document.getElementById("result").innerHTML = `
+          <div style="background:rgba(212,175,55,0.1);border:1px solid var(--gold);padding:20px;border-radius:12px;text-align:center;margin-top:20px">
+            <h2 style="color:var(--gold);margin:0 0 10px">✅ 訂單已建立</h2>
+            <div style="font-size:18px;font-weight:bold;color:#fff">編號：${escapeHtml(orderId)}</div>
+            <div style="font-size:16px;color:#eee;margin-top:5px">金額：$ ${money(total)}</div>
+            <div style="font-size:13px;color:#aaa;margin-top:15px;line-height:1.6">
+              感謝您的購買。<br>
+              若選擇線上支付，頁面即將跳轉至付款頁面...
+            </div>
+            <a href="./index.html" style="display:inline-block;margin-top:20px;color:var(--gold);text-decoration:underline">返回官網</a>
+          </div>
+        `;
+        
+        // 隱藏表單
+        document.querySelector(".container").style.display = "none";
+        document.querySelector(".hero-banner").style.display = "none";
+        document.querySelector("#result").style.display = "block"; // 將結果移出 container 顯示 (或是簡單地只隱藏 form card)
+        document.querySelector(".wrap").appendChild(document.getElementById("result"));
 
-        toast("訂單已建立");
-        await loadCart(); // 會變空（你後端是 qty=0 清購物車）
+        toast("訂單建立成功");
+        
+        // 可選：如果是 PayUNI 線上支付，這裡通常會收到 redirect_url
+        if(r.payment_url) {
+           setTimeout(() => location.href = r.payment_url, 1500);
+        }
+
       }catch(e){
-        submitMsg.textContent = "";
+        btn.disabled = false;
+        msg.textContent = "";
         toast("送出失敗：" + (e?.message || "error"));
       }
     };
 
     function escapeHtml(s){
-      return String(s||"")
-        .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+      return String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
     }
 
     loadCart();
