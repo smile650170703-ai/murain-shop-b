@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MURAIN 寄賣｜後台</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <style>
+    :root{
+      --bg:#07060a; --card:#0f0e14; --gold:#c9a24a; --gold2:#f2d27a;
+      --text:#f2f2f2; --muted:#b7b7b7; --line:rgba(201,162,74,.28);
+      --shadow:0 12px 40px rgba(0,0,0,.55); --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Noto Sans TC", Segoe UI, Arial;
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(201,162,74,.12), transparent 55%),
+        radial-gradient(900px 500px at 80% 0%, rgba(242,210,122,.10), transparent 60%),
+        var(--bg);
+      color:var(--text);
+    }
+    .wrap{max-width:1200px;margin:0 auto;padding:22px 16px 60px;}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(18,17,26,.92), rgba(10,10,14,.92));
+      box-shadow: var(--shadow);
+      padding:14px;
+    }
+    .k{color:var(--muted);font-size:12px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+    .input,.select,.ta{
+      width:100%;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.25);
+      color:var(--text);
+      padding:10px 12px;border-radius: 12px;outline:none;
+    }
+    .ta{min-height:90px;resize:vertical}
+    .btn{
+      cursor:pointer;
+      border:1px solid var(--line);
+      background: radial-gradient(120px 60px at 30% 30%, rgba(242,210,122,.16), rgba(201,162,74,.10));
+      color:var(--text);
+      padding:10px 12px;border-radius: 12px;font-weight:900;
+    }
+    .btnGhost{
+      cursor:pointer;border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.25);color:var(--text);
+      padding:10px 12px;border-radius: 12px;font-weight:900;
+    }
+    h1{margin:0 0 10px;font-size:18px}
+    .grid{display:grid;grid-template-columns: 1fr 1fr;gap:12px;margin-top:12px}
+    @media (max-width: 980px){ .grid{grid-template-columns:1fr;} }
+
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th,td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+    th{color:rgba(255,255,255,.85);font-weight:900}
+    tr:hover{background:rgba(255,255,255,.04)}
+    .badge{
+      display:inline-block;padding:4px 8px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.9);font-size:12px
+    }
+    .badgeGold{border-color: rgba(201,162,74,.45); color: var(--gold2);}
+    .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:rgba(0,0,0,.75);border:1px solid rgba(201,162,74,.35);color:var(--text);padding:10px 12px;border-radius:999px;display:none;z-index:999}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="row" style="justify-content:space-between">
+        <h1>後台：訂單管理（手動確認收款→按鈕更新狀態/填貨單/記錄開票）</h1>
+        <div class="row">
+          <button class="btnGhost" onclick="location.href='./index.html'">回官網</button>
+        </div>
+      </div>
+
+      <div class="row">
+        <div style="flex:1;min-width:260px">
+          <div class="k">API</div>
+          <input class="input" id="api" />
+        </div>
+        <div style="flex:1;min-width:220px">
+          <div class="k">ADMIN_KEY</div>
+          <input class="input" id="key" placeholder="你的 ADMIN_KEY" />
+        </div>
+        <div style="min-width:120px">
+          <div class="k">&nbsp;</div>
+          <button class="btn" id="btnLoad">載入訂單</button>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:10px">
+        <select class="select" id="status" style="flex:0 0 220px">
+          <option value="">全部狀態</option>
+          <option value="pending_transfer">pending_transfer</option>
+          <option value="paid">paid</option>
+          <option value="shipped">shipped</option>
+          <option value="completed">completed</option>
+          <option value="cancelled">cancelled</option>
+        </select>
+        <input class="input" id="q" placeholder="搜尋：order_id / phone / customer_name" style="flex:1;min-width:260px" />
+        <button class="btnGhost" id="btnSearch">搜尋</button>
+        <span class="k" id="msg"></span>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <h1>訂單列表</h1>
+        <div style="overflow:auto;max-height:520px">
+          <table>
+            <thead>
+              <tr>
+                <th>order_id</th>
+                <th>狀態</th>
+                <th>金額</th>
+                <th>客戶</th>
+                <th>時間</th>
+              </tr>
+            </thead>
+            <tbody id="list"></tbody>
+          </table>
+        </div>
+        <div class="row" style="justify-content:space-between;margin-top:10px">
+          <button class="btnGhost" id="btnPrev">上一頁</button>
+          <div class="k mono" id="pageInfo"></div>
+          <button class="btnGhost" id="btnNext">下一頁</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h1>訂單詳情 / 操作</h1>
+        <div class="k">點左邊訂單後顯示</div>
+
+        <div id="detail" style="margin-top:10px;display:none">
+          <div class="row">
+            <div style="flex:1;min-width:240px">
+              <div class="k">order_id</div>
+              <div class="mono" id="dOrderId" style="font-weight:900"></div>
+            </div>
+            <div style="flex:1;min-width:240px">
+              <div class="k">total</div>
+              <div class="mono" id="dTotal" style="font-weight:900;color:var(--gold2)"></div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px">
+            <div style="flex:1;min-width:220px">
+              <div class="k">status</div>
+              <select class="select" id="dStatus">
+                <option value="pending_transfer">pending_transfer</option>
+                <option value="paid">paid</option>
+                <option value="shipped">shipped</option>
+                <option value="completed">completed</option>
+                <option value="cancelled">cancelled</option>
+              </select>
+            </div>
+            <div style="flex:1;min-width:220px">
+              <div class="k">paid_at（可空）</div>
+              <input class="input" id="dPaidAt" placeholder="2026-01-20T10:30:00Z" />
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px">
+            <div style="flex:1;min-width:220px">
+              <div class="k">carrier（物流商，可空）</div>
+              <input class="input" id="dCarrier" placeholder="7-11 / 黑貓 / 郵局..." />
+            </div>
+            <div style="flex:1;min-width:220px">
+              <div class="k">tracking_no（貨單號，可空）</div>
+              <input class="input" id="dTracking" placeholder="貨單/包裹號碼" />
+            </div>
+          </div>
+
+          <div style="margin-top:10px">
+            <div class="k">note（可空）</div>
+            <textarea class="ta" id="dNote" placeholder="內部備註"></textarea>
+          </div>
+
+          <div class="row" style="margin-top:10px">
+            <button class="btn" id="btnSave">儲存更新</button>
+            <button class="btnGhost" id="btnMarkPaid">一鍵：已收款</button>
+            <button class="btnGhost" id="btnMarkShipped">一鍵：已出貨</button>
+            <button class="btnGhost" id="btnInvoice">一鍵：記錄開票</button>
+          </div>
+
+          <div class="k" id="dMsg" style="margin-top:8px"></div>
+
+          <div class="k" style="margin-top:10px">商品明細</div>
+          <div id="dItems" class="mono" style="white-space:pre-wrap;font-size:12px;opacity:.95"></div>
+
+          <div class="k" style="margin-top:10px">shipping_info（解析自 shipping_info_json）</div>
+          <div id="dShip" class="mono" style="white-space:pre-wrap;font-size:12px;opacity:.95"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const LS_API="murain_admin_api", LS_KEY="murain_admin_key";
+
+    const apiEl=document.getElementById("api");
+    const keyEl=document.getElementById("key");
+    apiEl.value = localStorage.getItem(LS_API) || "https://api2.murain.tw";
+    keyEl.value = localStorage.getItem(LS_KEY) || "";
+
+    let offsetStack=[""]; // 簡易上一頁
+    let curOffset="";
+    let curOrders=[];
+    let curOrderId="";
+
+    const toastEl=document.getElementById("toast");
+    const toast=(t)=>{ toastEl.textContent=t; toastEl.style.display="block"; clearTimeout(toastEl._t); toastEl._t=setTimeout(()=>toastEl.style.display="none",1800); }
+
+    function getAPI(){ const v=apiEl.value.trim(); localStorage.setItem(LS_API,v); return v; }
+    function getKey(){ const v=keyEl.value.trim(); localStorage.setItem(LS_KEY,v); return v; }
+
+    async function apiGet(path){
+      const API=getAPI(), key=getKey();
+      const url = API + path + (path.includes("?") ? "&" : "?") + "admin_key=" + encodeURIComponent(key);
+      const res = await fetch(url);
+      const j = await res.json().catch(()=>null);
+      if(!res.ok) throw new Error(j?.message || j?.error || "request_failed");
+      return j;
+    }
+    async function apiPost(path, body){
+      const API=getAPI(), key=getKey();
+      const url = API + path;
+      const res = await fetch(url, {
+        method:"POST",
+        headers:{ "Content-Type":"application/json", "X-Admin-Key": key },
+        body: JSON.stringify(body||{})
+      });
+      const j = await res.json().catch(()=>null);
+      if(!res.ok) throw new Error(j?.message || j?.error || "request_failed");
+      return j;
+    }
+
+    function money(n){ try{return new Intl.NumberFormat("zh-TW").format(Number(n||0));}catch{return String(n||0);} }
+
+    async function load(){
+      const status=document.getElementById("status").value.trim();
+      const q=document.getElementById("q").value.trim();
+      const msg=document.getElementById("msg");
+      msg.textContent="載入中…";
+
+      const qs = new URLSearchParams();
+      qs.set("limit","50");
+      if(status) qs.set("status",status);
+      if(q) qs.set("q",q);
+      if(curOffset) qs.set("offset",curOffset);
+
+      const data = await apiGet("/admin/orders?" + qs.toString());
+      curOrders = data.orders || [];
+      renderList();
+      msg.textContent = `共載入 ${curOrders.length} 筆`;
+      document.getElementById("pageInfo").textContent = data.offset ? ("offset: " + data.offset) : "最後一頁";
+      document.getElementById("btnNext").disabled = !data.offset;
+      document.getElementById("btnNext").dataset.next = data.offset || "";
+    }
+
+    function renderList(){
+      const tbody=document.getElementById("list");
+      tbody.innerHTML = curOrders.map(o=>`
+        <tr style="cursor:pointer" onclick="openOrder('${o.order_id.replaceAll("'","")}')">
+          <td class="mono" style="font-weight:900">${esc(o.order_id)}</td>
+          <td><span class="badge badgeGold">${esc(o.status||"")}</span></td>
+          <td class="mono">$ ${money(o.total_amount)}</td>
+          <td>${esc(o.customer_name||"")}<div class="k mono">${esc(o.phone||"")}</div></td>
+          <td class="k mono">${esc(o.created_at||"")}</td>
+        </tr>
+      `).join("") || `<tr><td colspan="5" class="k">沒有資料</td></tr>`;
+    }
+
+    function esc(s){
+      return String(s||"")
+        .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+    }
+
+    async function openOrder(orderId){
+      curOrderId = orderId;
+      document.getElementById("detail").style.display="block";
+      document.getElementById("dMsg").textContent="載入詳情…";
+
+      const data = await apiGet("/admin/order/get?order_id=" + encodeURIComponent(orderId));
+      const o = data.order;
+      const items = data.items || [];
+      const ship = data.shipping_info || null;
+
+      document.getElementById("dOrderId").textContent = o.order_id;
+      document.getElementById("dTotal").textContent = "$ " + money(o.total_amount);
+
+      document.getElementById("dStatus").value = o.status || "pending_transfer";
+      document.getElementById("dPaidAt").value = o.paid_at || "";
+      document.getElementById("dNote").value = o.note || "";
+
+      // tracking/carrier 從 shipping_info_json 取
+      document.getElementById("dTracking").value = ship?.tracking_no || "";
+      document.getElementById("dCarrier").value = ship?.carrier || "";
+
+      document.getElementById("dItems").textContent =
+        items.map(it=>`- ${it.title||it.sku} | SKU:${it.sku} | qty:${it.qty} | $${it.price}`).join("\n");
+
+      document.getElementById("dShip").textContent = ship ? JSON.stringify(ship,null,2) : "(無 / 解析失敗)";
+      document.getElementById("dMsg").textContent="";
+    }
+
+    document.getElementById("btnLoad").onclick = async ()=>{
+      curOffset=""; offsetStack=[""];
+      try{ await load(); }catch(e){ toast("載入失敗：" + e.message); }
+    };
+    document.getElementById("btnSearch").onclick = async ()=>{
+      curOffset=""; offsetStack=[""];
+      try{ await load(); }catch(e){ toast("搜尋失敗：" + e.message); }
+    };
+
+    document.getElementById("btnNext").onclick = async ()=>{
+      const next = document.getElementById("btnNext").dataset.next || "";
+      if(!next) return;
+      offsetStack.push(next);
+      curOffset = next;
+      try{ await load(); }catch(e){ toast("下一頁失敗：" + e.message); }
+    };
+
+    document.getElementById("btnPrev").onclick = async ()=>{
+      if(offsetStack.length <= 1) return;
+      offsetStack.pop();
+      curOffset = offsetStack[offsetStack.length-1] || "";
+      try{ await load(); }catch(e){ toast("上一頁失敗：" + e.message); }
+    };
+
+    async function savePatch(extra={}){
+      if(!curOrderId) return toast("請先點選訂單");
+      const patch = {
+        order_id: curOrderId,
+        status: document.getElementById("dStatus").value,
+        paid_at: document.getElementById("dPaidAt").value,
+        tracking_no: document.getElementById("dTracking").value,
+        carrier: document.getElementById("dCarrier").value,
+        note: document.getElementById("dNote").value,
+        ...extra
+      };
+      document.getElementById("dMsg").textContent="儲存中…";
+      try{
+        await apiPost("/admin/order/update", patch);
+        document.getElementById("dMsg").textContent="已儲存 ✅";
+        toast("已更新");
+        await openOrder(curOrderId);
+        await load();
+      }catch(e){
+        document.getElementById("dMsg").textContent="更新失敗：" + e.message;
+        toast("更新失敗：" + e.message);
+      }
+    }
+
+    document.getElementById("btnSave").onclick = ()=> savePatch();
+    document.getElementById("btnMarkPaid").onclick = ()=> {
+      const now = new Date().toISOString();
+      document.getElementById("dStatus").value="paid";
+      document.getElementById("dPaidAt").value = now;
+      savePatch();
+    };
+    document.getElementById("btnMarkShipped").onclick = ()=> {
+      document.getElementById("dStatus").value="shipped";
+      savePatch();
+    };
+    document.getElementById("btnInvoice").onclick = async ()=>{
+      if(!curOrderId) return toast("請先點選訂單");
+      document.getElementById("dMsg").textContent="記錄開票中…";
+      try{
+        await apiPost("/admin/invoice/issue", { order_id: curOrderId });
+        document.getElementById("dMsg").textContent="已記錄「要求開票」✅（待串綠界）";
+        toast("已記錄要求開票");
+        await openOrder(curOrderId);
+      }catch(e){
+        document.getElementById("dMsg").textContent="失敗：" + e.message;
+        toast("失敗：" + e.message);
+      }
+    };
+
+    window.openOrder = openOrder;
+  </script>
+</body>
+</html>
