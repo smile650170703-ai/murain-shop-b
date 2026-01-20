@@ -468,10 +468,7 @@ $("btnLoginLine").onclick = async () => {
   $("mAdd").onclick = async () => {
   if(!state.picked) return;
   const p = state.picked;
-    const lg = await ensureLineLogin();
-if (!lg.ok) return;
 
-  // 先以後端為真相：直接打 /cart/add，成功後再回拉 /cart/get
   try{
     const r = await fetch(`${API}/cart/add`, {
       method:"POST",
