@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MURAIN 寄賣｜訂單查詢中心</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <style>
+    :root{
+      --bg:#07060a; --gold:#c9a24a; --gold2:#f2d27a;
+      --text:#f2f2f2; --muted:#b7b7b7; --line:rgba(201,162,74,.28);
+      --shadow:0 12px 40px rgba(0,0,0,.55); --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Noto Sans TC", Segoe UI, Arial;
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(201,162,74,.12), transparent 55%),
+        radial-gradient(900px 500px at 80% 0%, rgba(242,210,122,.10), transparent 60%),
+        #07060a;
+      color:var(--text);
+    }
+    .wrap{max-width:980px;margin:0 auto;padding:22px 16px 60px;}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(18,17,26,.92), rgba(10,10,14,.92));
+      box-shadow: var(--shadow);
+      padding:14px;
+    }
+    .k{color:var(--muted);font-size:12px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+    .btn{
+      cursor:pointer;
+      border:1px solid var(--line);
+      background: radial-gradient(120px 60px at 30% 30%, rgba(242,210,122,.16), rgba(201,162,74,.10));
+      color:var(--text);
+      padding:10px 12px;border-radius: 12px;font-weight:900;
+    }
+    .btnGhost{
+      cursor:pointer;border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.25);color:var(--text);
+      padding:10px 12px;border-radius: 12px;font-weight:900;
+    }
+    table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+    th,td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+    th{font-weight:900}
+    tr:hover{background:rgba(255,255,255,.04)}
+    .badge{display:inline-block;padding:4px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.12);font-size:12px}
+    .badgeGold{border-color: rgba(201,162,74,.45); color: var(--gold2);}
+    .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:rgba(0,0,0,.75);border:1px solid rgba(201,162,74,.35);color:var(--text);padding:10px 12px;border-radius:999px;display:none;z-index:999}
+    pre{white-space:pre-wrap;word-break:break-word;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.10);padding:10px;border-radius:12px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="row" style="justify-content:space-between">
+        <div>
+          <div style="font-weight:900;font-size:18px">訂單查詢中心</div>
+          <div class="k">（登入 LINE 後顯示你的訂單、狀態、貨單號）</div>
+        </div>
+        <div class="row">
+          <button class="btnGhost" onclick="location.href='./index.html'">回官網</button>
+          <button class="btn" id="btnLoad">載入我的訂單</button>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:10px">
+        <div class="k">API：</div>
+        <div class="mono" id="apiText"></div>
+        <div class="k">LINE：</div>
+        <div class="mono" id="lineText">未初始化</div>
+      </div>
+
+      <div class="k" id="msg" style="margin-top:8px"></div>
+
+      <div style="overflow:auto;max-height:520px;margin-top:10px">
+        <table>
+          <thead>
+            <tr>
+              <th>order_id</th>
+              <th>狀態</th>
+              <th>金額</th>
+              <th>貨單</th>
+              <th>時間</th>
+            </tr>
+          </thead>
+          <tbody id="list"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <div style="font-weight:900">訂單詳細</div>
+      <div class="k">點上方訂單查看</div>
+      <div id="detail" style="margin-top:10px;display:none">
+        <div class="mono" id="dTitle" style="font-weight:900;color:var(--gold2)"></div>
+        <pre id="dBody"></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script>
+    // ====== 你只要改這裡 ======
+    const API = new URL(location.href).searchParams.get("api") || "https://api2.murain.tw";
+    const LIFF_ID = ""; // 你要填你的 LIFF_ID（要登入 LINE 才能查）
+    // =========================
+
+    document.getElementById("apiText").textContent = API;
+
+    const toastEl=document.getElementById("toast");
+    const toast=(t)=>{ toastEl.textContent=t; toastEl.style.display="block"; clearTimeout(toastEl._t); toastEl._t=setTimeout(()=>toastEl.style.display="none",1800); }
+
+    let idToken = "";
+    let orders = [];
+
+    async function init(){
+      if(!LIFF_ID){
+        document.getElementById("lineText").textContent = "未填 LIFF_ID（請填上）";
+        document.getElementById("msg").textContent = "請先在 member.html 填入 LIFF_ID 才能登入查詢。";
+        return;
+      }
+      try{
+        await liff.init({ liffId: LIFF_ID });
+        if(!liff.isLoggedIn()) liff.login();
+        idToken = liff.getIDToken() || "";
+        const p = await liff.getProfile();
+        document.getElementById("lineText").textContent = p.displayName ? ("已登入：" + p.displayName) : "已登入";
+      }catch(e){
+        document.getElementById("lineText").textContent = "初始化失敗";
+        document.getElementById("msg").textContent = "LIFF 初始化失敗：" + (e?.message || "error");
+      }
+    }
+
+    async function post(path, body){
+      const res = await fetch(API + path, {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify(body||{})
+      });
+      const j = await res.json().catch(()=>null);
+      if(!res.ok) throw new Error(j?.message || j?.error || "request_failed");
+      return j;
+    }
+
+    function money(n){ try{return new Intl.NumberFormat("zh-TW").format(Number(n||0));}catch{return String(n||0);} }
+    function esc(s){
+      return String(s||"")
+        .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+    }
+
+    function render(){
+      const tbody=document.getElementById("list");
+      tbody.innerHTML = orders.map(o=>`
+        <tr style="cursor:pointer" onclick="openOrder('${o.order_id.replaceAll("'","")}')">
+          <td class="mono" style="font-weight:900">${esc(o.order_id)}</td>
+          <td><span class="badge badgeGold">${esc(o.status||"")}</span></td>
+          <td class="mono">$ ${money(o.total_amount)}</td>
+          <td class="mono">${esc(o.tracking_no||"")}</td>
+          <td class="k mono">${esc(o.created_at||"")}</td>
+        </tr>
+      `).join("") || `<tr><td colspan="5" class="k">目前沒有訂單</td></tr>`;
+    }
+
+    async function loadMyOrders(){
+      const msg=document.getElementById("msg");
+      msg.textContent="載入中…";
+      try{
+        const data = await post("/member/orders", { id_token: idToken });
+        orders = data.orders || [];
+        render();
+        msg.textContent = `共 ${orders.length} 筆`;
+      }catch(e){
+        msg.textContent = "載入失敗：" + e.message;
+        toast("載入失敗：" + e.message);
+      }
+    }
+
+    async function openOrder(order_id){
+      const box=document.getElementById("detail");
+      const title=document.getElementById("dTitle");
+      const body=document.getElementById("dBody");
+      box.style.display="block";
+      title.textContent = order_id;
+      body.textContent = "載入中…";
+      try{
+        const data = await post("/member/order/get", { id_token: idToken, order_id });
+        body.textContent = JSON.stringify({ order: data.order, items: data.items }, null, 2);
+      }catch(e){
+        body.textContent = "讀取失敗：" + e.message;
+      }
+    }
+
+    document.getElementById("btnLoad").onclick = ()=>{
+      if(!idToken) return toast("請先完成 LINE 登入");
+      loadMyOrders();
+    };
+
+    window.openOrder=openOrder;
+
+    init();
+  </script>
+</body>
+</html>
