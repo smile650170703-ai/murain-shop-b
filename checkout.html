@@ -379,8 +379,8 @@ if (bankBox && bankText) {
         elShip.add(new Option("郵寄 / 宅配", "home"));
       }
       elShip.disabled = (pay === "cvs_cod");
-      // 更新完選項後，觸發一次 UI 顯示更新
-      updateInputBoxes();
+if (pay === "cvs_cod") elShip.value = "cvs_711";
+updateInputBoxes();
     }
 
     function updateInputBoxes() {
