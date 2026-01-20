@@ -2,295 +2,940 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>MURAIN 寄賣官網</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MURAIN 寄賣精品｜官網 B</title>
+  <meta name="description" content="MURAIN 寄賣精品｜快速上線版（商品列表 / 加入購物車 / 結帳）" />
   <style>
     :root{
-      --bg:#0b0a0a;
-      --card:#141212;
-      --text:#f3f1f1;
-      --muted:#b9b3b3;
-      --gold:#c8a25a;
-      --border:rgba(200,162,90,.25);
+      --bg:#0b0b0e;
+      --panel: rgba(18, 18, 22, .72);
+      --panel2: rgba(18, 18, 22, .55);
+      --stroke: rgba(212, 175, 55, .28);
+      --stroke2: rgba(212, 175, 55, .18);
+      --gold: #d4af37;
+      --gold2:#b88a2a;
+      --text:#f4f1ea;
+      --muted: rgba(244,241,234,.72);
+      --shadow: 0 18px 80px rgba(0,0,0,.55);
+      --radius: 18px;
     }
-    *{box-sizing:border-box}
-    body{margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans TC"; background:radial-gradient(1200px 700px at 50% 0%, #191414 0%, var(--bg) 55%, #050404 100%); color:var(--text);}
-    a{color:inherit}
-    .wrap{max-width:1100px; margin:0 auto; padding:18px;}
-    .hero{
-      display:flex; gap:16px; align-items:stretch; flex-wrap:wrap;
-      border:1px solid var(--border); border-radius:18px; overflow:hidden;
-      background:linear-gradient(180deg, rgba(200,162,90,.08), rgba(0,0,0,.12));
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans TC", Arial, "PingFang TC", "Heiti TC", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 25% -10%, rgba(212,175,55,.12), transparent 55%),
+        radial-gradient(900px 520px at 85% 0%, rgba(212,175,55,.10), transparent 52%),
+        radial-gradient(900px 620px at 50% 110%, rgba(212,175,55,.08), transparent 55%),
+        linear-gradient(180deg, #0a0a0d, #0b0b0e 35%, #060608);
+      min-height:100vh;
     }
-    .heroLeft{flex:1 1 520px; padding:18px;}
-    .heroRight{flex:0 0 420px; min-height:180px; background:#0c0b0b;}
-    .brandImg{width:100%; height:100%; object-fit:cover; display:block; filter:saturate(1.05) contrast(1.05);}
-    h1{margin:0 0 6px; letter-spacing:.6px}
-    .sub{color:var(--muted); font-size:14px; line-height:1.5}
-    .pill{display:inline-flex; gap:8px; align-items:center; padding:8px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); font-size:13px}
-    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+    a{ color:inherit; }
+    .wrap{ max-width:1120px; margin:0 auto; padding:18px 16px 64px; }
+    .topbar{
+      display:flex; gap:12px; align-items:center; justify-content:space-between;
+      padding:10px 0 14px;
+    }
+    .brand{
+      display:flex; gap:10px; align-items:center;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background: radial-gradient(circle at 30% 30%, #ffe9a8, var(--gold));
+      box-shadow: 0 0 0 4px rgba(212,175,55,.12);
+    }
+    .brand h1{
+      font-size:15px; margin:0;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:rgba(244,241,234,.92);
+    }
+    .brand small{
+      display:block;
+      font-size:12px;
+      letter-spacing:.08em;
+      color: var(--muted);
+      margin-top:2px;
+    }
+    .actions{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
+    .chip{
+      border:1px solid var(--stroke2);
+      background: rgba(0,0,0,.25);
+      padding:8px 10px;
+      border-radius:999px;
+      font-size:12px;
+      color: var(--muted);
+      display:flex; gap:8px; align-items:center;
+      max-width: 100%;
+    }
+    .chip code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      color: rgba(244,241,234,.9);
+      font-size:12px;
+      overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+      max-width: 340px;
+      display:inline-block;
+      vertical-align:bottom;
+    }
     .btn{
-      padding:10px 12px; border-radius:12px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.03);
-      color:var(--text);
       cursor:pointer;
+      border:1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(212,175,55,.12), rgba(0,0,0,.22));
+      color: rgba(244,241,234,.92);
+      padding:10px 12px;
+      border-radius:12px;
+      font-size:13px;
+      letter-spacing:.06em;
+      box-shadow: 0 10px 40px rgba(0,0,0,.25);
+      transition: transform .08s ease, border-color .15s ease;
+      user-select:none;
+      display:inline-flex; align-items:center; gap:8px;
+      text-decoration:none;
+      white-space:nowrap;
     }
-    .btn.primary{
-      background:linear-gradient(135deg, rgba(200,162,90,.25), rgba(200,162,90,.10));
-      border-color:rgba(200,162,90,.55);
+    .btn:active{ transform: translateY(1px); }
+    .btn.secondary{
+      background: rgba(0,0,0,.28);
+      border-color: rgba(212,175,55,.20);
     }
-    .btn:disabled{opacity:.5; cursor:not-allowed;}
-    .section{margin-top:16px;}
+    .btn.danger{
+      background: rgba(180,40,40,.10);
+      border-color: rgba(255,120,120,.22);
+    }
+    .badge{
+      min-width:18px; height:18px; border-radius:999px;
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:0 6px;
+      font-size:11px;
+      border:1px solid rgba(212,175,55,.35);
+      background: rgba(212,175,55,.12);
+      color: rgba(244,241,234,.95);
+    }
+
+    .hero{
+      border:1px solid var(--stroke2);
+      background: linear-gradient(180deg, rgba(18,18,22,.70), rgba(18,18,22,.45));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .hero-inner{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:18px;
+      padding:18px;
+      align-items:stretch;
+    }
+    @media (max-width: 900px){
+      .hero-inner{ grid-template-columns: 1fr; }
+    }
+    .banner{
+      border:1px solid rgba(212,175,55,.22);
+      background: rgba(0,0,0,.25);
+      border-radius: 16px;
+      overflow:hidden;
+      position:relative;
+      min-height:220px;
+    }
+    .banner img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      filter: contrast(1.05) saturate(1.02);
+    }
+    .banner::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(90deg, rgba(0,0,0,.55), transparent 55%),
+                  linear-gradient(180deg, transparent 30%, rgba(0,0,0,.45));
+      pointer-events:none;
+    }
+    .hero-right{
+      border:1px solid rgba(212,175,55,.18);
+      background: rgba(0,0,0,.20);
+      border-radius:16px;
+      padding:14px 14px 12px;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .hero-right h2{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.14em;
+    }
+    .hero-right p{
+      margin:0;
+      color: var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+    .row{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+    }
+    .field{
+      display:flex; gap:8px; align-items:center;
+      border:1px solid rgba(212,175,55,.18);
+      border-radius:12px;
+      background: rgba(0,0,0,.22);
+      padding:10px 10px;
+      flex: 1 1 240px;
+      min-width: 240px;
+    }
+    .field input, .field select{
+      width:100%;
+      border:0;
+      outline:0;
+      background: transparent;
+      color: rgba(244,241,234,.95);
+      font-size:13px;
+    }
+    .hint{
+      font-size:12px; color: rgba(244,241,234,.62);
+    }
+
+    .grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      gap:14px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
     .panel{
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.03);
-      border-radius:18px;
-      padding:16px;
+      border:1px solid var(--stroke2);
+      background: var(--panel2);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
     }
-    .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+    .panel .head{
+      padding:12px 14px;
+      border-bottom:1px solid rgba(212,175,55,.12);
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+    }
+    .panel .head strong{
+      font-size:14px; letter-spacing:.10em;
+    }
+    .panel .body{ padding:14px; }
+    .filters{
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .filters label{ font-size:12px; color: rgba(244,241,234,.70); }
+    .filters .field{ min-width: unset; }
+    .notice{
+      font-size:12px; color: rgba(244,241,234,.70); line-height:1.55;
+      padding:10px 12px;
+      border:1px dashed rgba(212,175,55,.22);
+      border-radius:14px;
+      background: rgba(0,0,0,.18);
+    }
+
+    .products{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:12px;
+      padding:14px;
+    }
+    @media (max-width: 1100px){ .products{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width: 680px){ .products{ grid-template-columns: 1fr; } }
+
     .card{
-      border:1px solid var(--border);
+      border:1px solid rgba(212,175,55,.18);
+      background: rgba(0,0,0,.22);
       border-radius:16px;
       overflow:hidden;
-      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.10));
+      display:flex;
+      flex-direction:column;
+      min-height: 340px;
     }
-    .pimg{width:100%; aspect-ratio:1/1; object-fit:cover; background:#0f0d0d; display:block;}
-    .pad{padding:12px;}
-    .name{font-weight:700; letter-spacing:.3px}
-    .muted{color:var(--muted); font-size:13px}
-    .price{color:var(--gold); font-weight:800; font-size:16px}
-    .sep{height:1px; background:rgba(200,162,90,.15); margin:10px 0;}
-    input,select{
-      padding:10px 12px; border-radius:12px;
-      border:1px solid var(--border);
-      background:rgba(0,0,0,.25);
-      color:var(--text);
-      outline:none;
+    .thumb{
+      position:relative;
+      background: rgba(255,255,255,.03);
+      border-bottom:1px solid rgba(212,175,55,.12);
+      height: 190px;
+      overflow:hidden;
     }
-    .iframe{width:100%; aspect-ratio:16/9; border:0; border-radius:14px; background:#000;}
-    @media (max-width:980px){.grid{grid-template-columns:repeat(2,1fr)}}
-    @media (max-width:560px){.grid{grid-template-columns:1fr}.heroRight{flex:1 1 100%}}
+    .thumb img{
+      width:100%; height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .thumb .tag{
+      position:absolute; left:10px; top:10px;
+      font-size:11px;
+      color: rgba(244,241,234,.9);
+      border:1px solid rgba(212,175,55,.25);
+      background: rgba(0,0,0,.35);
+      padding:6px 8px;
+      border-radius:999px;
+      backdrop-filter: blur(6px);
+    }
+    .card .content{
+      padding:12px 12px 10px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      flex:1;
+    }
+    .title{
+      margin:0;
+      font-size:14px;
+      line-height:1.35;
+      letter-spacing:.04em;
+    }
+    .meta{
+      font-size:12px;
+      color: rgba(244,241,234,.72);
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .price{
+      font-size:16px;
+      letter-spacing:.06em;
+      color: rgba(244,241,234,.95);
+      margin-top:auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding-top:8px;
+    }
+    .btn-sm{
+      padding:9px 10px;
+      border-radius:12px;
+      font-size:12px;
+    }
+    .btn-sm.secondary{ border-color: rgba(212,175,55,.18); }
+    .btn-sm.disabled{
+      opacity:.45;
+      pointer-events:none;
+    }
+    .muted{ color: rgba(244,241,234,.62); }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,.78);
+      border:1px solid rgba(212,175,55,.22);
+      color: rgba(244,241,234,.92);
+      padding:10px 12px;
+      border-radius: 14px;
+      box-shadow: 0 18px 70px rgba(0,0,0,.55);
+      font-size:12px;
+      max-width:min(560px, 92vw);
+      display:none;
+      z-index:9999;
+    }
+
+    /* Modal */
+    .modal-backdrop{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.62);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      z-index:9998;
+    }
+    .modal{
+      width:min(980px, 96vw);
+      max-height: 92vh;
+      overflow:auto;
+      border-radius:18px;
+      border:1px solid rgba(212,175,55,.22);
+      background: rgba(12,12,16,.92);
+      box-shadow: 0 30px 120px rgba(0,0,0,.65);
+    }
+    .modal .mhead{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:12px 14px;
+      border-bottom:1px solid rgba(212,175,55,.12);
+      gap:10px;
+      position:sticky;
+      top:0;
+      background: rgba(12,12,16,.96);
+      backdrop-filter: blur(10px);
+      z-index:1;
+    }
+    .modal .mhead strong{
+      font-size:13px; letter-spacing:.10em;
+      color: rgba(244,241,234,.9);
+    }
+    .modal .mbody{
+      padding:14px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:14px;
+    }
+    @media (max-width: 900px){
+      .modal .mbody{ grid-template-columns: 1fr; }
+    }
+    .mimg{
+      border:1px solid rgba(212,175,55,.18);
+      border-radius:16px;
+      overflow:hidden;
+      background: rgba(255,255,255,.03);
+      min-height: 260px;
+    }
+    .mimg img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .msec{
+      border:1px solid rgba(212,175,55,.12);
+      border-radius:16px;
+      background: rgba(0,0,0,.18);
+      padding:12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .msec h3{ margin:0; font-size:18px; letter-spacing:.06em; }
+    .msec .kv{
+      display:flex; flex-wrap:wrap; gap:10px;
+      font-size:12px; color: rgba(244,241,234,.78);
+    }
+    .msec .desc{
+      font-size:13px; line-height:1.7;
+      color: rgba(244,241,234,.86);
+      white-space:pre-wrap;
+    }
+    .ytbox{
+      border:1px solid rgba(212,175,55,.14);
+      border-radius:16px;
+      overflow:hidden;
+      background: rgba(0,0,0,.20);
+      aspect-ratio: 16 / 9;
+    }
+    .ytbox iframe{
+      width:100%; height:100%;
+      border:0;
+      display:block;
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="hero">
-      <div class="heroLeft">
-        <div class="row" style="justify-content:space-between">
-          <div class="pill">寄賣官網 B · 正式上線版</div>
-          <div class="pill">API：<span id="apiText"></span></div>
+    <div class="topbar">
+      <div class="brand">
+        <div class="dot"></div>
+        <div>
+          <h1>MURAIN 寄賣精品</h1>
+          <small id="apiLine">API：-</small>
         </div>
-        <h1 style="margin-top:10px;">MURAIN 寄賣精品</h1>
-        <div class="sub">
-          只顯示「上架」且「有庫存」商品。<br>
-          影片使用 YouTube（可不公開）快速上線。
-        </div>
-        <div style="height:12px"></div>
-        <div class="row">
-          <button class="btn" onclick="loadProducts()">重新載入商品</button>
-          <button class="btn primary" onclick="goCheckout()">前往結帳購物車</button>
-          <span class="muted">cart_token：<b id="cartTokenText"></b></span>
-        </div>
-        <div id="msg" class="muted" style="margin-top:10px"></div>
       </div>
 
-      <div class="heroRight">
-        <!-- 你的品牌圖：請上傳到 repo -> assets/brand.png -->
-        <img class="brandImg" src="assets/brand.png" alt="MURAIN" />
+      <div class="actions">
+        <div class="chip" title="目前購物車 token（可更換）">
+          cart_token：<code id="cartTokenText">-</code>
+        </div>
+
+        <a class="btn secondary" id="btnCheckout" href="./checkout.html">
+          前往結帳 <span class="badge" id="cartBadge">0</span>
+        </a>
+
+        <button class="btn" id="btnReload">重新載入商品</button>
+        <button class="btn secondary" id="btnChangeToken">換一個 cart_token</button>
       </div>
     </div>
 
-    <div class="section panel">
-      <div class="row" style="justify-content:space-between">
-        <b>商品列表</b>
-        <div class="row">
-          <select id="sort" onchange="renderProducts()">
-            <option value="new">預設</option>
-            <option value="price_asc">價格：低 → 高</option>
-            <option value="price_desc">價格：高 → 低</option>
-          </select>
-          <input id="q" placeholder="搜尋 SKU / 名稱" oninput="renderProducts()" />
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="banner">
+          <img id="bannerImg" alt="MURAIN Banner" />
+        </div>
+
+        <div class="hero-right">
+          <h2>寄賣官網 B｜正式上線版</h2>
+          <p>
+            只顯示 <b>上架（Status=on）</b> 的商品；庫存可選擇只顯示有庫存。<br/>
+            影片使用 <b>YouTube embed</b>（你填在 Airtable 的 <code>youtube_embed</code>）。
+          </p>
+
+          <div class="row">
+            <div class="field" title="只顯示有庫存（Stock>0）">
+              <label style="display:flex;gap:8px;align-items:center;width:100%;cursor:pointer;">
+                <input id="inStockOnly" type="checkbox" checked style="width:16px;height:16px;accent-color: var(--gold);" />
+                <span style="font-size:13px;color:rgba(244,241,234,.92);">只看有庫存</span>
+              </label>
+            </div>
+            <div class="field" title="關鍵字搜尋 SKU / 名稱 / 品牌">
+              <input id="q" placeholder="搜尋 SKU / 名稱 / 品牌" />
+            </div>
+          </div>
+
+          <div class="notice">
+            ✅ 加入購物車後，右上角「前往結帳」會帶你的 cart_token。<br/>
+            如果你要給客人用：直接分享結帳網址 <code>.../checkout.html?cart=xxxx</code>
+          </div>
+
+          <div class="hint" id="statusLine">準備中…</div>
         </div>
       </div>
-      <div style="height:12px"></div>
-      <div id="products" class="grid"></div>
-      <div id="empty" class="muted" style="margin-top:10px"></div>
+    </section>
+
+    <div class="grid">
+      <aside class="panel">
+        <div class="head">
+          <strong>篩選</strong>
+          <span class="muted" style="font-size:12px;" id="countLine">-</span>
+        </div>
+        <div class="body">
+          <div class="filters">
+            <div>
+              <label>價格排序</label>
+              <div class="field">
+                <select id="sort">
+                  <option value="new">預設</option>
+                  <option value="price_asc">價格：低 → 高</option>
+                  <option value="price_desc">價格：高 → 低</option>
+                  <option value="stock_desc">庫存：高 → 低</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label>快速操作</label>
+              <div class="row">
+                <button class="btn btn-sm secondary" id="btnCopyCheckout">複製結帳連結</button>
+                <button class="btn btn-sm danger" id="btnResetToken">重設 cart_token</button>
+              </div>
+            </div>
+
+            <div class="notice">
+              圖片欄位：後端回傳 <code>image</code>（對應 Airtable 的 Image/Images）。<br/>
+              若圖片沒顯示：多半是後端目前沒有回傳 image（可再補 Worker mapping）。
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="panel">
+        <div class="head">
+          <strong>商品列表</strong>
+          <span class="muted" style="font-size:12px;">點商品可看詳情 / 影片</span>
+        </div>
+        <div class="products" id="products"></div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <!-- Modal -->
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="mhead">
+        <strong>商品詳情</strong>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <button class="btn btn-sm secondary" id="mAdd">加入購物車</button>
+          <button class="btn btn-sm" id="mGoCheckout">前往結帳</button>
+          <button class="btn btn-sm secondary" id="mClose">關閉</button>
+        </div>
+      </div>
+      <div class="mbody">
+        <div class="mimg"><img id="mImg" alt="product" /></div>
+        <div class="msec">
+          <h3 id="mTitle">-</h3>
+          <div class="kv" id="mKV"></div>
+          <div class="desc" id="mDesc"></div>
+          <div class="ytbox" id="mYTWrap" style="display:none;">
+            <iframe id="mYT" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
 <script>
-  // ====== 你只要改這裡（如果之後換網域）======
-  const API = "https://api2.murain.tw";
-  document.getElementById("apiText").textContent = API;
+(() => {
+  // ========= CONFIG =========
+  const API_DEFAULT = "https://api2.murain.tw";
+  const BANNER_SRC = "./banner.png"; // 你那張 MURAIN 寄賣圖請存成 banner.png 跟 index.html 同層
+  const CART_TOKEN_KEY = "murain_b_cart_token";
 
-  // cart token
-  const KEY_CART = "b_cart_token";
-  function getCartToken(){
-    let t = localStorage.getItem(KEY_CART);
-    if(!t){ t = "b" + Math.random().toString(36).slice(2,10); localStorage.setItem(KEY_CART, t); }
+  const $ = (s) => document.querySelector(s);
+  const elProducts = $("#products");
+  const elStatus = $("#statusLine");
+  const elCount = $("#countLine");
+  const elApiLine = $("#apiLine");
+  const elCartTokenText = $("#cartTokenText");
+  const elCartBadge = $("#cartBadge");
+  const elInStockOnly = $("#inStockOnly");
+  const elQ = $("#q");
+  const elSort = $("#sort");
+  const elToast = $("#toast");
+
+  const modalBackdrop = $("#modalBackdrop");
+  const mImg = $("#mImg");
+  const mTitle = $("#mTitle");
+  const mKV = $("#mKV");
+  const mDesc = $("#mDesc");
+  const mYTWrap = $("#mYTWrap");
+  const mYT = $("#mYT");
+  const mAdd = $("#mAdd");
+  const mGoCheckout = $("#mGoCheckout");
+  const mClose = $("#mClose");
+
+  const url = new URL(location.href);
+  const API = url.searchParams.get("api") || API_DEFAULT;
+
+  elApiLine.textContent = "API： " + API;
+
+  // ========= UTIL =========
+  const money = (n) => {
+    const x = Number(n || 0) || 0;
+    return x.toLocaleString("zh-TW");
+  };
+
+  const toast = (msg) => {
+    elToast.textContent = msg;
+    elToast.style.display = "block";
+    clearTimeout(elToast._t);
+    elToast._t = setTimeout(() => elToast.style.display = "none", 2400);
+  };
+
+  const safeText = (v) => String(v ?? "");
+
+  const ensureCartToken = () => {
+    let t = localStorage.getItem(CART_TOKEN_KEY) || "";
+    t = t.trim();
+    if (!t) {
+      t = "b" + Math.random().toString(36).slice(2, 10);
+      localStorage.setItem(CART_TOKEN_KEY, t);
+    }
     return t;
-  }
-  function showCartToken(){ document.getElementById("cartTokenText").textContent = getCartToken(); }
+  };
 
-  function money(n){ return (Number(n||0)||0).toLocaleString("zh-Hant"); }
+  const setCartTokenUI = (t) => {
+    elCartTokenText.textContent = t;
+    $("#btnCheckout").href = `./checkout.html?cart=${encodeURIComponent(t)}&api=${encodeURIComponent(API)}`;
+  };
 
-  let products = [];
+  const parseYoutubeEmbed = (raw) => {
+    const s = String(raw || "").trim();
+    if (!s) return "";
+    // already embed
+    if (s.includes("youtube.com/embed/") || s.includes("youtube-nocookie.com/embed/")) return s;
+    // convert watch?v=
+    const m1 = s.match(/v=([a-zA-Z0-9_-]{6,})/);
+    if (m1 && m1[1]) return `https://www.youtube.com/embed/${m1[1]}`;
+    // youtu.be/xxxx
+    const m2 = s.match(/youtu\.be\/([a-zA-Z0-9_-]{6,})/);
+    if (m2 && m2[1]) return `https://www.youtube.com/embed/${m2[1]}`;
+    return s; // fallback
+  };
 
-  async function loadProducts(){
-    showCartToken();
-    document.getElementById("msg").textContent = "載入中…";
-    try{
-      const r = await fetch(`${API}/public/products`);
-      const d = await r.json();
-      if(!d.ok) throw new Error(d.message || d.error || "load_failed");
-      products = Array.isArray(d.items) ? d.items : [];
-      document.getElementById("msg").textContent = "";
-      renderProducts();
-    }catch(e){
-      document.getElementById("msg").textContent = "載入失敗：" + (e?.message || e);
+  const fetchJSON = async (path, init) => {
+    const res = await fetch(API + path, {
+      ...init,
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        ...(init && init.headers ? init.headers : {})
+      }
+    });
+    const text = await res.text();
+    let data = {};
+    try { data = JSON.parse(text); } catch { data = { ok:false, raw:text }; }
+    if (!res.ok || data.ok === false) {
+      const msg = data.message || data.error || ("HTTP_" + res.status);
+      throw new Error(msg);
     }
-  }
+    return data;
+  };
 
-  function renderProducts(){
-    const q = document.getElementById("q").value.trim().toLowerCase();
-    const sort = document.getElementById("sort").value;
+  // ========= STATE =========
+  let allProducts = [];
+  let currentModalProduct = null;
+  let cartToken = ensureCartToken();
+  setCartTokenUI(cartToken);
 
-    let list = products.slice();
-    if(q){
-      list = list.filter(p =>
-        String(p.sku||"").toLowerCase().includes(q) ||
-        String(p.name||"").toLowerCase().includes(q)
-      );
+  // Banner
+  $("#bannerImg").src = BANNER_SRC;
+
+  // ========= CART BADGE =========
+  const refreshCartBadge = async () => {
+    try {
+      const d = await fetchJSON(`/cart/get?cart_token=${encodeURIComponent(cartToken)}`);
+      const count = (d.items || []).reduce((s, it) => s + (Number(it.qty||0)||0), 0);
+      elCartBadge.textContent = String(count);
+    } catch (e) {
+      // 後端如果暫時沒有 cart/get 或 cart 空，也不阻塞
+      elCartBadge.textContent = "0";
+    }
+  };
+
+  // ========= PRODUCTS =========
+  const render = () => {
+    const q = elQ.value.trim().toLowerCase();
+    const inStockOnly = !!elInStockOnly.checked;
+    const sort = elSort.value;
+
+    let list = [...allProducts];
+
+    if (inStockOnly) list = list.filter(p => (Number(p.stock||0)||0) > 0);
+
+    if (q) {
+      list = list.filter(p => {
+        const hay = `${p.sku||""} ${p.name||""} ${p.brand||""}`.toLowerCase();
+        return hay.includes(q);
+      });
     }
 
-    if(sort === "price_asc") list.sort((a,b)=>(a.price||0)-(b.price||0));
-    if(sort === "price_desc") list.sort((a,b)=>(b.price||0)-(a.price||0));
+    if (sort === "price_asc") list.sort((a,b)=>(a.price||0)-(b.price||0));
+    else if (sort === "price_desc") list.sort((a,b)=>(b.price||0)-(a.price||0));
+    else if (sort === "stock_desc") list.sort((a,b)=>(b.stock||0)-(a.stock||0));
 
-    const el = document.getElementById("products");
-    const empty = document.getElementById("empty");
+    elCount.textContent = `共 ${list.length} 件`;
 
-    if(!list.length){
-      el.innerHTML = "";
-      empty.textContent = "目前沒有符合條件的上架商品（Status=on 且 Stock>0 才會顯示）。";
+    // ✅ 這裡一定要清空，不然你之前就會「商品列表裡又塞進其他區塊」
+    elProducts.innerHTML = "";
+
+    if (!list.length) {
+      const empty = document.createElement("div");
+      empty.className = "notice";
+      empty.textContent = "目前沒有符合條件的商品。";
+      empty.style.gridColumn = "1 / -1";
+      elProducts.appendChild(empty);
       return;
     }
-    empty.textContent = "";
 
-    el.innerHTML = list.map(p => `
-      <div class="card">
-        <img class="pimg" src="${p.image || ""}" alt="">
-        <div class="pad">
-          <div class="name">${escapeHtml(p.name || "")}</div>
-          <div class="muted">SKU：${escapeHtml(p.sku||"")}　庫存：${Number(p.stock||0)||0}</div>
-          <div class="sep"></div>
-          <div class="row" style="justify-content:space-between">
-            <div class="price">$ ${money(p.price)}</div>
-            <button class="btn primary" onclick="addToCart('${escapeAttr(p.sku)}',1)">加入購物車</button>
-          </div>
+    for (const p of list) {
+      const card = document.createElement("div");
+      card.className = "card";
 
-          ${p.youtube_embed ? `
-            <div style="height:10px"></div>
-            <iframe class="iframe" src="${p.youtube_embed}" allowfullscreen></iframe>
-          ` : ``}
+      const thumb = document.createElement("div");
+      thumb.className = "thumb";
+      const img = document.createElement("img");
+      img.alt = safeText(p.name || p.sku || "product");
+      img.loading = "lazy";
+      img.src = p.image ? p.image : "data:image/svg+xml;charset=utf-8," + encodeURIComponent(`
+        <svg xmlns='http://www.w3.org/2000/svg' width='900' height='600'>
+          <defs>
+            <linearGradient id='g' x1='0' x2='1'>
+              <stop offset='0' stop-color='#111117'/>
+              <stop offset='1' stop-color='#0b0b0e'/>
+            </linearGradient>
+          </defs>
+          <rect width='100%' height='100%' fill='url(#g)'/>
+          <circle cx='140' cy='140' r='90' fill='rgba(212,175,55,.14)'/>
+          <text x='60' y='330' fill='rgba(244,241,234,.72)' font-size='34' font-family='system-ui'>MURAIN</text>
+          <text x='60' y='380' fill='rgba(244,241,234,.55)' font-size='18' font-family='system-ui'>no image</text>
+        </svg>
+      `);
 
-          ${p.desc ? `
-            <div style="height:10px"></div>
-            <div class="muted">${escapeHtml(p.desc)}</div>
-          ` : ``}
-        </div>
-      </div>
-    `).join("");
-  }
+      const tag = document.createElement("div");
+      tag.className = "tag";
+      tag.textContent = p.brand ? String(p.brand) : "寄賣";
 
-  async function addToCart(sku, qty){
-    const cart_token = getCartToken();
-    try{
-      const r = await fetch(`${API}/cart/add`, {
-        method:"POST",
-        headers:{ "Content-Type":"application/json" },
-        body: JSON.stringify({ cart_token, sku, qty })
-      });
-      const d = await r.json();
-      if(!d.ok) throw new Error(d.message || d.error || "add_failed");
-      alert(`已加入購物車：${sku} x ${qty}`);
-    }catch(e){
-      alert("加入失敗：" + (e?.message || e));
+      thumb.appendChild(img);
+      thumb.appendChild(tag);
+
+      const content = document.createElement("div");
+      content.className = "content";
+
+      const h = document.createElement("h3");
+      h.className = "title";
+      h.textContent = p.name || p.sku || "-";
+
+      const meta = document.createElement("div");
+      meta.className = "meta";
+      meta.innerHTML = `
+        <span>SKU：<b>${safeText(p.sku)}</b></span>
+        <span>庫存：<b>${Number(p.stock||0)||0}</b></span>
+      `;
+
+      const price = document.createElement("div");
+      price.className = "price";
+      const left = document.createElement("div");
+      left.innerHTML = `<span style="opacity:.82;">$</span> <b>${money(p.price)}</b>`;
+      const right = document.createElement("div");
+      right.style.display="flex";
+      right.style.gap="8px";
+
+      const btnDetail = document.createElement("button");
+      btnDetail.className = "btn btn-sm secondary";
+      btnDetail.textContent = "看詳情";
+      btnDetail.onclick = (ev) => { ev.stopPropagation(); openModal(p); };
+
+      const btnAdd = document.createElement("button");
+      btnAdd.className = "btn btn-sm";
+      btnAdd.textContent = "加入購物車";
+      if ((Number(p.stock||0)||0) <= 0) {
+        btnAdd.classList.add("disabled");
+        btnAdd.textContent = "缺貨";
+      }
+      btnAdd.onclick = async (ev) => {
+        ev.stopPropagation();
+        await addToCart(p.sku, 1);
+      };
+
+      right.appendChild(btnDetail);
+      right.appendChild(btnAdd);
+
+      price.appendChild(left);
+      price.appendChild(right);
+
+      content.appendChild(h);
+      content.appendChild(meta);
+      content.appendChild(price);
+
+      card.appendChild(thumb);
+      card.appendChild(content);
+
+      card.onclick = () => openModal(p);
+
+      elProducts.appendChild(card);
     }
-  }
+  };
 
-  function goCheckout(){
-    const t = getCartToken();
-    location.href = `checkout.html?cart=${encodeURIComponent(t)}`;
-  }
+  const loadProducts = async () => {
+    elStatus.textContent = "載入商品中…";
+    try {
+      // 先抓全部 on（你後端已經固定 Status=on 了）
+      const inStock = elInStockOnly.checked ? "&in_stock=1" : "";
+      const data = await fetchJSON(`/public/products?limit=2000${inStock}`);
+      allProducts = (data.items || []).map(x => ({
+        sku: x.sku || "",
+        name: x.name || "",
+        brand: x.brand || "",
+        price: Number(x.price||0)||0,
+        stock: Number(x.stock||0)||0,
+        image: x.image || "",
+        desc: x.desc || "",
+        youtube_embed: x.youtube_embed || ""
+      }));
+      elStatus.textContent = `已載入 ${allProducts.length} 件商品`;
+      render();
+    } catch (e) {
+      elStatus.textContent = "載入失敗：" + (e.message || e);
+      toast("商品載入失敗：請確認 /public/products 是否正常");
+      elProducts.innerHTML = "";
+      const box = document.createElement("div");
+      box.className = "notice";
+      box.style.gridColumn = "1 / -1";
+      box.textContent = "載入商品失敗。請檢查後端：/public/products 是否回 ok:true";
+      elProducts.appendChild(box);
+    }
+  };
 
-  function escapeHtml(s){
-  return String(s ?? '').replace(/[&<>"']/g, m => ({
-    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-  }[m]));
-}
+  // ========= MODAL =========
+  const openModal = (p) => {
+    currentModalProduct = p;
+    mTitle.textContent = p.name || p.sku || "-";
 
-function renderProducts(items){
-  const list = document.getElementById('productList'); // 你的商品列表容器 id
-  if (!list) return;
+    const kv = [];
+    kv.push(`SKU：<b>${safeText(p.sku)}</b>`);
+    if (p.brand) kv.push(`品牌：<b>${safeText(p.brand)}</b>`);
+    kv.push(`庫存：<b>${Number(p.stock||0)||0}</b>`);
+    kv.push(`價格：<b>$ ${money(p.price)}</b>`);
+    mKV.innerHTML = kv.map(x => `<span>${x}</span>`).join("");
 
-  list.innerHTML = '';
+    mDesc.textContent = p.desc ? String(p.desc) : "（無描述）";
 
-  items.forEach(p=>{
-    const sku = escapeHtml(p.sku);
-    const name = escapeHtml(p.name);
-    const img = String(p.image || '').trim();
-    const yt  = String(p.youtube_embed || '').trim();
-    const desc = escapeHtml(p.desc || '');
+    mImg.src = p.image ? p.image : $("#bannerImg").src;
 
-    const card = document.createElement('div');
-    card.className = 'product-card';
+    const yt = parseYoutubeEmbed(p.youtube_embed);
+    if (yt) {
+      mYTWrap.style.display = "";
+      mYT.src = yt;
+    } else {
+      mYTWrap.style.display = "none";
+      mYT.src = "";
+    }
 
-    card.innerHTML = `
-      <div class="p-img">
-        ${img ? `<img src="${escapeHtml(img)}" alt="${name}" loading="lazy" />` : `<div class="img-placeholder"></div>`}
-      </div>
+    mAdd.onclick = async () => {
+      await addToCart(p.sku, 1);
+    };
+    mGoCheckout.onclick = () => {
+      location.href = `./checkout.html?cart=${encodeURIComponent(cartToken)}&api=${encodeURIComponent(API)}`;
+    };
 
-      <div class="p-name">${name}</div>
-      <div class="p-meta">SKU：${sku}　庫存：${Number(p.stock||0)}</div>
-      <div class="p-price">$ ${Number(p.price||0).toLocaleString('en-US')}</div>
+    modalBackdrop.style.display = "flex";
+  };
 
-      <div class="p-actions">
-        <button class="btn-add" data-sku="${sku}" data-price="${Number(p.price||0)}">加入購物車</button>
-      </div>
+  const closeModal = () => {
+    modalBackdrop.style.display = "none";
+    mYT.src = ""; // stop video
+    currentModalProduct = null;
+  };
 
-      ${yt ? `
-        <div class="p-video">
-          <iframe
-            src="${escapeHtml(yt)}"
-            title="YouTube video"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen></iframe>
-        </div>
-      ` : ''}
-
-      ${desc ? `<div class="p-desc">${desc}</div>` : ''}
-    `;
-
-    list.appendChild(card);
+  mClose.onclick = closeModal;
+  modalBackdrop.addEventListener("click", (e) => {
+    if (e.target === modalBackdrop) closeModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
   });
 
-  // 綁定加入購物車按鈕
-  list.querySelectorAll('.btn-add').forEach(btn=>{
-    btn.addEventListener('click', async ()=>{
-      const sku = btn.dataset.sku;
-      const price = Number(btn.dataset.price || 0);
-      await addToCart(sku, 1, price); // 你原本的 addToCart 函式
-    });
-  });
-}
+  // ========= CART =========
+  const addToCart = async (sku, qty) => {
+    try {
+      await fetchJSON("/cart/add", {
+        method: "POST",
+        body: JSON.stringify({
+          cart_token: cartToken,
+          sku,
+          qty: Number(qty||1)||1
+        })
+      });
+      toast(`已加入購物車：${sku}`);
+      await refreshCartBadge();
+    } catch (e) {
+      toast("加入失敗：" + (e.message || e));
+    }
+  };
 
-  function escapeAttr(s){ return escapeHtml(s).replaceAll('"',''); }
+  // ========= EVENTS =========
+  $("#btnReload").onclick = loadProducts;
 
-  // init
-  showCartToken();
+  elInStockOnly.onchange = () => loadProducts(); // 重新抓（避免前端顯示不一致）
+  elQ.oninput = () => render();
+  elSort.onchange = () => render();
+
+  $("#btnChangeToken").onclick = () => {
+    const next = prompt("輸入新的 cart_token（建議英數）", cartToken) || "";
+    const t = next.trim();
+    if (!t) return;
+    cartToken = t;
+    localStorage.setItem(CART_TOKEN_KEY, cartToken);
+    setCartTokenUI(cartToken);
+    refreshCartBadge();
+    toast("已切換 cart_token ✅");
+  };
+
+  $("#btnResetToken").onclick = () => {
+    if (!confirm("確定要重設 cart_token？（會變成新的，原本購物車不會消失但你會看不到）")) return;
+    localStorage.removeItem(CART_TOKEN_KEY);
+    cartToken = ensureCartToken();
+    setCartTokenUI(cartToken);
+    refreshCartBadge();
+    toast("已重設 cart_token ✅");
+  };
+
+  $("#btnCopyCheckout").onclick = async () => {
+    const link = `${location.origin}${location.pathname.replace(/index\.html$/, "")}checkout.html?cart=${encodeURIComponent(cartToken)}&api=${encodeURIComponent(API)}`;
+    try {
+      await navigator.clipboard.writeText(link);
+      toast("已複製結帳連結 ✅");
+    } catch {
+      prompt("複製這段結帳連結：", link);
+    }
+  };
+
+  // ========= INIT =========
+  refreshCartBadge();
   loadProducts();
+
+})();
 </script>
 </body>
 </html>
