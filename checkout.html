@@ -189,6 +189,15 @@
           </select>
         </div>
 
+<div id="bankBox" class="card" style="display:none; margin-top:10px;">
+  <div class="k">匯款帳號</div>
+  <div class="row" style="gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px;">
+    <div class="mono" id="bankText" style="font-weight:900;"></div>
+    <button type="button" class="btnGhost" id="btnCopyBank">一鍵複製</button>
+  </div>
+  <div class="k" style="margin-top:6px;">匯款後請在備註填寫：後五碼 / 金額 / 時間，方便對帳。</div>
+</div>
+
         <div class="input-group">
           <label class="label">運送方式 Shipping Method</label>
           <select id="shipMethod">
@@ -298,14 +307,32 @@
     [cite_start]/* --- LINE Login (Optional) [cite: 98] --- */
     let LINE = { ok:false, userId:"", idToken:"", name:"" };
     async function initLINE(){
-      if (!LIFF_ID) return;
-      try{
-        await liff.init({ liffId: LIFF_ID });
-        if (!liff.isLoggedIn()) liff.login();
-        const prof = await liff.getProfile();
-        LINE.ok = true; LINE.userId = prof.userId || ""; LINE.name = prof.displayName || "";
-      }catch(e){}
+  if(!LIFF_ID) return; // 沒設定就不強制（你也可以改成 alert 擋住）
+  try{
+    await liff.init({ liffId: LIFF_ID });
+
+    if(!liff.isLoggedIn()){
+      liff.login({ redirectUri: location.href });
+      return;
     }
+
+    const prof = await liff.getProfile();
+    const idToken = liff.getIDToken() || "";
+
+    LINE.ok = true;
+    LINE.userId = prof.userId || "";
+    LINE.name = prof.displayName || "";
+
+    // ✅ 給官網/會員頁共用
+    try{
+      localStorage.setItem("line_user_id", LINE.userId);
+      localStorage.setItem("line_display_name", LINE.name);
+      localStorage.setItem("line_id_token", idToken);
+    }catch(e){}
+  }catch(e){
+    console.error(e);
+  }
+}
     initLINE();
 
     /* --- 邏輯控制核心 --- */
@@ -316,8 +343,25 @@
     const elCvsBox = document.getElementById("cvsBox");
     const elHomeBox = document.getElementById("homeBox");
 
+    const BANK_INFO = `銀行：___
+戶名：___
+帳號：___`;
+
+const bankBox = document.getElementById("bankBox");
+const bankText = document.getElementById("bankText");
+const btnCopyBank = document.getElementById("btnCopyBank");
+
     function updateShipOptions() {
       const pay = elPay.value;
+      // 匯款資訊顯示/隱藏
+if (bankBox && bankText) {
+  if (pay === "bank_transfer") {
+    bankBox.style.display = "";
+    bankText.textContent = BANK_INFO;
+  } else {
+    bankBox.style.display = "none";
+  }
+}
       
       // 先清空運送選項
       elShip.innerHTML = "";
@@ -331,7 +375,7 @@
         elShip.add(new Option("7-11 門市取貨", "cvs_711"));
         elShip.add(new Option("郵寄 / 宅配", "home"));
       }
-      
+      elShip.disabled = (pay === "cvs_cod");
       // 更新完選項後，觸發一次 UI 顯示更新
       updateInputBoxes();
     }
@@ -352,6 +396,18 @@
     
     // 初始化
     updateShipOptions(); 
+    btnCopyBank?.addEventListener('click', async ()=>{
+  try{
+    await navigator.clipboard.writeText(BANK_INFO);
+    toast('已複製匯款資訊 ✅');
+  }catch(e){
+    const ta=document.createElement('textarea');
+    ta.value=BANK_INFO; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
+    ta.remove();
+    toast('已複製匯款資訊 ✅');
+  }
+});
 
     [cite_start]/* --- 載入購物車 [cite: 105] --- */
     async function loadCart(){
