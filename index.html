@@ -468,6 +468,9 @@ $("btnLoginLine").onclick = async () => {
   $("mAdd").onclick = async () => {
   if(!state.picked) return;
   const p = state.picked;
+    
+    const lg = await ensureLineLogin();
+  if (!lg.ok) return;
 
   try{
     const r = await fetch(`${API}/cart/add`, {
