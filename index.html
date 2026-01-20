@@ -2,540 +2,491 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>MURAIN 寄賣精品｜官方旗艦</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>MURAIN 寄賣精品｜官網 B</title>
+  <meta name="robots" content="noindex,nofollow" />
   <style>
-    /* --- 核心變數：奢華黑金主題 --- */
     :root{
-      --bg: #050505; /* 極致黑 */
-      --surface: #141414;
-      --surface-glass: rgba(20, 20, 20, 0.90);
-      --gold: #D4AF37; /* 經典金 */
-      --gold-light: #F2D266;
-      --text: #ffffff;
-      --text-sub: #9e9e9e;
-      --line: rgba(255, 255, 255, 0.12);
-      --shadow: 0 8px 32px rgba(0,0,0,0.6);
-      /* 字體設定：中文使用黑體，英文標題使用襯線體 */
-      --font-main: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
-      --font-serif: "Times New Roman", serif; 
+      --bg:#07060a;
+      --card:#0f0e14;
+      --card2:#12111a;
+      --gold:#c9a24a;
+      --gold2:#f2d27a;
+      --text:#f2f2f2;
+      --muted:#b7b7b7;
+      --line:rgba(201,162,74,.28);
+      --shadow: 0 12px 40px rgba(0,0,0,.55);
+      --radius:18px;
     }
-
-    /* --- 基礎重置 --- */
-    *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+    *{box-sizing:border-box}
     body{
-      margin: 0;
-      font-family: var(--font-main);
-      background-color: var(--bg);
-      /* 背景紋理 */
-      background-image: 
-        radial-gradient(circle at 20% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 40%),
-        radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
-      color: var(--text);
-      padding-bottom: 90px;
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Noto Sans TC", Segoe UI, Arial;
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(201,162,74,.12), transparent 55%),
+        radial-gradient(900px 500px at 80% 0%, rgba(242,210,122,.10), transparent 60%),
+        var(--bg);
+      color:var(--text);
     }
-    a{ color: inherit; text-decoration: none; }
-    input, select, button { font-family: inherit; outline: none; }
-
-    /* --- 版面容器 --- */
-    .wrap{
-      max-width: 600px; /* 手機版最佳寬度 */
-      margin: 0 auto;
-      padding: 0 16px;
+    a{color:inherit}
+    .wrap{max-width:1180px;margin:0 auto;padding:26px 18px 60px;}
+    .top{
+      display:flex;gap:14px;align-items:stretch;flex-wrap:wrap;
     }
-
-    /* --- 頂部導航 (毛玻璃效果) --- */
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 20px;
-      margin: 0 -16px 20px -16px;
-      background: var(--surface-glass);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--line);
+    .banner{
+      flex: 1 1 520px;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.75));
+      position:relative;
+      min-height:170px;
     }
-
-    .brand h1 {
-      margin: 0;
-      font-family: var(--font-serif);
-      font-size: 24px;
-      font-weight: 400;
-      letter-spacing: 1.5px;
-      color: var(--gold);
-      background: linear-gradient(45deg, var(--gold), var(--gold-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .banner::before{
+      content:"";
+      position:absolute;inset:0;
+      background-image: url("./assets/murain-banner.png");
+      background-size: cover;
+      background-position: center;
+      filter: saturate(1.05) contrast(1.05);
+      opacity:.92;
     }
-    
-    .checkout-btn {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--bg);
-      background: var(--gold);
-      padding: 8px 16px;
-      border-radius: 99px;
-      border: none;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    .banner::after{
+      content:"";
+      position:absolute;inset:0;
+      background: radial-gradient(800px 250px at 30% 35%, rgba(0,0,0,.05), rgba(0,0,0,.82));
+    }
+    .bannerInner{
+      position:relative;
+      padding:20px 22px;
+      display:flex;flex-direction:column;gap:10px;
+    }
+    .brand{
+      display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap;
+    }
+    .brand h1{margin:0;font-size:26px;letter-spacing:.6px}
+    .pill{
+      display:inline-flex;gap:8px;align-items:center;
+      border:1px solid var(--line);
+      padding:6px 10px;border-radius:999px;
+      color:var(--gold2);
+      background: rgba(0,0,0,.35);
+      font-size:13px;
     }
 
-    /* --- 純代碼繪製的「官網大圖」Banner --- */
-    .hero-banner {
-      margin: 0 -16px 28px -16px; /* 滿版 */
-      height: 240px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      /* 黑金漸層背景 */
-      background: linear-gradient(135deg, #0f0f12 0%, #1a1a20 100%);
-      border-bottom: 1px solid var(--line);
+    .panel{
+      flex: 0 0 360px;
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(18,17,26,.92), rgba(10,10,14,.92));
+      box-shadow: var(--shadow);
+      padding:14px 14px 12px;
+      display:flex;flex-direction:column;gap:10px;
+      min-width:280px;
     }
-    /* 裝飾光影 */
-    .hero-banner::before {
-      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 60%);
-      animation: rotateLight 15s linear infinite;
-    }
-    @keyframes rotateLight { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
-    
-    .hero-content {
-      position: relative; z-index: 2; text-align: center;
-    }
-    .hero-title {
-      font-family: var(--font-serif);
-      font-size: 36px;
-      color: var(--gold);
-      margin: 0 0 8px 0;
-      letter-spacing: 2px;
-      text-shadow: 0 4px 12px rgba(0,0,0,0.5);
-    }
-    .hero-sub {
-      font-size: 12px;
-      color: var(--text-sub);
-      letter-spacing: 4px;
-      text-transform: uppercase;
-    }
-
-    /* --- 篩選與搜尋列 --- */
-    .controls {
-      display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;
-    }
-    .search-row { display: flex; gap: 10px; }
-    
-    input, select {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--line);
-      color: var(--text);
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .k{color:var(--muted);font-size:12px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+    .btn{
+      cursor:pointer;
+      border:1px solid var(--line);
+      background: radial-gradient(120px 60px at 30% 30%, rgba(242,210,122,.16), rgba(201,162,74,.10));
+      color:var(--text);
+      padding:10px 12px;
       border-radius: 12px;
-      padding: 12px 16px;
-      font-size: 14px;
-      flex: 1;
-      transition: border-color 0.3s;
+      font-weight:700;
+      letter-spacing:.2px;
     }
-    input::placeholder { color: rgba(255,255,255,0.3); }
-    input:focus, select:focus { border-color: var(--gold); }
+    .btn:hover{border-color: rgba(242,210,122,.55)}
+    .btnGhost{
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.25);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius: 12px;
+      font-weight:700;
+    }
+    .btnSmall{padding:8px 10px;border-radius:10px;font-weight:700;font-size:13px}
+    .input, .select{
+      width:100%;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.25);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius: 12px;
+      outline:none;
+    }
+    .gridHead{
+      margin-top:18px;
+      display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+      justify-content:space-between;
+    }
+    .title2{font-size:18px;margin:0}
+    .filters{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .grid{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap:12px;
+    }
+    @media (max-width: 980px){ .grid{grid-template-columns: repeat(2, minmax(0, 1fr));} }
+    @media (max-width: 560px){ .grid{grid-template-columns: 1fr;} }
 
-    .btn-reload {
-      width: 44px; display: flex; align-items: center; justify-content: center;
-      background: transparent; border: 1px solid var(--line); color: var(--gold);
-      border-radius: 12px; font-size: 18px;
+    .card{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      overflow:hidden;
+      background: linear-gradient(180deg, rgba(18,17,26,.92), rgba(10,10,14,.92));
+      box-shadow: var(--shadow);
+      display:flex;flex-direction:column;
+      min-height: 320px;
     }
+    .img{
+      height:190px;
+      background: rgba(0,0,0,.35);
+      border-bottom:1px solid rgba(201,162,74,.22);
+      display:flex;align-items:center;justify-content:center;
+      overflow:hidden;
+    }
+    .img img{width:100%;height:100%;object-fit:cover;display:block}
+    .img .ph{color:rgba(255,255,255,.35);font-size:12px}
+    .body{padding:12px 12px 12px;display:flex;flex-direction:column;gap:8px;flex:1}
+    .name{font-weight:900;font-size:15px;line-height:1.3}
+    .meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+    .priceRow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto}
+    .price{font-weight:900;font-size:18px;color:var(--gold2)}
+    .tag{
+      font-size:12px;
+      border:1px solid rgba(255,255,255,.12);
+      padding:4px 8px;border-radius:999px;
+      color:rgba(255,255,255,.86);
+      background: rgba(0,0,0,.18);
+    }
+    .tagGold{border-color: rgba(201,162,74,.45); color: var(--gold2);}
 
-    /* --- 商品列表 (單欄大圖) --- */
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr; /* 手機版單欄 */
-      gap: 36px;
+    /* modal */
+    .modalMask{position:fixed;inset:0;background:rgba(0,0,0,.66);display:none;align-items:center;justify-content:center;padding:16px;z-index:99}
+    .modal{
+      width:min(980px, 100%);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(180deg, rgba(18,17,26,.96), rgba(10,10,14,.96));
+      box-shadow: var(--shadow);
+      overflow:hidden;
     }
-    @media(min-width: 600px){ .grid { grid-template-columns: 1fr 1fr; gap: 24px; } }
-
-    /* --- 商品卡片 --- */
-    .card {
-      display: flex; flex-direction: column;
-      cursor: pointer;
-    }
-    
-    .imgbox {
-      width: 100%;
-      aspect-ratio: 4/5; /* 適合包包的比例 */
-      background: #1a1a1a;
-      border-radius: 16px;
-      overflow: hidden;
-      position: relative;
-      border: 1px solid rgba(255,255,255,0.05);
-      margin-bottom: 12px;
-    }
-    .imgbox img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-    /* 品牌標籤 */
-    .badge-brand {
-      position: absolute; left: 12px; top: 12px;
-      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
-      padding: 6px 12px; border-radius: 6px;
-      font-size: 11px; letter-spacing: 0.5px;
-      border: 1px solid rgba(255,255,255,0.1);
-    }
-    .badge-stock {
-      position: absolute; right: 12px; bottom: 12px;
-      font-size: 10px; color: #fff; background: rgba(0,0,0,0.7);
-      padding: 4px 8px; border-radius: 4px;
-    }
-
-    .info { padding: 0 4px; }
-    .title {
-      font-size: 16px; color: #eee; margin-bottom: 6px;
-      line-height: 1.5;
-      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-    }
-    .price-row {
-      display: flex; justify-content: space-between; align-items: flex-end;
-    }
-    .price {
-      font-family: var(--font-serif);
-      font-size: 20px; color: var(--gold);
-    }
-    .more-btn {
-      font-size: 12px; color: var(--text-sub);
-      border-bottom: 1px solid var(--line);
-    }
-
-    /* --- Modal 詳情頁 (底部滑出) --- */
-    .modal-mask {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(5px);
-      z-index: 100;
-      display: none;
-      align-items: flex-end; /* 手機版底部對齊 */
-      justify-content: center;
-    }
-    .modal-content {
-      width: 100%; max-width: 500px;
-      background: #18181b;
-      border-radius: 24px 24px 0 0;
-      border-top: 1px solid var(--line);
-      max-height: 85vh;
-      overflow-y: auto;
-      display: flex; flex-direction: column;
-      position: relative;
-      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    @keyframes slideUp { from {transform: translateY(100%);} to {transform: translateY(0);} }
-
-    .modal-img {
-      width: 100%; height: 350px;
-      background: #000;
-      object-fit: contain;
-    }
-    .close-btn {
-      position: absolute; top: 16px; right: 16px;
-      width: 36px; height: 36px; border-radius: 50%;
-      background: rgba(0,0,0,0.5); border: none; color: #fff;
-      font-size: 20px; z-index: 10;
-    }
-
-    .modal-body { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
-    .modal-title { font-size: 20px; margin: 0; line-height: 1.4; font-weight: 500; }
-    
-    .data-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-      background: rgba(255,255,255,0.03);
-      padding: 16px; border-radius: 12px;
-      font-size: 13px; color: var(--text-sub);
-    }
-    .data-grid b { color: var(--text); display: block; margin-bottom: 4px; font-size: 14px; }
-
-    .desc-text {
-      font-size: 14px; line-height: 1.8; color: #ccc;
-      white-space: pre-wrap; margin-bottom: 10px;
-    }
-
-    .action-bar {
-      margin-top: auto; padding-top: 10px;
-      display: flex; gap: 12px;
-    }
-    .btn-action {
-      flex: 1; padding: 14px; border-radius: 12px;
-      font-weight: 600; font-size: 14px; border: none; cursor: pointer;
-    }
-    .btn-cart { background: rgba(255,255,255,0.1); color: #fff; }
-    .btn-buy { background: var(--gold); color: #000; }
-
-    /* Toast */
-    .toast {
-      position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%);
-      background: #fff; color: #000; padding: 10px 20px;
-      border-radius: 99px; font-size: 14px; font-weight: 600;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-      display: none; z-index: 200; white-space: nowrap;
-    }
-
-    .ytWrap { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; margin-top: 10px; display: none; }
-    .ytWrap iframe { width: 100%; height: 100%; border: none; }
+    .modalTop{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-bottom:1px solid rgba(201,162,74,.22)}
+    .modalTop b{font-size:15px}
+    .modalBody{display:grid;grid-template-columns: 1.1fr .9fr;gap:0}
+    @media (max-width: 900px){ .modalBody{grid-template-columns: 1fr;} }
+    .modalImg{min-height:360px;background:#0b0a10;border-right:1px solid rgba(201,162,74,.22)}
+    @media (max-width: 900px){ .modalImg{border-right:0;border-bottom:1px solid rgba(201,162,74,.22)} }
+    .modalImg img{width:100%;height:100%;object-fit:cover;display:block}
+    .modalRight{padding:14px}
+    .desc{white-space:pre-wrap;color:rgba(255,255,255,.86);font-size:13px;line-height:1.6}
+    .ytWrap{margin-top:12px;border:1px solid rgba(255,255,255,.12);border-radius:14px;overflow:hidden;background:#000}
+    .ytWrap iframe{width:100%;aspect-ratio: 16/9;border:0;display:block}
+    .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:rgba(0,0,0,.75);border:1px solid rgba(201,162,74,.35);color:var(--text);padding:10px 12px;border-radius:999px;display:none;z-index:999}
   </style>
 </head>
+
 <body>
-
   <div class="wrap">
-    <div class="topbar">
-      <div class="brand">
-        <h1>MURAIN</h1>
+    <div class="top">
+      <div class="banner">
+        <div class="bannerInner">
+          <div class="brand">
+            <h1>MURAIN 寄賣精品</h1>
+            <span class="pill">官網 B・正式上線版</span>
+          </div>
+          <div class="row">
+            <span class="pill"><span class="k">API</span> <span class="mono" id="apiText"></span></span>
+            <span class="pill"><span class="k">LINE 登入</span> <span class="mono" id="lineState">未初始化</span></span>
+          </div>
+        </div>
       </div>
-      <div style="display:flex; gap:10px;">
-        <div style="display:none">Token: <span id="tokenText"></span></div>
-        <button class="checkout-btn" id="btnCheckout">前往結帳</button>
+
+      <div class="panel">
+        <div class="row" style="justify-content:space-between">
+          <div>
+            <div class="k">cart_token</div>
+            <div class="mono" id="tokenText" style="font-weight:900;font-size:15px"></div>
+          </div>
+          <button class="btnSmall btnGhost" id="btnReset">換一個</button>
+        </div>
+
+        <div class="row" style="gap:8px">
+          <button class="btn" id="btnCheckout" style="flex:1">前往結帳</button>
+          <button class="btnSmall btnGhost" id="btnReload">重載商品</button>
+        </div>
+
+        <div class="row">
+          <select class="select" id="stockFilter" style="flex:1;min-width:140px">
+            <option value="1">只看有庫存</option>
+            <option value="0">全部（含 0 庫存）</option>
+          </select>
+          <input class="input" id="q" placeholder="搜尋 SKU / 名稱 / 品牌" style="flex:1;min-width:180px" />
+        </div>
+
+        <div class="k" id="msg" style="min-height:18px"></div>
       </div>
     </div>
 
-    <div class="hero-banner">
-      <div class="hero-content">
-        <div class="hero-title">MURAIN</div>
-        <div class="hero-sub">LUXURY CONSIGNMENT</div>
+    <div class="gridHead">
+      <h2 class="title2">商品列表</h2>
+      <div class="filters">
+        <span class="k">提示：照片用 Images(附件) 上傳；影片用 youtube_embed 放 embed 連結</span>
       </div>
     </div>
 
-    <div class="controls">
-      <div class="search-row">
-        <input id="q" placeholder="搜尋品牌、名稱或 SKU..." />
-        <button class="btn-reload" id="btnReload">↻</button>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modalMask" id="mask">
+    <div class="modal">
+      <div class="modalTop">
+        <b id="mTitle">商品詳情</b>
+        <div class="row">
+          <button class="btnSmall btn" id="mAdd">加入購物車</button>
+          <button class="btnSmall btnGhost" id="mClose">關閉</button>
+        </div>
       </div>
-      <div class="search-row">
-        <select id="filterStock">
-          <option value="1">僅顯示有庫存商品</option>
-          <option value="0">顯示全部商品 (含已售完)</option>
-        </select>
-        <span id="apiText" style="display:none"></span>
+      <div class="modalBody">
+        <div class="modalImg" id="mImg"></div>
+        <div class="modalRight">
+          <div class="meta" id="mMeta"></div>
+          <div class="desc" id="mDesc"></div>
+          <div class="ytWrap" id="mYtWrap" style="display:none"></div>
+        </div>
       </div>
     </div>
-
-    <div id="grid" class="grid"></div>
   </div>
 
   <div class="toast" id="toast"></div>
 
-  <div class="modal-mask" id="mask">
-    <div class="modal-content">
-      <button class="close-btn" id="mClose">✕</button>
-      <img id="mImg" class="modal-img" alt="product" />
-      
-      <div class="modal-body">
-        <div>
-          <h2 class="modal-title" id="mTitle"></h2>
-          <div style="color:var(--gold); font-family:var(--font-serif); font-size:24px; margin-top:8px;">
-            <span id="mPrice"></span>
+  <!-- LIFF (如果你要「一定要 LINE 登入才能買」，就設定 LIFF_ID) -->
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script>
+    // ====== 設定區（只改這裡）======
+    const API_DEFAULT = "https://api2.murain.tw";
+    const LIFF_ID = ""; // 例如 "200xxxxx-xxxxxxxx"；空字串=不強制（你正式要強制就填上）
+    const BANNER_PATH = "./assets/murain-banner.png";
+    // ===============================
+
+    const API = new URL(location.href).searchParams.get("api") || API_DEFAULT;
+    document.getElementById("apiText").textContent = API;
+
+    // token
+    const LS_TOKEN = "murain_b_cart_token";
+    function genToken(){
+      const s = Math.random().toString(36).slice(2, 6) + Date.now().toString(36).slice(-4);
+      return "b" + s;
+    }
+    function getToken(){
+      let t = localStorage.getItem(LS_TOKEN);
+      if (!t){ t = genToken(); localStorage.setItem(LS_TOKEN, t); }
+      return t;
+    }
+    function setToken(t){
+      localStorage.setItem(LS_TOKEN, t);
+      document.getElementById("tokenText").textContent = t;
+    }
+    setToken(getToken());
+
+    // LINE login (optional)
+    let LINE = { ok:false, userId:"", idToken:"", name:"" };
+    async function initLINE(){
+      const el = document.getElementById("lineState");
+      if (!LIFF_ID){
+        el.textContent = "未啟用（未填 LIFF_ID）";
+        return;
+      }
+      try{
+        await liff.init({ liffId: LIFF_ID });
+        if (!liff.isLoggedIn()) liff.login();
+        const prof = await liff.getProfile();
+        LINE.ok = true;
+        LINE.userId = prof.userId || "";
+        LINE.name = prof.displayName || "";
+        LINE.idToken = liff.getIDToken() || "";
+        el.textContent = "已登入";
+      }catch(e){
+        el.textContent = "初始化失敗";
+      }
+    }
+    initLINE();
+
+    // UI actions
+    document.getElementById("btnReset").onclick = ()=>{
+      setToken(genToken());
+      toast("已更換 cart_token");
+    };
+    document.getElementById("btnCheckout").onclick = ()=>{
+      const t = getToken();
+      location.href = `./checkout.html?cart=${encodeURIComponent(t)}`;
+    };
+    document.getElementById("btnReload").onclick = ()=> load();
+    document.getElementById("q").addEventListener("input", ()=> render());
+    document.getElementById("stockFilter").addEventListener("change", ()=> load());
+
+    // data
+    let ALL = [];
+    const grid = document.getElementById("grid");
+    const msg = document.getElementById("msg");
+
+    function money(n){
+      try{ return new Intl.NumberFormat("zh-TW").format(Number(n||0)); }catch{ return String(n||0); }
+    }
+    function toast(t){
+      const el = document.getElementById("toast");
+      el.textContent = t;
+      el.style.display = "block";
+      clearTimeout(el._t);
+      el._t = setTimeout(()=> el.style.display="none", 1800);
+    }
+
+    async function apiGet(u){
+      const res = await fetch(u, { method:"GET" });
+      const j = await res.json().catch(()=>null);
+      if (!res.ok) throw new Error(j?.message || j?.error || "fetch_failed");
+      return j;
+    }
+    async function apiPost(u, data){
+      const res = await fetch(u, {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify(data||{})
+      });
+      const j = await res.json().catch(()=>null);
+      if (!res.ok) throw new Error(j?.message || j?.error || "post_failed");
+      return j;
+    }
+
+    async function load(){
+      msg.textContent = "載入中…";
+      grid.innerHTML = "";
+      const inStock = document.getElementById("stockFilter").value === "1" ? "1" : "0";
+      const url = `${API}/public/products?limit=2000&in_stock=${inStock}`;
+      try{
+        const data = await apiGet(url);
+        ALL = Array.isArray(data.items) ? data.items : [];
+        msg.textContent = `已載入 ${ALL.length} 件商品`;
+        render();
+      }catch(e){
+        msg.textContent = "載入失敗：" + (e?.message || "error");
+      }
+    }
+
+    function render(){
+      const q = (document.getElementById("q").value || "").trim().toLowerCase();
+      const list = ALL.filter(x=>{
+        if (!q) return true;
+        const s = `${x.sku||""} ${x.name||""} ${x.brand||""}`.toLowerCase();
+        return s.includes(q);
+      });
+
+      grid.innerHTML = list.map(p=>{
+        const img = p.image ? `<img src="${p.image}" alt="product" loading="lazy" />` : `<div class="ph">No Image</div>`;
+        const stockTag = (Number(p.stock||0) > 0) ? `<span class="tag tagGold">庫存 ${p.stock}</span>` : `<span class="tag">缺貨</span>`;
+        const brandTag = p.brand ? `<span class="tag">${p.brand}</span>` : ``;
+        return `
+          <div class="card">
+            <div class="img">${img}</div>
+            <div class="body">
+              <div class="name">${escapeHtml(p.name||"")}</div>
+              <div class="meta">
+                <span class="tag">SKU ${escapeHtml(p.sku||"")}</span>
+                ${brandTag}
+                ${stockTag}
+              </div>
+              <div class="priceRow">
+                <div class="price">$ ${money(p.price)}</div>
+                <div class="row" style="gap:8px">
+                  <button class="btnSmall btnGhost" onclick="openModal('${escapeAttr(p.sku||"")}')">詳情</button>
+                  <button class="btnSmall btn" onclick="addToCart('${escapeAttr(p.sku||"")}', 1)">加入購物車</button>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div class="data-grid" id="mMeta"></div>
-
-        <div class="desc-text" id="mDesc"></div>
-
-        <div class="ytWrap" id="ytWrap">
-          <iframe id="yt" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-        </div>
-
-        <div class="action-bar">
-          <button class="btn-action btn-cart" id="mAdd">加入購物車</button>
-          <button class="btn-action btn-buy" id="mCheckout">立即結帳</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<script>
-  /* --- 核心邏輯保持不變，僅微調文字顯示 --- */
-  const API = "https://api2.murain.tw";
-  const $ = (id)=>document.getElementById(id);
-  
-  const toast = (msg)=>{
-    const t = $("toast");
-    t.textContent = msg;
-    t.style.display = "block";
-    clearTimeout(window.__toastTimer);
-    window.__toastTimer = setTimeout(()=> t.style.display="none", 2000);
-  };
-
-  function getCartToken(){
-    const sp = new URLSearchParams(location.search);
-    let t = (sp.get("cart") || "").trim();
-    if (t) localStorage.setItem("cart_token_b", t);
-    t = localStorage.getItem("cart_token_b") || "";
-    if (!t) {
-      t = "b" + Math.random().toString(36).slice(2,10) + Date.now().toString(36).slice(2,6);
-      localStorage.setItem("cart_token_b", t);
-    }
-    return t;
-  }
-
-  function money(n){
-    try { return new Intl.NumberFormat("zh-TW").format(n||0); } catch { return String(n||0); }
-  }
-
-  function toYouTubeEmbed(url){
-    if(!url) return "";
-    const s = String(url).trim();
-    if (s.includes("youtube.com/embed/")) return s;
-    let m = s.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{6,})/);
-    if (m && m[1]) return "https://www.youtube.com/embed/" + m[1];
-    m = s.match(/youtu\.be\/([a-zA-Z0-9_-]{6,})/);
-    if (m && m[1]) return "https://www.youtube.com/embed/" + m[1];
-    m = s.match(/[?&]v=([a-zA-Z0-9_-]{6,})/);
-    if (m && m[1]) return "https://www.youtube.com/embed/" + m[1];
-    return "";
-  }
-
-  const cartToken = getCartToken();
-  $("tokenText").textContent = cartToken;
-  $("apiText").textContent = API;
-
-  $("btnCheckout").onclick = ()=> location.href = `./checkout.html?cart=${encodeURIComponent(cartToken)}`;
-  $("btnReload").onclick = ()=> loadProducts();
-
-  const state = { items: [], picked: null };
-
-  async function loadProducts(){
-    const inStock = $("filterStock").value === "1";
-    const url = `${API}/public/products?limit=500&in_stock=${inStock?1:0}`;
-
-    $("grid").innerHTML = "";
-    toast("商品載入中...");
-    
-    const res = await fetch(url, { method:"GET" });
-    const data = await res.json().catch(()=> ({}));
-    
-    if(!res.ok || !data.ok){
-      toast("載入失敗：" + (data.message || data.error));
-      return;
-    }
-    state.items = data.items || [];
-    render();
-    toast(`已更新 ${state.items.length} 件商品`);
-  }
-
-  function matchQ(p, q){
-    if(!q) return true;
-    const s = q.toLowerCase();
-    return [p.sku, p.name, p.brand].some(x => String(x||"").toLowerCase().includes(s));
-  }
-
-  function render(){
-    const q = $("q").value.trim();
-    const list = state.items.filter(p => matchQ(p, q));
-
-    $("grid").innerHTML = list.map(p => {
-      const img = p.image || "";
-      const hasImg = !!img;
-      const stock = Number(p.stock||0);
-      
-      /* 卡片 HTML 結構 */
-      return `
-      <div class="card" onclick="openModal('${escapeAttr(p.sku||"")}')">
-        <div class="imgbox">
-          <div class="badge-brand">${p.brand ? escapeHtml(p.brand) : "MURAIN"}</div>
-          ${stock > 0 ? '' : '<div class="badge-stock" style="background:rgba(200,50,50,0.8)">已售完</div>'}
-          ${hasImg 
-            ? `<img src="${escapeAttr(img)}" alt="img" loading="lazy" />` 
-            : `<div style="height:100%;display:flex;align-items:center;justify-content:center;color:#444;font-size:12px">暫無圖片</div>`
-          }
-        </div>
-        <div class="info">
-          <div class="title">${escapeHtml(p.name || "")}</div>
-          <div class="price-row">
-            <div class="price">$ ${money(p.price||0)}</div>
-            <div class="more-btn">查看詳情</div>
-          </div>
-        </div>
-      </div>`;
-    }).join("");
-  }
-
-  function escapeHtml(s){
-    return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-  }
-  function escapeAttr(s){ return escapeHtml(s); }
-
-  window.openModal = (sku)=>{
-    const p = state.items.find(x => String(x.sku||"") === String(sku||""));
-    if(!p) return;
-
-    state.picked = p;
-    $("mTitle").textContent = p.name || "";
-    $("mPrice").textContent = "$ " + money(p.price||0);
-    
-    $("mMeta").innerHTML = `
-      <div><b>品牌</b>${escapeHtml(p.brand||"-")}</div>
-      <div><b>SKU</b>${escapeHtml(p.sku||"-")}</div>
-      <div><b>庫存</b>${Number(p.stock||0)}</div>
-    `;
-    $("mDesc").textContent = p.desc || "";
-
-    const img = p.image || "";
-    $("mImg").src = img || "";
-    $("mImg").style.display = img ? "block" : "none";
-    
-    if(!img){
-       $("mImg").style.display = "block";
-       $("mImg").src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" style="background:#111"><text x="50%" y="50%" fill="#333" font-size="24" font-family="sans-serif" text-anchor="middle" dy=".3em">NO IMAGE</text></svg>`);
+        `;
+      }).join("") || `<div class="k">沒有符合的商品</div>`;
     }
 
-    const embed = toYouTubeEmbed(p.youtube_embed || "");
-    if(embed){
-      $("yt").src = embed;
-      $("ytWrap").style.display = "block";
-    }else{
-      $("yt").src = "";
-      $("ytWrap").style.display = "none";
+    // modal
+    const mask = document.getElementById("mask");
+    const mTitle = document.getElementById("mTitle");
+    const mImg = document.getElementById("mImg");
+    const mMeta = document.getElementById("mMeta");
+    const mDesc = document.getElementById("mDesc");
+    const mYtWrap = document.getElementById("mYtWrap");
+    const mAdd = document.getElementById("mAdd");
+    document.getElementById("mClose").onclick = ()=> mask.style.display="none";
+    mask.addEventListener("click", (e)=>{ if (e.target === mask) mask.style.display="none"; });
+
+    function openModal(sku){
+      const p = ALL.find(x=>String(x.sku||"")===String(sku));
+      if (!p) return;
+      mTitle.textContent = p.name || "商品詳情";
+      mImg.innerHTML = p.image ? `<img src="${p.image}" alt="product" />` : `<div style="padding:18px;color:rgba(255,255,255,.35)">No Image</div>`;
+      mMeta.innerHTML = `
+        <span class="tag">SKU ${escapeHtml(p.sku||"")}</span>
+        ${p.brand ? `<span class="tag">${escapeHtml(p.brand)}</span>` : ``}
+        <span class="tag tagGold">價格 $ ${money(p.price)}</span>
+        <span class="tag">${Number(p.stock||0)>0 ? `庫存 ${p.stock}` : `缺貨`}</span>
+      `;
+      mDesc.textContent = p.desc || "";
+      mYtWrap.style.display = "none";
+      mYtWrap.innerHTML = "";
+
+      // youtube_embed 必須是 embed 連結，例如 https://www.youtube.com/embed/VIDEOID
+      if (p.youtube_embed && String(p.youtube_embed).includes("youtube.com/embed/")){
+        mYtWrap.style.display = "block";
+        mYtWrap.innerHTML = `<iframe src="${p.youtube_embed}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      }
+
+      mAdd.onclick = ()=> addToCart(p.sku, 1);
+      mask.style.display = "flex";
     }
 
-    $("mask").style.display = "flex";
-  };
+    // cart
+    async function addToCart(sku, qty){
+      // 如果你正式要求「一定要 LINE 登入才能買」：這裡就強制檢查
+      if (LIFF_ID && !LINE.ok){
+        toast("請先完成 LINE 登入");
+        return;
+      }
 
-  $("mClose").onclick = ()=> closeModal();
-  $("mask").addEventListener("click", (e)=>{ if(e.target === $("mask")) closeModal(); });
-  function closeModal(){
-    $("mask").style.display = "none";
-    $("yt").src = "";
-  }
-
-  window.addToCart = async (sku)=>{
-    const p = state.items.find(x => String(x.sku||"") === String(sku||""));
-    if(!p) return;
-    
-    const res = await fetch(`${API}/cart/add`, {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({ cart_token: cartToken, sku: p.sku, qty: 1 })
-    });
-    const data = await res.json().catch(()=> ({}));
-    
-    if(!res.ok || !data.ok){
-      toast("加入失敗：" + (data.message || data.error));
-      return;
+      const cart_token = getToken();
+      try{
+        await apiPost(`${API}/cart/add`, {
+          cart_token,
+          sku,
+          qty,
+          line_user_id: LINE.userId || "",
+          customer_name: LINE.name || ""
+        });
+        toast("已加入購物車");
+      }catch(e){
+        toast("加入失敗：" + (e?.message || "error"));
+      }
     }
-    toast(`已加入購物車`);
-    closeModal();
-  };
 
-  $("mAdd").onclick = ()=> {
-    if(!state.picked) return;
-    window.addToCart(state.picked.sku);
-  };
-  $("mCheckout").onclick = ()=> location.href = `./checkout.html?cart=${encodeURIComponent(cartToken)}`;
+    // utils
+    function escapeHtml(s){
+      return String(s||"")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+    function escapeAttr(s){ return escapeHtml(s).replaceAll("`",""); }
 
-  $("q").addEventListener("input", ()=> render());
-  $("filterStock").addEventListener("change", ()=> loadProducts());
-
-  loadProducts();
-</script>
+    load();
+    window.openModal = openModal;
+    window.addToCart = addToCart;
+  </script>
 </body>
 </html>
