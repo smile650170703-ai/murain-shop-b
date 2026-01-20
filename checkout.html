@@ -307,7 +307,10 @@
     [cite_start]/* --- LINE Login (Optional) [cite: 98] --- */
     let LINE = { ok:false, userId:"", idToken:"", name:"" };
     async function initLINE(){
-  if(!LIFF_ID) return; // 沒設定就不強制（你也可以改成 alert 擋住）
+  if(!LIFF_ID){
+  toast("缺少 LIFF_ID，無法結帳");
+  return; // 或 throw new Error("missing_LIFF_ID");
+}
   try{
     await liff.init({ liffId: LIFF_ID });
 
