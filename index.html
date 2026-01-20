@@ -15,7 +15,6 @@
       --text: #ffffff;
       --text-sub: #9e9e9e;
       --line: rgba(255, 255, 255, 0.12);
-      --line-green: #06C755; /* LINE Green */
       --font-main: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
       --font-serif: "Times New Roman", serif; 
     }
@@ -47,10 +46,8 @@
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
 
-    /* 右側功能區 */
     .nav-actions { display: flex; align-items: center; gap: 12px; }
     
-    /* 購物車圖示按鈕 */
     .cart-trigger {
       position: relative; cursor: pointer; display: flex; align-items: center;
     }
@@ -95,7 +92,7 @@
       border-radius: 12px; font-size: 20px; cursor: pointer;
     }
 
-    /* --- Grid & Card --- */
+    /* --- Grid --- */
     .grid { display: grid; grid-template-columns: 1fr; gap: 36px; }
     @media(min-width: 600px){ .grid { grid-template-columns: 1fr 1fr; gap: 24px; } }
 
@@ -117,7 +114,7 @@
     .price-row { display: flex; justify-content: space-between; align-items: flex-end; }
     .more-btn { font-size: 12px; color: var(--text-sub); border-bottom: 1px solid var(--line); }
 
-    /* --- Product Modal --- */
+    /* --- Modal --- */
     .modal-mask {
       position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
       z-index: 100; display: none; align-items: flex-end; justify-content: center;
@@ -144,7 +141,11 @@
     .btn-cart { background: rgba(255,255,255,0.1); color: #fff; }
     .btn-buy { background: var(--gold); color: #000; }
 
-    /* --- Side Cart (側邊購物車) --- */
+    /* YouTube Wrap */
+    .ytWrap { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; margin-top: 10px; display: none; }
+    .ytWrap iframe { width: 100%; height: 100%; border: none; }
+
+    /* --- Side Cart --- */
     .cart-drawer-mask {
       position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200;
       display: none; justify-content: flex-end;
@@ -156,35 +157,21 @@
       transform: translateX(100%); transition: transform 0.3s ease;
     }
     .cart-drawer.open { transform: translateX(0); }
-    
     .cart-head { padding: 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
     .cart-head h2 { margin: 0; font-size: 18px; color: var(--gold); }
-    
     .cart-list { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
-    
-    .cart-item {
-      display: flex; gap: 12px; background: rgba(255,255,255,0.05);
-      padding: 10px; border-radius: 12px; position: relative;
-    }
+    .cart-item { display: flex; gap: 12px; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; position: relative; }
     .cart-item-img { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; background: #000; }
     .cart-item-info { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
     .cart-item-title { font-size: 14px; color: #fff; line-height: 1.3; }
     .cart-item-price { font-size: 14px; color: var(--gold); font-family: var(--font-serif); }
-    .cart-item-del {
-      position: absolute; right: 10px; top: 10px;
-      color: #666; cursor: pointer; background: transparent; border: none;
-      font-size: 18px; padding: 4px;
-    }
+    .cart-item-del { position: absolute; right: 10px; top: 10px; color: #666; cursor: pointer; background: transparent; border: none; font-size: 18px; padding: 4px; }
     .cart-item-del:hover { color: #d64d4d; }
-
     .cart-foot { padding: 20px; border-top: 1px solid var(--line); background: #141414; }
     .cart-total { display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 16px; font-weight: bold; }
-    .btn-checkout {
-      width: 100%; background: var(--gold); color: #000;
-      padding: 14px; border-radius: 12px; border: none; font-weight: bold; font-size: 16px; cursor: pointer;
-    }
+    .btn-checkout { width: 100%; background: var(--gold); color: #000; padding: 14px; border-radius: 12px; border: none; font-weight: bold; font-size: 16px; cursor: pointer; }
     
-    /* --- LINE Login Modal --- */
+    /* --- Login Modal --- */
     .login-modal {
       position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.9);
       display: none; align-items: center; justify-content: center; padding: 20px;
@@ -206,7 +193,6 @@
       border-radius: 99px; font-size: 14px; font-weight: 600;
       box-shadow: 0 5px 20px rgba(0,0,0,0.5); display: none; z-index: 400;
     }
-    
     .empty-cart-msg { text-align: center; color: var(--text-sub); margin-top: 40px; }
   </style>
 </head>
@@ -255,6 +241,11 @@
         </div>
         <div class="data-grid" id="mMeta"></div>
         <div class="desc-text" id="mDesc"></div>
+
+        <div class="ytWrap" id="ytWrap">
+          <iframe id="yt" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+
         <div class="action-bar">
           <button class="btn-action btn-cart" id="mAdd">加入購物車</button>
           <button class="btn-action btn-buy" id="mCheckout">立即結帳</button>
@@ -269,8 +260,7 @@
         <h2>MY BAG</h2>
         <div onclick="toggleCart(false)" style="cursor:pointer;font-size:24px;">✕</div>
       </div>
-      <div class="cart-list" id="cartList">
-        </div>
+      <div class="cart-list" id="cartList"></div>
       <div class="cart-foot">
         <div class="cart-total">
           <span>Total</span>
@@ -296,18 +286,12 @@
   </div>
 
 <script>
-  /* --- 系統變數 --- */
   const API = "https://api2.murain.tw";
   const $ = (id)=>document.getElementById(id);
   const state = { items: [], picked: null };
-  
-  // 模擬 LINE 登入狀態 (真實環境請整合後端)
   let isLineLoggedIn = localStorage.getItem("is_line_logged_in") === "true";
-
-  // 本地購物車資料 (為了能顯示與刪除)
   let localCart = JSON.parse(localStorage.getItem("murain_local_cart") || "[]");
 
-  /* --- 輔助函式 --- */
   const toast = (msg)=>{
     const t = $("toast");
     t.textContent = msg; t.style.display = "block";
@@ -331,16 +315,27 @@
   }
   const cartToken = getCartToken();
 
-  /* --- 主邏輯：載入商品 --- */
+  /* --- YouTube Helper (Recovered) --- */
+  function toYouTubeEmbed(url){
+    if(!url) return "";
+    const s = String(url).trim();
+    if (s.includes("youtube.com/embed/")) return s;
+    let m = s.match(/youtube\.com\/shorts\/([a-zA-Z0-9_-]{6,})/);
+    if (m && m[1]) return "https://www.youtube.com/embed/" + m[1];
+    m = s.match(/youtu\.be\/([a-zA-Z0-9_-]{6,})/);
+    if (m && m[1]) return "https://www.youtube.com/embed/" + m[1];
+    m = s.match(/[?&]v=([a-zA-Z0-9_-]{6,})/);
+    if (m && m[1]) return "https://www.youtube.com/embed/" + m[1];
+    return "";
+  }
+
+  /* --- Products --- */
   async function loadProducts(){
     const url = `${API}/public/products?limit=500&in_stock=1`;
     $("grid").innerHTML = "";
-    // toast("Loading...");
-    
     const res = await fetch(url, { method:"GET" });
     const data = await res.json().catch(()=> ({}));
     if(!res.ok || !data.ok) return;
-
     state.items = data.items || [];
     initBrandFilter();
     render();
@@ -359,12 +354,10 @@
   function render(){
     const selectedBrand = $("filterBrand").value;
     const list = state.items.filter(p => !selectedBrand || p.brand === selectedBrand);
-
     if(list.length === 0) {
       $("grid").innerHTML = `<div style="text-align:center; padding:40px; color:#666;">無符合商品</div>`;
       return;
     }
-
     $("grid").innerHTML = list.map(p => {
       const img = p.image || "";
       return `
@@ -384,7 +377,7 @@
     }).join("");
   }
 
-  /* --- Modal 邏輯 --- */
+  /* --- Modal Logic (Fixed YouTube) --- */
   window.openModal = (sku)=>{
     const p = state.items.find(x => String(x.sku) === String(sku));
     if(!p) return;
@@ -400,29 +393,36 @@
     const img = p.image || "";
     $("mImg").src = img || "";
     $("mImg").style.display = img ? "block" : "none";
-    if(!img) $("mImg").style.display = "none"; // 或顯示 placeholder
+    if(!img) $("mImg").style.display = "none";
+
+    // YouTube Embed Logic (Restored)
+    const embed = toYouTubeEmbed(p.youtube_embed || "");
+    if(embed){
+      $("yt").src = embed;
+      $("ytWrap").style.display = "block";
+    }else{
+      $("yt").src = "";
+      $("ytWrap").style.display = "none";
+    }
 
     $("mask").style.display = "flex";
   };
-  function closeModal(){ $("mask").style.display = "none"; }
+
+  function closeModal(){ 
+    $("mask").style.display = "none"; 
+    $("yt").src = ""; // Stop video
+  }
   $("mClose").onclick = closeModal;
   $("mask").onclick = (e)=>{ if(e.target===$("mask")) closeModal(); };
 
-  /* --- 購物車與登入核心邏輯 (重點修改區) --- */
-
-  // 1. 檢查 LINE 登入
+  /* --- Cart & Login --- */
   function checkLogin(){
     if(isLineLoggedIn) return true;
     $("loginModal").style.display = "flex";
     return false;
   }
-
-  // 2. 模擬執行 LINE 登入
+  
   $("btnLoginLine").onclick = () => {
-    // 這裡通常是跳轉到後端提供的 LINE Login URL
-    // location.href = "https://your-backend.com/auth/line"; 
-    
-    // 現在我們用前端模擬
     $("btnLoginLine").textContent = "認證中...";
     setTimeout(()=>{
       isLineLoggedIn = true;
@@ -430,53 +430,37 @@
       $("loginModal").style.display = "none";
       toast("LINE 登入成功！");
       $("btnLoginLine").textContent = "使用 LINE 帳號登入";
-      
-      // 如果購物車有東西，登入後自動打開購物車
       if(localCart.length > 0) toggleCart(true);
     }, 1500);
   };
 
-  // 3. 加入購物車 (包含 API 同步 與 本地儲存)
   $("mAdd").onclick = async () => {
     if(!state.picked) return;
     const p = state.picked;
-
-    // 檢查是否重複加入 (可選)
     if(localCart.some(x => x.sku === p.sku)){
       toast("此商品已在購物車中");
       return;
     }
-
-    // A. 呼叫 API (保持原有邏輯)
     try {
       fetch(`${API}/cart/add`, {
         method:"POST",
         headers:{ "Content-Type":"application/json" },
         body: JSON.stringify({ cart_token: cartToken, sku: p.sku, qty: 1 })
-      }); // 不等待，提升 UI 反應速度
+      });
     } catch(e){}
-
-    // B. 更新本地購物車
     localCart.push(p);
     saveLocalCart();
-    
     toast("已加入購物車");
     closeModal();
-    toggleCart(true); // 自動打開購物車
+    toggleCart(true);
   };
 
-  // 4. 從購物車刪除
   window.removeFromCart = (sku) => {
-    // 本地刪除
     localCart = localCart.filter(item => String(item.sku) !== String(sku));
     saveLocalCart();
     toast("已移除商品");
-    
-    // 如果您知道後端刪除 API，可在此呼叫
-    // fetch(`${API}/cart/remove`, ...);
   };
 
-  // 5. 儲存與渲染購物車 UI
   function saveLocalCart(){
     localStorage.setItem("murain_local_cart", JSON.stringify(localCart));
     updateCartUI();
@@ -484,16 +468,13 @@
 
   function updateCartUI(){
     $("cartCount").textContent = localCart.length;
-    
     const list = $("cartList");
     let total = 0;
-    
     if(localCart.length === 0){
       list.innerHTML = `<div class="empty-cart-msg">您的購物車是空的</div>`;
       $("cartTotalMoney").textContent = "$ 0";
       return;
     }
-
     list.innerHTML = localCart.map(p => {
       total += Number(p.price || 0);
       return `
@@ -504,20 +485,16 @@
             <div class="cart-item-price">$ ${money(p.price)}</div>
           </div>
           <button class="cart-item-del" onclick="removeFromCart('${escapeAttr(p.sku)}')">✕</button>
-        </div>
-      `;
+        </div>`;
     }).join("");
-    
     $("cartTotalMoney").textContent = "$ " + money(total);
   }
 
-  // 6. 控制購物車側欄開關
   window.toggleCart = (show) => {
     const d = $("cartDrawer");
     const m = $("cartMask");
     if(show){
       m.style.display = "flex";
-      // 小延遲讓 CSS transition 生效
       setTimeout(()=> d.classList.add("open"), 10);
     }else{
       d.classList.remove("open");
@@ -526,21 +503,17 @@
   };
   $("cartMask").addEventListener("click", (e)=>{ if(e.target===$("cartMask")) toggleCart(false); });
 
-  // 7. 結帳流程
   function goCheckout(){
-    if(!checkLogin()) return; // 沒登入就擋住
-    
+    if(!checkLogin()) return;
     if(localCart.length === 0) {
       toast("購物車是空的");
       return;
     }
-    
-    // 轉址到結帳頁
     location.href = `./checkout.html?cart=${encodeURIComponent(cartToken)}`;
   }
 
-  $("mCheckout").onclick = goCheckout;     // Modal 裡的直接購買
-  $("drawerCheckout").onclick = goCheckout; // 側邊購物車的結帳
+  $("mCheckout").onclick = goCheckout;
+  $("drawerCheckout").onclick = goCheckout;
   $("btnReload").onclick = loadProducts;
   $("filterBrand").onchange = render;
 
