@@ -6,14 +6,13 @@
   <title>MURAIN 寄賣精品｜會員中心</title>
   <meta name="robots" content="noindex,nofollow" />
   <style>
-    /* --- 核心變數：奢華黑金主題 --- */
+    /* --- 核心變數：與官網一致的黑金主題 --- */
     :root{
       --bg: #050505;
       --surface: #141414;
       --surface-glass: rgba(20, 20, 20, 0.95);
       --card-bg: #18181b;
       --gold: #D4AF37;
-      --gold-light: #F2D266;
       --text: #ffffff;
       --text-sub: #9e9e9e;
       --line: rgba(255, 255, 255, 0.12);
@@ -33,7 +32,7 @@
     
     .wrap{ max-width: 800px; margin: 0 auto; padding: 0; }
 
-    /* --- Topbar --- */
+    /* --- 頂部導航 --- */
     .topbar {
       display: flex; align-items: center; justify-content: space-between;
       padding: 16px 20px; background: var(--surface-glass);
@@ -46,7 +45,7 @@
       padding: 6px 12px; border-radius: 99px; font-size: 12px; cursor: pointer; text-decoration: none;
     }
 
-    /* --- Hero Banner --- */
+    /* --- 主視覺 Banner --- */
     .hero-banner {
       height: 160px; position: relative; overflow: hidden;
       display: flex; align-items: center; justify-content: center; flex-direction: column;
@@ -59,26 +58,27 @@
       animation: rotateLight 20s linear infinite;
     }
     @keyframes rotateLight { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
-    .hero-title { font-family: var(--font-serif); font-size: 24px; color: var(--gold); letter-spacing: 2px; position: relative; z-index: 2; }
-    .hero-sub { font-size: 11px; color: var(--text-sub); letter-spacing: 3px; text-transform: uppercase; position: relative; z-index: 2; margin-top: 8px;}
+    .hero-title { font-family: var(--font-serif); font-size: 26px; color: var(--gold); letter-spacing: 2px; position: relative; z-index: 2; margin-bottom: 6px; }
+    .hero-sub { font-size: 13px; color: var(--text-sub); letter-spacing: 1px; position: relative; z-index: 2; }
 
-    /* --- Login Status --- */
+    /* --- 登入狀態列 --- */
     .profile-bar {
       margin: 0 16px 20px; padding: 16px;
       background: rgba(255,255,255,0.03); border-radius: 12px;
       display: flex; justify-content: space-between; align-items: center;
       border: 1px solid var(--line);
     }
-    .profile-info { font-size: 14px; color: #fff; display: flex; align-items: center; gap: 8px; }
-    .profile-status { font-size: 12px; color: var(--gold); }
+    .profile-info { font-size: 14px; color: #fff; display: flex; flex-direction: column; gap: 4px; }
+    .profile-name { font-weight: bold; color: var(--gold); }
+    .profile-status { font-size: 12px; color: var(--text-sub); }
     .btn-load {
       background: var(--gold); color: #000; border: none;
       padding: 8px 16px; border-radius: 99px; font-weight: bold; font-size: 13px; cursor: pointer;
     }
 
-    /* --- Order List (Cards) --- */
+    /* --- 訂單列表 (卡片式) --- */
     .container { padding: 0 16px; }
-    .section-title { font-size: 14px; color: var(--text-sub); margin-bottom: 12px; letter-spacing: 1px; }
+    .section-title { font-size: 14px; color: var(--text-sub); margin-bottom: 12px; letter-spacing: 1px; border-left: 3px solid var(--gold); padding-left: 8px; }
 
     .order-card {
       background: var(--card-bg); border: 1px solid var(--line);
@@ -100,7 +100,7 @@
     
     .card-arrow { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--line); font-size: 20px; }
 
-    /* --- Modal (Order Detail) --- */
+    /* --- 彈窗 (訂單詳情) --- */
     .modal-mask {
       position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
       z-index: 100; display: none; align-items: flex-end; justify-content: center;
@@ -113,25 +113,27 @@
     }
     @keyframes slideUp { from {transform: translateY(100%);} to {transform: translateY(0);} }
     
-    .modal-header { padding: 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; position: sticky; top:0; background:#18181b; z-index:10; }
+    .modal-header { padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; position: sticky; top:0; background:#18181b; z-index:10; }
     .modal-title { font-size: 16px; color: #fff; font-weight: bold; }
     .close-btn { background: transparent; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 0 8px; }
 
     .modal-body { padding: 20px; }
     
     .detail-group { margin-bottom: 24px; }
-    .detail-label { font-size: 12px; color: var(--text-sub); margin-bottom: 8px; border-bottom: 1px solid var(--line); padding-bottom: 4px; display: block; }
+    .detail-label { font-size: 12px; color: var(--text-sub); margin-bottom: 10px; border-bottom: 1px solid var(--line); padding-bottom: 6px; display: block; letter-spacing: 1px; }
     
-    .item-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; }
+    /* 商品列樣式 */
+    .item-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; align-items: flex-start; }
     .item-name { color: #eee; flex: 1; padding-right: 12px; line-height: 1.4; }
     .item-meta { text-align: right; color: var(--gold); font-family: var(--font-serif); min-width: 80px; }
-    .item-sub { display: block; font-size: 12px; color: var(--text-sub); margin-top: 2px; }
+    .item-sub { display: block; font-size: 12px; color: var(--text-sub); margin-top: 4px; }
 
+    /* 資訊網格 */
     .info-grid { display: grid; grid-template-columns: 1fr; gap: 12px; font-size: 13px; color: #ccc; }
-    .info-row { display: flex; justify-content: space-between; }
-    .info-val { color: #fff; font-family: monospace; }
+    .info-row { display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.05); padding-bottom: 8px; }
+    .info-val { color: #fff; font-family: monospace; text-align: right; }
 
-    .empty-msg { text-align: center; color: var(--text-sub); padding: 40px; }
+    .empty-msg { text-align: center; color: var(--text-sub); padding: 40px; background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px dashed var(--line); }
 
     .toast {
       position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%);
@@ -150,24 +152,27 @@
     </div>
 
     <div class="hero-banner">
-      <div class="hero-title">MY ORDERS</div>
-      <div class="hero-sub">MEMBER CENTER</div>
+      <div class="hero-title">會員中心</div>
+      <div class="hero-sub">Member Center</div>
     </div>
 
     <div class="profile-bar">
-      <div>
-        <div class="profile-info" id="lineName">訪客 (Guest)</div>
-        <div class="profile-status" id="lineStatus">未登入</div>
+      <div class="profile-info">
+        <span class="profile-name" id="lineName">訪客</span>
+        <span class="profile-status" id="lineStatus">尚未登入</span>
       </div>
-      <button class="btn-load" id="btnLoad">載入訂單</button>
+      <button class="btn-load" id="btnLoad">登入 / 重新整理</button>
     </div>
 
     <div class="container">
-      <div class="section-title">歷史訂單 (ORDER HISTORY)</div>
+      <div class="section-title">歷史訂單</div>
       <div id="msg" style="font-size:12px;color:var(--text-sub);margin-bottom:10px;text-align:center;"></div>
       
       <div id="orderList">
-        <div class="empty-msg">請點擊上方「載入訂單」</div>
+        <div class="empty-msg">
+          請點擊「登入 / 重新整理」<br>
+          以查看您的歷史訂單
+        </div>
       </div>
     </div>
   </div>
@@ -181,26 +186,26 @@
       <div class="modal-body">
         
         <div class="detail-group">
-          <label class="detail-label">基本資訊 INFO</label>
+          <label class="detail-label">基本資料</label>
           <div class="info-grid">
-            <div class="info-row"><span>編號 ID</span><span class="info-val" id="dId"></span></div>
-            <div class="info-row"><span>日期 Date</span><span class="info-val" id="dDate"></span></div>
-            <div class="info-row"><span>狀態 Status</span><span class="info-val" id="dStatus" style="color:var(--gold)"></span></div>
-            <div class="info-row"><span>總金額 Total</span><span class="info-val" id="dTotal" style="color:var(--gold);font-size:16px"></span></div>
+            <div class="info-row"><span>訂單編號</span><span class="info-val" id="dId"></span></div>
+            <div class="info-row"><span>建立日期</span><span class="info-val" id="dDate"></span></div>
+            <div class="info-row"><span>訂單狀態</span><span class="info-val" id="dStatus" style="color:var(--gold)"></span></div>
+            <div class="info-row"><span>訂單金額</span><span class="info-val" id="dTotal" style="color:var(--gold);font-size:16px;font-weight:bold"></span></div>
           </div>
         </div>
 
         <div class="detail-group">
-          <label class="detail-label">購買商品 ITEMS</label>
+          <label class="detail-label">購買商品</label>
           <div id="dItems"></div>
         </div>
 
         <div class="detail-group">
-          <label class="detail-label">寄送資訊 SHIPPING</label>
+          <label class="detail-label">收件與寄送</label>
           <div class="info-grid">
-             <div class="info-row"><span>方式 Method</span><span class="info-val" id="dShipMethod"></span></div>
-             <div class="info-row"><span>貨單號 Tracking</span><span class="info-val" id="dTrack"></span></div>
-             <div style="margin-top:8px;line-height:1.5;color:#ccc" id="dAddr"></div>
+             <div class="info-row"><span>寄送方式</span><span class="info-val" id="dShipMethod"></span></div>
+             <div class="info-row"><span>物流單號</span><span class="info-val" id="dTrack"></span></div>
+             <div style="margin-top:12px;line-height:1.6;color:#ccc;background:rgba(255,255,255,0.05);padding:10px;border-radius:8px;" id="dAddr"></div>
           </div>
         </div>
 
@@ -216,7 +221,9 @@
   <script>
     // ====== 設定區 ======
     const API = new URL(location.href).searchParams.get("api") || "https://api2.murain.tw";
-    const LIFF_ID = ""; // ★ 請務必填入您的 LIFF ID 才能使用 LINE 登入功能
+    
+    // ★ 請在此填入您的 LIFF ID 以啟用 LINE 登入功能
+    const LIFF_ID = ""; 
     // ===================
 
     document.getElementById("apiText").textContent = API;
@@ -229,27 +236,27 @@
     // 初始化 LINE LIFF
     async function init(){
       if(!LIFF_ID){
-        document.getElementById("msg").textContent = "提醒：尚未設定 LIFF ID，無法進行登入查詢。";
+        document.getElementById("msg").textContent = "系統提示：請於程式碼中設定 LIFF ID 才能啟用 LINE 登入。";
         return;
       }
       try{
         await liff.init({ liffId: LIFF_ID });
         if(!liff.isLoggedIn()){
-          document.getElementById("lineStatus").textContent = "未登入 (點擊載入以登入)";
+          document.getElementById("lineStatus").textContent = "未登入 (點擊按鈕登入)";
         } else {
           const p = await liff.getProfile();
           idToken = liff.getIDToken();
           document.getElementById("lineName").textContent = p.displayName;
-          document.getElementById("lineStatus").textContent = "已登入 LINE";
-          // 自動載入
+          document.getElementById("lineStatus").textContent = "已透過 LINE 登入";
+          // 自動載入訂單
           loadMyOrders();
         }
       }catch(e){
-        document.getElementById("msg").textContent = "LIFF 初始化失敗: " + e.message;
+        document.getElementById("msg").textContent = "LINE 初始化失敗: " + e.message;
       }
     }
 
-    // API Post Helper
+    // API 請求工具
     async function post(path, body){
       const res = await fetch(API + path, {
         method:"POST",
@@ -264,11 +271,11 @@
     function money(n){ try{return new Intl.NumberFormat("zh-TW").format(Number(n||0));}catch{return String(n||0);} }
     function esc(s){ return String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;"); }
 
-    // 渲染訂單列表 (Card View)
+    // 渲染訂單列表 (卡片樣式)
     function render(){
       const container = document.getElementById("orderList");
       if(!orders.length){
-        container.innerHTML = `<div class="empty-msg">查無訂單資料</div>`;
+        container.innerHTML = `<div class="empty-msg">目前沒有訂單記錄</div>`;
         return;
       }
 
@@ -282,11 +289,12 @@
             <div class="order-date">${esc(o.created_at?.split(' ')[0] || "")}</div>
             <div class="order-total">$ ${money(o.total_amount)}</div>
           </div>
+          <div class="card-arrow">›</div>
         </div>
       `).join("");
     }
 
-    // 載入訂單
+    // 載入訂單邏輯
     async function loadMyOrders(){
       if(LIFF_ID && !liff.isLoggedIn()){
         liff.login();
@@ -296,30 +304,30 @@
       if(!idToken) return toast("請先登入");
 
       const msg = document.getElementById("msg");
-      msg.textContent = "載入中...";
+      msg.textContent = "資料載入中...";
       
       try{
         const data = await post("/member/orders", { id_token: idToken });
         orders = data.orders || [];
         render();
-        msg.textContent = `共 ${orders.length} 筆訂單`;
+        msg.textContent = `共找到 ${orders.length} 筆訂單`;
       }catch(e){
         msg.textContent = "載入失敗：" + e.message;
         toast("錯誤：" + e.message);
       }
     }
 
-    // 打開詳情 Modal
+    // 打開訂單詳情 (彈窗)
     async function openOrder(order_id){
       document.getElementById("detailModal").style.display = "flex";
       
-      // 填入已知資料 (從列表)
+      // 先填入列表已有的基本資料，讓使用者不用等
       const basic = orders.find(o => o.order_id === order_id) || {};
       document.getElementById("dId").textContent = order_id;
       document.getElementById("dDate").textContent = basic.created_at || "-";
       document.getElementById("dStatus").textContent = basic.status || "-";
       document.getElementById("dTotal").textContent = "$ " + money(basic.total_amount);
-      document.getElementById("dItems").innerHTML = "<div style='color:#999;font-size:12px'>載入詳細項目中...</div>";
+      document.getElementById("dItems").innerHTML = "<div style='color:#999;font-size:12px;padding:10px 0;'>載入詳細資料中...</div>";
       
       // 清空詳細欄位
       document.getElementById("dShipMethod").textContent = "-";
@@ -348,17 +356,17 @@
 
         // 渲染寄送資訊
         document.getElementById("dShipMethod").textContent = o.shipping_method || ship.ship_method || "-";
-        document.getElementById("dTrack").textContent = o.tracking_no || "-";
+        document.getElementById("dTrack").textContent = o.tracking_no || "尚未產生";
         
-        // 地址或門市顯示
+        // 組合地址顯示 (包含 7-11 門市資訊)
         let addrStr = o.address || ship.address || "";
         if(ship.cvs){
-          addrStr = `[7-11] ${ship.cvs.store_name} (${ship.cvs.store_id})<br>${ship.cvs.store_addr||""}`;
+          addrStr = `<span style="color:var(--gold)">[7-11 取貨]</span><br>門市：${ship.cvs.store_name} (${ship.cvs.store_id})<br>地址：${ship.cvs.store_addr||""}`;
         }
-        document.getElementById("dAddr").innerHTML = addrStr;
+        document.getElementById("dAddr").innerHTML = addrStr || "無地址資訊";
 
       }catch(e){
-        document.getElementById("dItems").innerHTML = "讀取詳細失敗";
+        document.getElementById("dItems").innerHTML = "無法讀取詳細資料";
       }
     }
 
