@@ -2,207 +2,464 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>結帳購物車 · MURAIN 寄賣</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>結帳｜MURAIN 寄賣精品</title>
+  <meta name="description" content="結帳頁｜填資料送出訂單" />
   <style>
     :root{
-      --bg:#0b0a0a;
-      --card:#141212;
-      --text:#f3f1f1;
-      --muted:#b9b3b3;
-      --gold:#c8a25a;
-      --border:rgba(200,162,90,.25);
+      --bg:#0b0b0e;
+      --panel: rgba(18, 18, 22, .72);
+      --panel2: rgba(18, 18, 22, .55);
+      --stroke: rgba(212, 175, 55, .28);
+      --stroke2: rgba(212, 175, 55, .18);
+      --gold: #d4af37;
+      --text:#f4f1ea;
+      --muted: rgba(244,241,234,.72);
+      --shadow: 0 18px 80px rgba(0,0,0,.55);
+      --radius: 18px;
     }
-    *{box-sizing:border-box}
-    body{margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans TC"; background:radial-gradient(1200px 700px at 50% 0%, #191414 0%, var(--bg) 55%, #050404 100%); color:var(--text);}
-    .wrap{max-width:980px; margin:0 auto; padding:18px;}
-    a{color:inherit}
-    .panel{border:1px solid var(--border); background:rgba(255,255,255,.03); border-radius:18px; padding:16px;}
-    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans TC", Arial, "PingFang TC", "Heiti TC", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 25% -10%, rgba(212,175,55,.12), transparent 55%),
+        radial-gradient(900px 520px at 85% 0%, rgba(212,175,55,.10), transparent 52%),
+        radial-gradient(900px 620px at 50% 110%, rgba(212,175,55,.08), transparent 55%),
+        linear-gradient(180deg, #0a0a0d, #0b0b0e 35%, #060608);
+      min-height:100vh;
+    }
+    .wrap{ max-width:980px; margin:0 auto; padding:18px 16px 60px; }
+    .top{
+      display:flex; gap:12px; align-items:center; justify-content:space-between;
+      padding:6px 0 14px;
+      flex-wrap:wrap;
+    }
+    .title{
+      display:flex; flex-direction:column; gap:4px;
+    }
+    .title h1{ margin:0; font-size:16px; letter-spacing:.16em; text-transform:uppercase; }
+    .title small{ color: var(--muted); font-size:12px; }
     .btn{
-      padding:10px 12px; border-radius:12px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.03);
-      color:var(--text);
       cursor:pointer;
+      border:1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(212,175,55,.12), rgba(0,0,0,.22));
+      color: rgba(244,241,234,.92);
+      padding:10px 12px;
+      border-radius:12px;
+      font-size:13px;
+      letter-spacing:.06em;
+      box-shadow: 0 10px 40px rgba(0,0,0,.25);
+      transition: transform .08s ease, border-color .15s ease;
+      user-select:none;
+      display:inline-flex; align-items:center; gap:8px;
+      text-decoration:none;
+      white-space:nowrap;
     }
-    .btn.primary{
-      background:linear-gradient(135deg, rgba(200,162,90,.25), rgba(200,162,90,.10));
-      border-color:rgba(200,162,90,.55);
+    .btn:active{ transform: translateY(1px); }
+    .btn.secondary{
+      background: rgba(0,0,0,.28);
+      border-color: rgba(212,175,55,.20);
     }
-    input,textarea{
-      width:100%; padding:10px 12px; border-radius:12px;
-      border:1px solid var(--border);
-      background:rgba(0,0,0,.25);
-      color:var(--text);
-      outline:none;
+    .btn.danger{
+      background: rgba(180,40,40,.10);
+      border-color: rgba(255,120,120,.22);
     }
-    textarea{min-height:90px}
-    .muted{color:var(--muted); font-size:13px}
-    .line{display:flex; justify-content:space-between; gap:12px; padding:12px 0; border-bottom:1px solid rgba(200,162,90,.12)}
-    .tot{font-size:18px; font-weight:800; color:var(--gold)}
-    .grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
-    @media (max-width:640px){.grid{grid-template-columns:1fr}}
+    .panel{
+      border:1px solid var(--stroke2);
+      background: var(--panel2);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panel .head{
+      padding:12px 14px;
+      border-bottom:1px solid rgba(212,175,55,.12);
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px; flex-wrap:wrap;
+    }
+    .panel .head strong{ font-size:14px; letter-spacing:.10em; }
+    .panel .body{ padding:14px; }
+    .kv{
+      display:flex; gap:10px; flex-wrap:wrap;
+      font-size:12px;
+      color: rgba(244,241,234,.78);
+    }
+    .kv code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      color: rgba(244,241,234,.95);
+    }
+    .items{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .item{
+      border:1px solid rgba(212,175,55,.14);
+      background: rgba(0,0,0,.18);
+      border-radius:16px;
+      padding:10px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .item .left{
+      display:flex; flex-direction:column; gap:4px;
+      min-width: 240px;
+    }
+    .item .left b{ font-size:13px; letter-spacing:.04em; }
+    .item .left span{ font-size:12px; color: rgba(244,241,234,.72); }
+    .item .right{
+      display:flex; gap:10px; align-items:baseline;
+      font-size:12px; color: rgba(244,241,234,.78);
+    }
+    .sum{
+      margin-top:10px;
+      display:flex; justify-content:space-between; align-items:center;
+      padding:12px 12px;
+      border-top:1px solid rgba(212,175,55,.12);
+      font-size:14px;
+      letter-spacing:.06em;
+    }
+    .sum b{ font-size:18px; }
+    .grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+    }
+    .field{
+      display:flex; gap:8px; align-items:center;
+      border:1px solid rgba(212,175,55,.18);
+      border-radius:12px;
+      background: rgba(0,0,0,.22);
+      padding:10px 10px;
+    }
+    .field input, .field textarea, .field select{
+      width:100%;
+      border:0;
+      outline:0;
+      background: transparent;
+      color: rgba(244,241,234,.95);
+      font-size:13px;
+      font-family: inherit;
+    }
+    textarea{ min-height:92px; resize:vertical; }
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    @media (max-width: 760px){
+      .row{ grid-template-columns: 1fr; }
+    }
+    .notice{
+      font-size:12px; color: rgba(244,241,234,.72); line-height:1.6;
+      padding:10px 12px;
+      border:1px dashed rgba(212,175,55,.22);
+      border-radius:14px;
+      background: rgba(0,0,0,.18);
+    }
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,.78);
+      border:1px solid rgba(212,175,55,.22);
+      color: rgba(244,241,234,.92);
+      padding:10px 12px;
+      border-radius: 14px;
+      box-shadow: 0 18px 70px rgba(0,0,0,.55);
+      font-size:12px;
+      max-width:min(560px, 92vw);
+      display:none;
+      z-index:9999;
+    }
+    .okbox{
+      border:1px solid rgba(120,255,180,.22);
+      background: rgba(0,30,18,.25);
+      border-radius:16px;
+      padding:12px;
+      font-size:13px;
+      line-height:1.65;
+      display:none;
+    }
+    .okbox code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      color: rgba(244,241,234,.95);
+    }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="panel">
-      <div class="row" style="justify-content:space-between">
-        <div>
-          <b style="font-size:18px;">結帳購物車</b>
-          <div class="muted">API：<span id="apiText"></span></div>
-        </div>
-        <div class="row">
-          <a class="btn" href="./index.html">回寄賣官網</a>
-          <button class="btn" onclick="reload()">刷新</button>
-          <button class="btn" onclick="newCart()">換一個 cart_token</button>
-        </div>
+    <div class="top">
+      <div class="title">
+        <h1>結帳購物車</h1>
+        <small id="apiLine">API：-</small>
       </div>
-
-      <div style="height:10px"></div>
-      <div class="muted">cart_token：<b id="cartTokenText"></b></div>
-
-      <div id="cart" style="margin-top:10px;"></div>
-
-      <div style="margin-top:10px" class="row" style="justify-content:space-between">
-        <b>合計</b>
-        <div class="tot">$ <span id="total">0</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;">
+        <a class="btn secondary" id="btnHome" href="./index.html">回官網</a>
+        <button class="btn secondary" id="btnRefresh">刷新</button>
+        <button class="btn secondary" id="btnChangeToken">換一個 cart_token</button>
       </div>
     </div>
 
-    <div style="height:14px"></div>
-
-    <div class="panel">
-      <b style="font-size:16px;">填寫資料並送出訂單（先用匯款/人工對帳，最快上線）</b>
-      <div class="muted">送出後會寫入 Airtable 的 Orders 表（status = pending_transfer）。</div>
-      <div style="height:12px"></div>
-
-      <div class="grid">
-        <div><input id="name" placeholder="姓名（必填）"></div>
-        <div><input id="phone" placeholder="手機（必填）"></div>
+    <section class="panel">
+      <div class="head">
+        <strong>購物車內容</strong>
+        <div class="kv">
+          <span>cart_token：<code id="cartToken">-</code></span>
+        </div>
       </div>
-      <div style="height:10px"></div>
-      <textarea id="address" placeholder="地址（選填，寄送用）"></textarea>
-      <div style="height:10px"></div>
-      <textarea id="note" placeholder="備註（選填，例如匯款末五碼/取件偏好）"></textarea>
-      <div style="height:10px"></div>
-
-      <button class="btn primary" onclick="checkout()">送出訂單</button>
-      <div id="checkoutMsg" class="muted" style="margin-top:10px"></div>
-
-      <div style="margin-top:12px; padding:12px; border:1px dashed rgba(200,162,90,.35); border-radius:14px;">
-        <b>匯款資訊（你自己改成你的內容）</b>
-        <div class="muted">銀行：＿＿＿＿　帳號：＿＿＿＿　戶名：＿＿＿＿</div>
-        <div class="muted">匯款後請在備註填末五碼，我們確認後會通知出貨。</div>
+      <div class="body">
+        <div class="items" id="items"></div>
+        <div class="sum">
+          <span>合計</span>
+          <span>$ <b id="total">0</b></span>
+        </div>
+        <div class="notice" id="cartHint">
+          若購物車為空：請回官網先加入商品，或確認 URL 有帶 <code>?cart=xxxx</code>
+        </div>
       </div>
+    </section>
+
+    <div class="grid">
+      <section class="panel">
+        <div class="head">
+          <strong>填寫資料並送出訂單（匯款 / 人工對帳）</strong>
+          <span class="kv"><span>會寫入 Airtable Orders / OrderItems</span></span>
+        </div>
+        <div class="body">
+          <div class="row">
+            <div class="field"><input id="customer_name" placeholder="姓名（必填）" /></div>
+            <div class="field"><input id="phone" placeholder="手機（必填）" /></div>
+          </div>
+
+          <div style="height:10px;"></div>
+
+          <div class="field">
+            <textarea id="address" placeholder="地址（選填，寄送用）"></textarea>
+          </div>
+
+          <div style="height:10px;"></div>
+
+          <div class="field">
+            <textarea id="note" placeholder="備註（選填，例如匯款末五碼 / 收件偏好）"></textarea>
+          </div>
+
+          <div style="height:12px;"></div>
+
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+            <button class="btn" id="btnSubmit">送出訂單</button>
+            <span style="font-size:12px;color:rgba(244,241,234,.72);" id="msg">-</span>
+          </div>
+
+          <div class="okbox" id="okbox"></div>
+
+          <div style="height:12px;"></div>
+
+          <div class="notice">
+            <b>匯款資訊（你可自行改成你的內容）</b><br/>
+            銀行：＿＿＿＿＿＿　帳號：＿＿＿＿＿＿　戶名：＿＿＿＿＿＿<br/>
+            匯款後請在備註填「末五碼」，我們確認後會通知出貨。
+          </div>
+        </div>
+      </section>
     </div>
   </div>
 
+  <div class="toast" id="toast"></div>
+
 <script>
-  const API = "https://api2.murain.tw";
-  document.getElementById("apiText").textContent = API;
+(() => {
+  const API_DEFAULT = "https://api2.murain.tw";
+  const CART_TOKEN_KEY = "murain_b_cart_token";
 
-  const KEY_CART = "b_cart_token";
-  function getCartToken(){
-    // 允許從網址帶 ?cart=
-    const u = new URL(location.href);
-    const qCart = (u.searchParams.get("cart") || "").trim();
-    if(qCart){
-      localStorage.setItem(KEY_CART, qCart);
-      return qCart;
+  const $ = (s)=>document.querySelector(s);
+  const elApiLine = $("#apiLine");
+  const elCartToken = $("#cartToken");
+  const elItems = $("#items");
+  const elTotal = $("#total");
+  const elMsg = $("#msg");
+  const elToast = $("#toast");
+  const elOkbox = $("#okbox");
+  const elCartHint = $("#cartHint");
+
+  const url = new URL(location.href);
+  const API = url.searchParams.get("api") || API_DEFAULT;
+
+  elApiLine.textContent = "API： " + API;
+
+  const money = (n) => {
+    const x = Number(n || 0) || 0;
+    return x.toLocaleString("zh-TW");
+  };
+
+  const toast = (msg) => {
+    elToast.textContent = msg;
+    elToast.style.display = "block";
+    clearTimeout(elToast._t);
+    elToast._t = setTimeout(() => elToast.style.display = "none", 2400);
+  };
+
+  const fetchJSON = async (path, init) => {
+    const res = await fetch(API + path, {
+      ...init,
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        ...(init && init.headers ? init.headers : {})
+      }
+    });
+    const text = await res.text();
+    let data = {};
+    try { data = JSON.parse(text); } catch { data = { ok:false, raw:text }; }
+    if (!res.ok || data.ok === false) {
+      const msg = data.message || data.error || ("HTTP_" + res.status);
+      throw new Error(msg);
     }
-    let t = localStorage.getItem(KEY_CART);
-    if(!t){ t = "b" + Math.random().toString(36).slice(2,10); localStorage.setItem(KEY_CART, t); }
+    return data;
+  };
+
+  const ensureCartToken = () => {
+    let t = (url.searchParams.get("cart") || "").trim();
+    if (!t) t = (localStorage.getItem(CART_TOKEN_KEY) || "").trim();
+    if (!t) {
+      t = "b" + Math.random().toString(36).slice(2, 10);
+    }
+    localStorage.setItem(CART_TOKEN_KEY, t);
     return t;
-  }
-  function setCartToken(t){ localStorage.setItem(KEY_CART, t); }
-  function showCartToken(){ document.getElementById("cartTokenText").textContent = getCartToken(); }
+  };
 
-  function money(n){ return (Number(n||0)||0).toLocaleString("zh-Hant"); }
+  let cartToken = ensureCartToken();
+  elCartToken.textContent = cartToken;
 
-  async function loadCart(){
-    showCartToken();
-    const cart_token = getCartToken();
-    const el = document.getElementById("cart");
-    el.innerHTML = `<div class="muted">載入中…</div>`;
+  // Buttons link keep api
+  $("#btnHome").href = `./index.html?api=${encodeURIComponent(API)}`;
 
-    const r = await fetch(`${API}/cart/items?cart_token=${encodeURIComponent(cart_token)}`);
-    const d = await r.json();
-    const items = (d.ok && Array.isArray(d.items)) ? d.items : [];
+  $("#btnChangeToken").onclick = () => {
+    const next = prompt("輸入新的 cart_token（建議英數）", cartToken) || "";
+    const t = next.trim();
+    if (!t) return;
+    cartToken = t;
+    localStorage.setItem(CART_TOKEN_KEY, cartToken);
+    url.searchParams.set("cart", cartToken);
+    url.searchParams.set("api", API);
+    history.replaceState(null, "", url.toString());
+    elCartToken.textContent = cartToken;
+    loadCart();
+    toast("已切換 cart_token ✅");
+  };
 
-    if(!items.length){
-      el.innerHTML = `<div class="muted" style="padding:10px 0">購物車是空的，請回首頁加入商品。</div>`;
-      document.getElementById("total").textContent = "0";
+  $("#btnRefresh").onclick = () => loadCart();
+
+  const renderCart = (items, total) => {
+    elItems.innerHTML = "";
+    if (!items || !items.length) {
+      const box = document.createElement("div");
+      box.className = "notice";
+      box.textContent = "購物車是空的，請回首頁先加入商品。";
+      elItems.appendChild(box);
+      elTotal.textContent = "0";
+      elCartHint.style.display = "";
       return;
     }
 
-    let total = 0;
-    el.innerHTML = items.map(it=>{
-      const qty = Math.max(1, Number(it.qty||1)||1);
-      const price = Number(it.price||0)||0;
-      const line = qty * price;
-      total += line;
-      return `
-        <div class="line">
-          <div>
-            <b>${escapeHtml(it.sku||"")}</b>
-            <div class="muted">qty：${qty}　單價：$ ${money(price)}</div>
-          </div>
-          <div><b>$ ${money(line)}</b></div>
+    elCartHint.style.display = "none";
+
+    for (const it of items) {
+      const row = document.createElement("div");
+      row.className = "item";
+      row.innerHTML = `
+        <div class="left">
+          <b>${(it.title || it.sku || "-")}</b>
+          <span>SKU：${it.sku || "-"}　｜　數量：${Number(it.qty||0)||0}</span>
+        </div>
+        <div class="right">
+          <span>單價：$ ${money(it.price)}</span>
+          <span>小計：$ <b>${money((Number(it.qty||0)||0)*(Number(it.price||0)||0))}</b></span>
         </div>
       `;
-    }).join("");
+      elItems.appendChild(row);
+    }
+    elTotal.textContent = money(total);
+  };
 
-    document.getElementById("total").textContent = money(total);
-  }
+  const loadCart = async () => {
+    elMsg.textContent = "載入購物車中…";
+    elOkbox.style.display = "none";
+    try {
+      const d = await fetchJSON(`/cart/get?cart_token=${encodeURIComponent(cartToken)}`);
+      renderCart(d.items || [], Number(d.total_amount||0)||0);
+      elMsg.textContent = "購物車已載入 ✅";
+    } catch (e) {
+      elMsg.textContent = "載入失敗：" + (e.message || e);
+      toast("讀取購物車失敗：請確認後端 /cart/get 是否存在");
+      renderCart([], 0);
+    }
+  };
 
-  async function checkout(){
-    const cart_token = getCartToken();
-    const customer_name = document.getElementById("name").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const address = document.getElementById("address").value.trim();
-    const note = document.getElementById("note").value.trim();
+  $("#btnSubmit").onclick = async () => {
+    const customer_name = ($("#customer_name").value || "").trim();
+    const phone = ($("#phone").value || "").trim();
+    const address = ($("#address").value || "").trim();
+    const note = ($("#note").value || "").trim();
 
-    const msg = document.getElementById("checkoutMsg");
-    msg.textContent = "送出中…";
-
-    const r = await fetch(`${API}/checkout`, {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({ cart_token, customer_name, phone, address, note })
-    });
-    const d = await r.json();
-    if(!d.ok){
-      msg.textContent = "結帳失敗：" + (d.message || d.error);
+    if (!customer_name || !phone) {
+      toast("請填寫：姓名、手機");
       return;
     }
-    msg.innerHTML = `✅ 訂單建立成功：<b>${d.order_id}</b>　金額：$ ${money(d.total_amount)}<br>${escapeHtml(d.message || "")}`;
-  }
 
-  function newCart(){
-    const t = "b" + Math.random().toString(36).slice(2,10);
-    setCartToken(t);
-    // 也把網址 cart 參數清掉
-    const u = new URL(location.href);
-    u.searchParams.delete("cart");
-    history.replaceState(null, "", u.toString());
-    loadCart();
-  }
+    $("#btnSubmit").disabled = true;
+    elMsg.textContent = "送出中…";
 
-  function reload(){ loadCart(); }
+    try {
+      const d = await fetchJSON("/checkout", {
+        method: "POST",
+        body: JSON.stringify({
+          cart_token: cartToken,
+          customer_name,
+          phone,
+          address,
+          note,
+          payment_method: "bank_transfer",
+          shipping_method: "home",
+          shipping_info_json: ""
+        })
+      });
 
-  function escapeHtml(s){
-    return String(s||"")
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#39;");
-  }
+      elMsg.textContent = "送出成功 ✅";
+      toast("訂單建立成功 ✅");
+
+      elOkbox.style.display = "block";
+      elOkbox.innerHTML = `
+        <b>訂單已建立</b><br/>
+        order_id：<code>${d.order_id || "-"}</code><br/>
+        狀態：<code>${d.status || "-"}</code><br/>
+        金額：<code>$ ${money(d.total_amount || 0)}</code><br/>
+        <br/>
+        請依匯款資訊完成付款並回填末五碼（或由你人工對帳）。
+      `;
+
+      // 送出後重新載入購物車（通常會被清空 qty=0）
+      await loadCart();
+
+    } catch (e) {
+      elMsg.textContent = "送出失敗：" + (e.message || e);
+      toast("送出失敗：" + (e.message || e));
+    } finally {
+      $("#btnSubmit").disabled = false;
+    }
+  };
 
   // init
   loadCart();
+
+})();
 </script>
 </body>
 </html>
