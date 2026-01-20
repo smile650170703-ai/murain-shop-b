@@ -285,8 +285,11 @@
     </div>
   </div>
 
+<script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script>
   const API = "https://api2.murain.tw";
+const requireLineLogin = true;
+const LIFF_ID = "請貼上你的LIFF_ID";
   const $ = (id)=>document.getElementById(id);
   const state = { items: [], picked: null };
   let isLineLoggedIn = localStorage.getItem("is_line_logged_in") === "true";
@@ -415,28 +418,58 @@
   $("mClose").onclick = closeModal;
   $("mask").onclick = (e)=>{ if(e.target===$("mask")) closeModal(); };
 
-  /* --- Cart & Login --- */
-  function checkLogin(){
-    if(isLineLoggedIn) return true;
-    $("loginModal").style.display = "flex";
-    return false;
+/* --- Cart & Login --- */
+async function ensureLineLogin() {
+  if (!requireLineLogin) return { ok: true, profile: null, idToken: "" };
+
+  if (!LIFF_ID || LIFF_ID.includes("請貼上")) {
+    alert("尚未設定 LIFF_ID，請先在 index.html 填上 LIFF_ID");
+    return { ok: false };
   }
-  
-  $("btnLoginLine").onclick = () => {
-    $("btnLoginLine").textContent = "認證中...";
-    setTimeout(()=>{
-      isLineLoggedIn = true;
-      localStorage.setItem("is_line_logged_in", "true");
-      $("loginModal").style.display = "none";
-      toast("LINE 登入成功！");
-      $("btnLoginLine").textContent = "使用 LINE 帳號登入";
-      if(localCart.length > 0) toggleCart(true);
-    }, 1500);
-  };
+
+  try {
+    if (!window.liff) {
+      alert("LIFF SDK 未載入，請確認已加入 liff sdk script");
+      return { ok: false };
+    }
+
+    await liff.init({ liffId: LIFF_ID });
+
+    if (!liff.isLoggedIn()) {
+      // 會跳到 LINE 登入，登入完回到此頁
+      liff.login({ redirectUri: location.href });
+      return { ok: false };
+    }
+
+    const profile = await liff.getProfile();
+    const idToken = liff.getIDToken() || "";
+
+    // ✅ 把 line_user_id 記起來，checkout 也會用到
+    try {
+      localStorage.setItem("line_user_id", profile.userId || "");
+      localStorage.setItem("line_display_name", profile.displayName || "");
+      localStorage.setItem("line_id_token", idToken || "");
+    } catch {}
+
+    return { ok: true, profile, idToken };
+  } catch (e) {
+    console.error(e);
+    alert("LINE 登入初始化失敗，請稍後重試");
+    return { ok: false };
+  }
+}
+
+// ✅ 保留你原本的登入彈窗按鈕：按下去就觸發 LIFF 登入
+$("btnLoginLine").onclick = async () => {
+  await ensureLineLogin();
+};
+
 
   $("mAdd").onclick = async () => {
   if(!state.picked) return;
   const p = state.picked;
+    const lg = await ensureLineLogin();
+if (!lg.ok) return;
 
   // 先以後端為真相：直接打 /cart/add，成功後再回拉 /cart/get
   try{
@@ -548,14 +581,17 @@
   };
   $("cartMask").addEventListener("click", (e)=>{ if(e.target===$("cartMask")) toggleCart(false); });
 
-  function goCheckout(){
-    if(!checkLogin()) return;
-    if(localCart.length === 0) {
-      toast("購物車是空的");
-      return;
-    }
-    location.href = `./checkout.html?cart=${encodeURIComponent(cartToken)}`;
+  async function goCheckout(){
+  const lg = await ensureLineLogin();
+  if (!lg.ok) return;
+
+  if(localCart.length === 0) {
+    toast("購物車是空的");
+    return;
   }
+
+  location.href = `./checkout.html?cart=${encodeURIComponent(cartToken)}&api=${encodeURIComponent(API)}`;
+}
 
   $("mCheckout").onclick = goCheckout;
   $("drawerCheckout").onclick = goCheckout;
@@ -564,5 +600,6 @@
 
   loadProducts();
 </script>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </body>
 </html>
