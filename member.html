@@ -6,27 +6,33 @@
   <title>MURAIN 寄賣精品｜會員中心</title>
   <meta name="robots" content="noindex,nofollow" />
   <style>
-    /* --- 核心變數：與官網一致的黑金主題 --- */
+    /* --- 核心變數：改為「白金奢華風格」以匹配圖文選單 --- */
     :root{
-      --bg: #050505;
-      --surface: #141414;
-      --surface-glass: rgba(20, 20, 20, 0.95);
-      --card-bg: #18181b;
-      --gold: #D4AF37;
-      --text: #ffffff;
-      --text-sub: #9e9e9e;
-      --line: rgba(255, 255, 255, 0.12);
+      --bg: #f9f9f9; /* 背景改亮 */
+      --surface: #ffffff;
+      --surface-glass: rgba(255, 255, 255, 0.95);
+      --card-bg: #ffffff;
+      --gold: #b38e46; /* 調整為較深沈穩的金色，適合白底 */
+      --gold-light: #f4e4bc;
+      --text: #333333; /* 文字改深色 */
+      --text-sub: #777777;
+      --line: rgba(179, 142, 70, 0.2); /* 線條改為淡淡的金色 */
       --font-main: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
       --font-serif: "Times New Roman", serif; 
-      --status-bg: rgba(212, 175, 55, 0.15);
-      --status-text: #D4AF37;
+      --status-bg: #fdf8e6;
+      --status-text: #b38e46;
+      --shadow: 0 4px 12px rgba(179, 142, 70, 0.1); /* 增加一點金色陰影 */
     }
 
     *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+    
     body{
       margin: 0; font-family: var(--font-main);
       background-color: var(--bg);
-      background-image: radial-gradient(circle at 50% 0%, #1a1a20 0%, var(--bg) 60%);
+      /* 模擬大理石紋理的微妙背景 */
+      background-image: 
+        radial-gradient(at 10% 10%, rgba(179,142,70,0.03) 0%, transparent 50%),
+        radial-gradient(at 90% 90%, rgba(179,142,70,0.03) 0%, transparent 50%);
       color: var(--text); padding-bottom: 60px;
     }
     
@@ -34,130 +40,192 @@
 
     /* --- 頂部導航 --- */
     .topbar {
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex;
+      align-items: center; justify-content: space-between;
       padding: 16px 20px; background: var(--surface-glass);
       backdrop-filter: blur(12px); border-bottom: 1px solid var(--line);
-      position: sticky; top: 0; z-index: 50;
+      position: sticky; top: 0;
+      z-index: 50;
     }
-    .brand { font-family: var(--font-serif); font-size: 20px; color: var(--gold); letter-spacing: 1px; }
+    .brand { font-family: var(--font-serif); font-size: 20px; color: var(--gold); letter-spacing: 1px; font-weight: bold; }
+    
     .btn-ghost {
       background: transparent; border: 1px solid var(--line); color: var(--text-sub);
       padding: 6px 12px; border-radius: 99px; font-size: 12px; cursor: pointer; text-decoration: none;
     }
+    /* 隱藏 topbar 的「回官網」按鈕 */
+    .topbar .btn-ghost{ display:none !important; }
 
-    /* 隱藏 topbar 的「回官網」按鈕（不動其他功能） */
-.topbar .btn-ghost{ display:none !important; }
-
-    /* --- 主視覺 Banner --- */
+    /* --- 主視覺 Banner (仿照圖文選單的金條風格) --- */
     .hero-banner {
-      height: 160px; position: relative; overflow: hidden;
+      height: 140px;
+      position: relative; overflow: hidden;
       display: flex; align-items: center; justify-content: center; flex-direction: column;
-      background: linear-gradient(135deg, #0f0f12 0%, #1a1a20 100%);
-      border-bottom: 1px solid var(--line); margin-bottom: 24px;
+      /* 金屬漸層背景 */
+      background: linear-gradient(135deg, #a67c33 0%, #e8d08b 25%, #fbf5b7 50%, #e8d08b 75%, #a67c33 100%);
+      border-bottom: 1px solid #d4af37; 
+      margin-bottom: 24px;
+      box-shadow: 0 4px 10px rgba(166, 124, 51, 0.2);
     }
+    /* 增加光澤動畫 */
     .hero-banner::before {
-      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.10) 0%, transparent 60%);
-      animation: rotateLight 20s linear infinite;
+      content: '';
+      position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+      transform: skewX(-25deg);
+      animation: shine 6s infinite;
     }
-    @keyframes rotateLight { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
-    .hero-title { font-family: var(--font-serif); font-size: 26px; color: var(--gold); letter-spacing: 2px; position: relative; z-index: 2; margin-bottom: 6px; }
-    .hero-sub { font-size: 13px; color: var(--text-sub); letter-spacing: 1px; position: relative; z-index: 2; }
+    @keyframes shine { 
+      0% { left: -100%; } 
+      20% { left: 200%; } 
+      100% { left: 200%; } 
+    }
 
-    /* --- 登入狀態列 --- */
+    .hero-title { 
+      font-family: var(--font-serif);
+      font-size: 26px; 
+      color: #2c2108; /* 深咖啡色文字以對比金色背景 */
+      letter-spacing: 2px; position: relative; z-index: 2; margin-bottom: 6px; 
+      text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+      font-weight: bold;
+    }
+    .hero-sub { 
+      font-size: 13px;
+      color: #584618; 
+      letter-spacing: 1px; position: relative; z-index: 2; 
+      font-weight: 600;
+    }
+
+    /* --- 登入狀態列 (改為白底金框) --- */
     .profile-bar {
-      margin: 0 16px 20px; padding: 16px;
-      background: rgba(255,255,255,0.03); border-radius: 12px;
+      margin: 0 16px 20px;
+      padding: 16px;
+      background: #ffffff; 
+      border-radius: 12px;
       display: flex; justify-content: space-between; align-items: center;
-      border: 1px solid var(--line);
+      /* 雙線邊框風格，呼應圖文選單的方框 */
+      border: 3px double var(--line); 
+      box-shadow: var(--shadow);
     }
-    .profile-info { font-size: 14px; color: #fff; display: flex; flex-direction: column; gap: 4px; }
-    .profile-name { font-weight: bold; color: var(--gold); }
+    .profile-info { font-size: 14px; color: var(--text); display: flex; flex-direction: column; gap: 4px; }
+    .profile-name { font-weight: bold; color: #000; }
     .profile-status { font-size: 12px; color: var(--text-sub); }
+    
     .btn-load {
-      background: var(--gold); color: #000; border: none;
-      padding: 8px 16px; border-radius: 99px; font-weight: bold; font-size: 13px; cursor: pointer;
+      background: linear-gradient(to bottom, #fdfbf7, #f3e6c3); /* 淺金按鈕 */
+      color: #5c4715; border: 1px solid #d4b873;
+      padding: 8px 16px;
+      border-radius: 4px; /* 改為稍微方一點的圓角 */
+      font-weight: bold; font-size: 13px; cursor: pointer;
     }
-/* ✅ 大頭照 */
-.profile-left{
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-.profile-avatar{
-  width:44px;
-  height:44px;
-  border-radius:999px;
-  border:1px solid var(--line);
-  object-fit:cover;
-  background: rgba(255,255,255,0.06);
-  flex: 0 0 auto;
-}
+
+    /* ✅ 大頭照 */
+    .profile-left{ display:flex; align-items:center; gap:12px; }
+    .profile-avatar{
+      width:44px; height:44px;
+      border-radius:999px;
+      border: 2px solid var(--gold); /* 金色邊框 */
+      object-fit:cover;
+      background: #eee;
+      flex: 0 0 auto;
+    }
 
     /* --- 訂單列表 (卡片式) --- */
     .container { padding: 0 16px; }
-    .section-title { font-size: 14px; color: var(--text-sub); margin-bottom: 12px; letter-spacing: 1px; border-left: 3px solid var(--gold); padding-left: 8px; }
+    .section-title { 
+      font-size: 16px; color: #000; margin-bottom: 12px; 
+      letter-spacing: 1px; text-align: center; font-weight: bold;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    /* 標題下方的裝飾線 */
+    .section-title::after {
+      content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 40px; height: 2px; background: var(--gold);
+    }
 
     .order-card {
-      background: var(--card-bg); border: 1px solid var(--line);
-      border-radius: 16px; padding: 20px; margin-bottom: 16px;
-      cursor: pointer; transition: border-color 0.2s; position: relative;
+      background: var(--card-bg); 
+      border: 1px solid rgba(0,0,0,0.05);
+      border-left: 4px solid var(--gold); /* 左側金條 */
+      border-radius: 8px;
+      padding: 20px; margin-bottom: 16px;
+      cursor: pointer; transition: all 0.2s; position: relative;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
-    .order-card:active { border-color: var(--gold); transform: scale(0.99); }
+    .order-card:active { transform: scale(0.99); background: #fafafa; }
     
     .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
-    .order-id { font-family: monospace; font-size: 14px; color: #fff; letter-spacing: 0.5px; }
+    .order-id { font-family: monospace; font-size: 14px; color: #333; letter-spacing: 0.5px; font-weight: 600; }
+    
     .order-status {
       font-size: 11px; padding: 4px 8px; border-radius: 99px;
-      background: var(--status-bg); color: var(--status-text); border: 1px solid rgba(212, 175, 55, 0.3);
+      background: var(--status-bg);
+      color: var(--status-text); border: 1px solid rgba(179, 142, 70, 0.3);
+      font-weight: bold;
     }
     
     .card-mid { display: flex; justify-content: space-between; align-items: center; }
-    .order-date { font-size: 12px; color: var(--text-sub); }
-    .order-total { font-family: var(--font-serif); font-size: 18px; color: var(--gold); }
+    .order-date { font-size: 12px; color: #999; }
+    .order-total { font-family: var(--font-serif); font-size: 18px; color: #c5a059; font-weight: bold; }
     
-    .card-arrow { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--line); font-size: 20px; }
+    .card-arrow { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: #ddd; font-size: 20px; }
 
     /* --- 彈窗 (訂單詳情) --- */
     .modal-mask {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
+      position: fixed;
+      inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px);
       z-index: 100; display: none; align-items: flex-end; justify-content: center;
     }
     .modal-content {
-      width: 100%; max-width: 600px; background: #18181b;
-      border-radius: 24px 24px 0 0; border-top: 1px solid var(--line);
+      width: 100%; max-width: 600px; background: #ffffff; /* 改為白底 */
+      border-radius: 24px 24px 0 0; 
       max-height: 85vh; overflow-y: auto; display: flex; flex-direction: column;
-      position: relative; animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+      animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     @keyframes slideUp { from {transform: translateY(100%);} to {transform: translateY(0);} }
     
-    .modal-header { padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; position: sticky; top:0; background:#18181b; z-index:10; }
-    .modal-title { font-size: 16px; color: #fff; font-weight: bold; }
-    .close-btn { background: transparent; border: none; color: #fff; font-size: 24px; cursor: pointer; padding: 0 8px; }
+    .modal-header { 
+      padding: 16px 20px;
+      border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; 
+      position: sticky; top:0; background:#ffffff; z-index:10;
+    }
+    .modal-title { font-size: 16px; color: #333; font-weight: bold; }
+    .close-btn { background: transparent; border: none; color: #999; font-size: 24px; cursor: pointer; padding: 0 8px; }
 
     .modal-body { padding: 20px; }
     
     .detail-group { margin-bottom: 24px; }
-    .detail-label { font-size: 12px; color: var(--text-sub); margin-bottom: 10px; border-bottom: 1px solid var(--line); padding-bottom: 6px; display: block; letter-spacing: 1px; }
+    .detail-label { 
+      font-size: 12px; color: var(--gold); font-weight: bold;
+      margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 6px; 
+      display: block; letter-spacing: 1px;
+    }
     
     /* 商品列樣式 */
     .item-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; align-items: flex-start; }
-    .item-name { color: #eee; flex: 1; padding-right: 12px; line-height: 1.4; }
-    .item-meta { text-align: right; color: var(--gold); font-family: var(--font-serif); min-width: 80px; }
-    .item-sub { display: block; font-size: 12px; color: var(--text-sub); margin-top: 4px; }
+    .item-name { color: #333; flex: 1; padding-right: 12px; line-height: 1.4; }
+    .item-meta { text-align: right; color: #888; font-family: var(--font-serif); min-width: 80px; }
+    .item-sub { display: block; font-size: 12px; color: #aaa; margin-top: 4px; }
 
     /* 資訊網格 */
-    .info-grid { display: grid; grid-template-columns: 1fr; gap: 12px; font-size: 13px; color: #ccc; }
-    .info-row { display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(255,255,255,0.05); padding-bottom: 8px; }
-    .info-val { color: #fff; font-family: monospace; text-align: right; }
+    .info-grid { display: grid; grid-template-columns: 1fr; gap: 12px; font-size: 13px; color: #666; }
+    .info-row { display: flex; justify-content: space-between; border-bottom: 1px dashed #eee; padding-bottom: 8px; }
+    .info-val { color: #333; font-family: monospace; text-align: right; font-weight: 500; }
 
-    .empty-msg { text-align: center; color: var(--text-sub); padding: 40px; background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px dashed var(--line); }
+    .empty-msg { 
+      text-align: center; color: #999; padding: 40px; 
+      background: #fcfcfc; border-radius: 12px; border: 2px dashed #eee;
+    }
 
     .toast {
       position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%);
-      background: #fff; color: #000; padding: 10px 20px;
+      background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px;
       border-radius: 99px; font-size: 14px; font-weight: 600;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.5); display: none; z-index: 999;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2); display: none;
+      z-index: 999;
     }
   </style>
 </head>
@@ -170,27 +238,27 @@
     </div>
 
     <div class="hero-banner">
-      <div class="hero-title">會員中心</div>
+      <div class="hero-title">★ 會員中心 ★</div>
       <div class="hero-sub">Member Center</div>
     </div>
 
     <div class="profile-bar">
-  <div class="profile-left">
-    <img
-      id="lineAvatar"
-      class="profile-avatar"
-      referrerpolicy="no-referrer"
-      alt=""
-      src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='88' height='88'><rect width='100%25' height='100%25' fill='%23141414'/><circle cx='44' cy='34' r='16' fill='%23333333'/><rect x='18' y='56' width='52' height='22' rx='11' fill='%23333333'/></svg>"
-    />
-    <div class="profile-info">
-      <span class="profile-name" id="lineName">訪客</span>
-      <span class="profile-status" id="lineStatus">尚未登入</span>
-    </div>
-  </div>
+      <div class="profile-left">
+        <img
+          id="lineAvatar"
+          class="profile-avatar"
+          referrerpolicy="no-referrer"
+          alt=""
+          src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='88' height='88'><rect width='100%25' height='100%25' fill='%23eeeeee'/><circle cx='44' cy='34' r='16' fill='%23cccccc'/><rect x='18' y='56' width='52' height='22' rx='11' fill='%23cccccc'/></svg>"
+        />
+        <div class="profile-info">
+          <span class="profile-name" id="lineName">訪客</span>
+          <span class="profile-status" id="lineStatus">尚未登入</span>
+        </div>
+      </div>
 
-  <button class="btn-load" id="btnLoad">重新整理訂單列表</button>
-</div>
+      <button class="btn-load" id="btnLoad">重新整理</button>
+    </div>
 
     <div class="container">
       <div class="section-title">歷史訂單</div>
@@ -218,8 +286,8 @@
           <div class="info-grid">
             <div class="info-row"><span>訂單編號</span><span class="info-val" id="dId"></span></div>
             <div class="info-row"><span>建立日期</span><span class="info-val" id="dDate"></span></div>
-            <div class="info-row"><span>訂單狀態</span><span class="info-val" id="dStatus" style="color:var(--gold)"></span></div>
-            <div class="info-row"><span>訂單金額</span><span class="info-val" id="dTotal" style="color:var(--gold);font-size:16px;font-weight:bold"></span></div>
+            <div class="info-row"><span>訂單狀態</span><span class="info-val" id="dStatus" style="color:var(--gold);font-weight:bold;"></span></div>
+            <div class="info-row"><span>訂單金額</span><span class="info-val" id="dTotal" style="color:#c5a059;font-size:16px;font-weight:bold"></span></div>
           </div>
         </div>
 
@@ -233,7 +301,7 @@
           <div class="info-grid">
              <div class="info-row"><span>寄送方式</span><span class="info-val" id="dShipMethod"></span></div>
              <div class="info-row"><span>物流單號</span><span class="info-val" id="dTrack"></span></div>
-             <div style="margin-top:12px;line-height:1.6;color:#ccc;background:rgba(255,255,255,0.05);padding:10px;border-radius:8px;" id="dAddr"></div>
+             <div style="margin-top:12px;line-height:1.6;color:#666;background:#fcfcfc;padding:10px;border-radius:8px;border:1px solid #eee;" id="dAddr"></div>
           </div>
         </div>
 
@@ -261,49 +329,49 @@
     let idToken = "";
     let orders = [];
 
-// 初始化 LINE LIFF（✅ 一進頁面就強制登入 + 顯示大頭照）
-async function init(){
-  if(!LIFF_ID){
-    document.getElementById("msg").textContent = "系統提示：請於程式碼中設定 LIFF ID 才能啟用 LINE 登入。";
-    return;
-  }
-  try{
-    await liff.init({ liffId: LIFF_ID });
-
-    // ✅ 沒登入：立刻導去 LINE 登入
-    if(!liff.isLoggedIn()){
-      document.getElementById("lineStatus").textContent = "正在導向 LINE 登入...";
-      liff.login({ redirectUri: location.href });
-      return;
-    }
-
-    // ✅ 已登入：取 profile
-    const p = await liff.getProfile();
-    idToken = liff.getIDToken();
-
-    document.getElementById("lineName").textContent = p.displayName || "會員";
-    document.getElementById("lineStatus").textContent = "已透過 LINE 登入";
-
-    // ✅ 顯示大頭照（pictureUrl 優先；沒有就用 ID Token 的 picture）
-    const av = document.getElementById("lineAvatar");
-    let pic = p.pictureUrl || (liff.getDecodedIDToken && liff.getDecodedIDToken()?.picture) || "";
-    if(av && pic){
+    // 初始化 LINE LIFF（✅ 一進頁面就強制登入 + 顯示大頭照）
+    async function init(){
+      if(!LIFF_ID){
+        document.getElementById("msg").textContent = "系統提示：請於程式碼中設定 LIFF ID 才能啟用 LINE 登入。";
+        return;
+      }
       try{
-        const u = new URL(pic);
-        u.searchParams.set("t", String(Date.now())); // 避免快取一直顯示舊圖
-        av.src = u.toString();
-      }catch(_e){
-        av.src = pic;
+        await liff.init({ liffId: LIFF_ID });
+
+        // ✅ 沒登入：立刻導去 LINE 登入
+        if(!liff.isLoggedIn()){
+          document.getElementById("lineStatus").textContent = "正在導向 LINE 登入...";
+          liff.login({ redirectUri: location.href });
+          return;
+        }
+
+        // ✅ 已登入：取 profile
+        const p = await liff.getProfile();
+        idToken = liff.getIDToken();
+
+        document.getElementById("lineName").textContent = p.displayName || "會員";
+        document.getElementById("lineStatus").textContent = "已透過 LINE 登入";
+
+        // ✅ 顯示大頭照（pictureUrl 優先；沒有就用 ID Token 的 picture）
+        const av = document.getElementById("lineAvatar");
+        let pic = p.pictureUrl || (liff.getDecodedIDToken && liff.getDecodedIDToken()?.picture) || "";
+        if(av && pic){
+          try{
+            const u = new URL(pic);
+            u.searchParams.set("t", String(Date.now())); // 避免快取一直顯示舊圖
+            av.src = u.toString();
+          }catch(_e){
+            av.src = pic;
+          }
+        }
+
+        // 自動載入訂單
+        loadMyOrders();
+
+      }catch(e){
+        document.getElementById("msg").textContent = "LINE 初始化失敗: " + e.message;
       }
     }
-
-    // 自動載入訂單
-    loadMyOrders();
-
-  }catch(e){
-    document.getElementById("msg").textContent = "LINE 初始化失敗: " + e.message;
-  }
-}
 
     // API 請求工具
     async function post(path, body){
@@ -384,60 +452,60 @@ async function init(){
       document.getElementById("dAddr").textContent = "";
 
       try{
-  const data = await post("/member/order/get", { id_token: idToken, order_id });
+        const data = await post("/member/order/get", { id_token: idToken, order_id });
 
-  const o = data.order || {};
-  const items = Array.isArray(data.items) ? data.items : [];
+        const o = data.order || {};
+        const items = Array.isArray(data.items) ? data.items : [];
 
-  // ✅ shipping_info 防爆：可能是字串/物件/空值/壞 JSON
-  let ship = {};
-  try{
-    if (o.shipping_info) {
-      ship = (typeof o.shipping_info === "string")
-        ? JSON.parse(o.shipping_info)
-        : (o.shipping_info || {});
-    }
-  }catch(_e){
-    ship = {};
-  }
+        // ✅ shipping_info 防爆：可能是字串/物件/空值/壞 JSON
+        let ship = {};
+        try{
+          if (o.shipping_info) {
+            ship = (typeof o.shipping_info === "string")
+              ? JSON.parse(o.shipping_info)
+              : (o.shipping_info || {});
+          }
+        }catch(_e){
+          ship = {};
+        }
 
-  // 渲染商品清單
-  document.getElementById("dItems").innerHTML =
-    items.length
-      ? items.map(it => `
-        <div class="item-row">
-          <div class="item-name">
-            ${esc(it.title || it.product_name || "商品")}
-            <span class="item-sub">SKU: ${esc(it.sku || "")}</span>
-          </div>
-          <div class="item-meta">
-            x${Number(it.qty||0)}<br>
-            $${money(it.price)}
-          </div>
-        </div>
-      `).join("")
-      : "<div style='color:#999;font-size:12px;padding:10px 0;'>此訂單沒有商品明細</div>";
+        // 渲染商品清單
+        document.getElementById("dItems").innerHTML =
+          items.length
+            ? items.map(it => `
+              <div class="item-row">
+                <div class="item-name">
+                  ${esc(it.title || it.product_name || "商品")}
+                  <span class="item-sub">SKU: ${esc(it.sku || "")}</span>
+                </div>
+                <div class="item-meta">
+                  x${Number(it.qty||0)}<br>
+                  $${money(it.price)}
+                </div>
+              </div>
+            `).join("")
+            : "<div style='color:#999;font-size:12px;padding:10px 0;'>此訂單沒有商品明細</div>";
 
-  // 渲染寄送資訊
-  document.getElementById("dShipMethod").textContent = o.shipping_method || ship.ship_method || "-";
-  document.getElementById("dTrack").textContent = o.tracking_no || "尚未產生";
+        // 渲染寄送資訊
+        document.getElementById("dShipMethod").textContent = o.shipping_method || ship.ship_method || "-";
+        document.getElementById("dTrack").textContent = o.tracking_no || "尚未產生";
 
-  // 組合地址顯示 (包含 7-11 門市資訊)
-  let addrStr = o.address || ship.address || "";
-  if(ship.cvs){
-    addrStr = `<span style="color:var(--gold)">[7-11 取貨]</span><br>門市：${ship.cvs.store_name} (${ship.cvs.store_id})<br>地址：${ship.cvs.store_addr||""}`;
-  }
-  document.getElementById("dAddr").innerHTML = addrStr || "無地址資訊";
+        // 組合地址顯示 (包含 7-11 門市資訊)
+        let addrStr = o.address || ship.address || "";
+        if(ship.cvs){
+          addrStr = `<span style="color:var(--gold)">[7-11 取貨]</span><br>門市：${ship.cvs.store_name} (${ship.cvs.store_id})<br>地址：${ship.cvs.store_addr||""}`;
+        }
+        document.getElementById("dAddr").innerHTML = addrStr || "無地址資訊";
 
-}catch(e){
-  // ✅ 把真正錯誤顯示出來（你才知道是路由/權限/JSON 解析哪個問題）
-  document.getElementById("dItems").innerHTML =
-    `<div style="color:#ffb4b4;font-size:12px;padding:10px 0;">
-      無法讀取詳細資料：${esc(e.message || String(e))}
-    </div>`;
-  try{ toast("明細讀取失敗：" + (e.message||e)); }catch(_){}
-  console.log("order detail error:", e);
-}
+      }catch(e){
+        // ✅ 把真正錯誤顯示出來（你才知道是路由/權限/JSON 解析哪個問題）
+        document.getElementById("dItems").innerHTML =
+          `<div style="color:#ffb4b4;font-size:12px;padding:10px 0;">
+            無法讀取詳細資料：${esc(e.message || String(e))}
+          </div>`;
+        try{ toast("明細讀取失敗：" + (e.message||e)); }catch(_){}
+        console.log("order detail error:", e);
+      }
     }
 
     function closeModal(){
