@@ -319,7 +319,7 @@
     const API = new URL(location.href).searchParams.get("api") || "https://api2.murain.tw";
     
     // ★ 請在此填入您的 LIFF ID 以啟用 LINE 登入功能
-    const LIFF_ID = "2006589075-qdYPyF0S";
+    const LIFF_ID = "2006589075-qdYPyF0S"; 
     // ===================
 
     document.getElementById("apiText").textContent = API;
@@ -337,6 +337,7 @@
       }
       try{
         await liff.init({ liffId: LIFF_ID });
+
         // ✅ 沒登入：立刻導去 LINE 登入
         if(!liff.isLoggedIn()){
           document.getElementById("lineStatus").textContent = "正在導向 LINE 登入...";
@@ -350,6 +351,7 @@
 
         document.getElementById("lineName").textContent = p.displayName || "會員";
         document.getElementById("lineStatus").textContent = "已透過 LINE 登入";
+
         // ✅ 顯示大頭照（pictureUrl 優先；沒有就用 ID Token 的 picture）
         const av = document.getElementById("lineAvatar");
         let pic = p.pictureUrl || (liff.getDecodedIDToken && liff.getDecodedIDToken()?.picture) || "";
@@ -365,6 +367,7 @@
 
         // 自動載入訂單
         loadMyOrders();
+
       }catch(e){
         document.getElementById("msg").textContent = "LINE 初始化失敗: " + e.message;
       }
@@ -434,6 +437,7 @@
     // 打開訂單詳情 (彈窗)
     async function openOrder(order_id){
       document.getElementById("detailModal").style.display = "flex";
+      
       // 先填入列表已有的基本資料，讓使用者不用等
       const basic = orders.find(o => o.order_id === order_id) || {};
       document.getElementById("dId").textContent = order_id;
@@ -485,11 +489,11 @@
         // 渲染寄送資訊
         document.getElementById("dShipMethod").textContent = o.shipping_method || ship.ship_method || "-";
         document.getElementById("dTrack").textContent = o.tracking_no || "尚未產生";
-        
+
         // 組合地址顯示 (包含 7-11 門市資訊)
         let addrStr = o.address || ship.address || "";
         if(ship.cvs){
-          addrStr = `<span style="color:#c5a059;font-weight:bold">[7-11 取貨]</span><br>門市：${ship.cvs.store_name} (${ship.cvs.store_id})<br>地址：${ship.cvs.store_addr||""}`;
+          addrStr = `<span style="color:var(--gold)">[7-11 取貨]</span><br>門市：${ship.cvs.store_name} (${ship.cvs.store_id})<br>地址：${ship.cvs.store_addr||""}`;
         }
         document.getElementById("dAddr").innerHTML = addrStr || "無地址資訊";
 
