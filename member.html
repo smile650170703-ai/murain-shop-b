@@ -223,7 +223,7 @@
     const API = new URL(location.href).searchParams.get("api") || "https://api2.murain.tw";
     
     // ★ 請在此填入您的 LIFF ID 以啟用 LINE 登入功能
-    const LIFF_ID = ""; 
+    const LIFF_ID = "2006589075-qdYPyF0S"; 
     // ===================
 
     document.getElementById("apiText").textContent = API;
@@ -242,15 +242,16 @@
       try{
         await liff.init({ liffId: LIFF_ID });
         if(!liff.isLoggedIn()){
-          document.getElementById("lineStatus").textContent = "未登入 (點擊按鈕登入)";
-        } else {
-          const p = await liff.getProfile();
-          idToken = liff.getIDToken();
-          document.getElementById("lineName").textContent = p.displayName;
-          document.getElementById("lineStatus").textContent = "已透過 LINE 登入";
-          // 自動載入訂單
-          loadMyOrders();
-        }
+  document.getElementById("lineStatus").textContent = "正在導向 LINE 登入...";
+  liff.login({ redirectUri: location.href }); // ✅ 一打開就要求登入
+  return;
+} else {
+  const p = await liff.getProfile();
+  idToken = liff.getIDToken();
+  document.getElementById("lineName").textContent = p.displayName;
+  document.getElementById("lineStatus").textContent = "已透過 LINE 登入";
+  loadMyOrders();
+}
       }catch(e){
         document.getElementById("msg").textContent = "LINE 初始化失敗: " + e.message;
       }
