@@ -76,6 +76,22 @@
       padding: 8px 16px; border-radius: 99px; font-weight: bold; font-size: 13px; cursor: pointer;
     }
 
+    /* ★ 會員頭像 */
+.profile-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.profile-avatar{
+  width:44px;
+  height:44px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background: rgba(255,255,255,0.06);
+  object-fit: cover;
+  flex: 0 0 auto;
+}
+
     /* --- 訂單列表 (卡片式) --- */
     .container { padding: 0 16px; }
     .section-title { font-size: 14px; color: var(--text-sub); margin-bottom: 12px; letter-spacing: 1px; border-left: 3px solid var(--gold); padding-left: 8px; }
@@ -157,12 +173,21 @@
     </div>
 
     <div class="profile-bar">
-      <div class="profile-info">
-        <span class="profile-name" id="lineName">訪客</span>
-        <span class="profile-status" id="lineStatus">尚未登入</span>
-      </div>
-      <button class="btn-load" id="btnLoad">登入 / 重新整理</button>
+  <div class="profile-left">
+    <img
+      id="lineAvatar"
+      class="profile-avatar"
+      alt=""
+      src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='88' height='88'><rect width='100%25' height='100%25' fill='%23141414'/><circle cx='44' cy='34' r='16' fill='%23333333'/><rect x='18' y='56' width='52' height='22' rx='11' fill='%23333333'/></svg>"
+    />
+    <div class="profile-info">
+      <span class="profile-name" id="lineName">訪客</span>
+      <span class="profile-status" id="lineStatus">尚未登入</span>
     </div>
+  </div>
+
+  <button class="btn-load" id="btnLoad">重新整理訂單列表</button>
+</div>
 
     <div class="container">
       <div class="section-title">歷史訂單</div>
@@ -248,8 +273,15 @@
 } else {
   const p = await liff.getProfile();
   idToken = liff.getIDToken();
-  document.getElementById("lineName").textContent = p.displayName;
+
+  document.getElementById("lineName").textContent = p.displayName || "會員";
   document.getElementById("lineStatus").textContent = "已透過 LINE 登入";
+
+  // ✅ 顯示大頭照
+  const av = document.getElementById("lineAvatar");
+  if (av && p.pictureUrl) av.src = p.pictureUrl;
+
+  // 自動載入訂單
   loadMyOrders();
 }
       }catch(e){
