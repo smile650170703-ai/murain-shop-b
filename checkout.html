@@ -207,18 +207,24 @@
         </div>
 
         <div id="cvsBox" class="hidden">
-          <div class="input-group">
-            <label class="label" style="color:var(--gold)">請填寫 7-11 門市資訊</label>
-            <div class="row-2" style="margin-bottom:10px">
-              <input id="cvsStoreId" placeholder="門市代號 (例: 123456)" />
-              <input id="cvsStoreName" placeholder="門市名稱" />
-            </div>
-            <input id="cvsAddr" placeholder="門市地址 (可選填)" />
-            <div style="font-size:11px;color:var(--text-sub);margin-top:6px">
-              * 若不知道代號，請至 7-11 網站查詢後填入
-            </div>
-          </div>
-        </div>
+  <div class="input-group">
+    <label class="label" style="color:var(--gold)">7-11 門市資訊</label>
+
+    <button type="button" class="btn-ghost" id="btnPick711" style="margin:8px 0 10px;">
+      選擇 7-11 門市
+    </button>
+
+    <div class="row-2" style="margin-bottom:10px">
+      <input id="cvsStoreId" placeholder="門市代號 (會自動帶入)" readonly />
+      <input id="cvsStoreName" placeholder="門市名稱 (會自動帶入)" readonly />
+    </div>
+    <input id="cvsAddr" placeholder="門市地址 (會自動帶入)" readonly />
+
+    <div style="font-size:11px;color:var(--text-sub);margin-top:6px">
+      * 請點「選擇 7-11 門市」自動帶回填入
+    </div>
+  </div>
+</div>
 
         <div id="homeBox" class="hidden">
           <div class="input-group">
@@ -272,7 +278,7 @@
     }
     function getToken(){
       const u = new URL(location.href);
-      const tQ = u.searchParams.get("cart");
+const tQ = u.searchParams.get("cart") || u.searchParams.get("cart_token");
       if (tQ) { localStorage.setItem(LS_TOKEN, tQ); return tQ; }
       let t = localStorage.getItem(LS_TOKEN);
       if (!t){ t = genToken(); localStorage.setItem(LS_TOKEN, t); }
@@ -344,6 +350,55 @@
     const elPay = document.getElementById("payMethod");
     const elShip = document.getElementById("shipMethod");
     const elCvsBox = document.getElementById("cvsBox");
+    // ===== 7-11 e-map：選店 + 回填 =====
+const cvsStoreIdEl   = document.getElementById("cvsStoreId");
+const cvsStoreNameEl = document.getElementById("cvsStoreName");
+const cvsAddrEl      = document.getElementById("cvsAddr");
+const btnPick711     = document.getElementById("btnPick711");
+
+function qget(k){
+  const u = new URL(location.href);
+  let v = u.searchParams.get(k);
+  if (!v) return "";
+  // 兼容 + 變空白
+  return decodeURIComponent(String(v).replace(/\+/g, "%20"));
+}
+
+function applyStoreFromQuery(){
+  const sid = qget("store_id");
+  if (!sid) return;
+
+  const sname = qget("store_name");
+  const saddr = qget("store_addr");
+
+  if (cvsStoreIdEl)   cvsStoreIdEl.value = sid;
+  if (cvsStoreNameEl) cvsStoreNameEl.value = sname;
+  if (cvsAddrEl)      cvsAddrEl.value = saddr;
+
+  // 確保切到 7-11 運送，並顯示 cvsBox
+  try{
+    if (elShip) elShip.value = "cvs_711";
+    updateInputBoxes();
+  }catch(e){}
+
+  // 可選：把 store_* 從網址拿掉（避免客人看到一堆參數）
+  try{
+    const u = new URL(location.href);
+    ["store_id","store_name","store_addr","store_src"].forEach(x => u.searchParams.delete(x));
+    history.replaceState(null, "", u.toString());
+  }catch(e){}
+}
+
+function open711Map(){
+  const pay = (elPay?.value || "").trim();
+  const src = (pay === "cvs_cod") ? "cod" : "paid";
+  const customer = (document.getElementById("name")?.value || "").trim() || "guest";
+
+  const go = `${API}/cvs/map?src=${encodeURIComponent(src)}&cart_token=${encodeURIComponent(cart_token)}&customer=${encodeURIComponent(customer)}`;
+  location.href = go;
+}
+
+btnPick711?.addEventListener("click", open711Map);
     const elHomeBox = document.getElementById("homeBox");
 
     const BANK_INFO = `銀行：___
@@ -398,7 +453,8 @@ updateInputBoxes();
     elShip.addEventListener("change", updateInputBoxes);
     
     // 初始化
-    updateShipOptions(); 
+    updateShipOptions();
+applyStoreFromQuery(); 
     btnCopyBank?.addEventListener('click', async ()=>{
   try{
     await navigator.clipboard.writeText(BANK_INFO);
