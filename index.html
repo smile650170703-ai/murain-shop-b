@@ -524,16 +524,19 @@ $("btnLoginLine").onclick = async () => {
 
     // 把後端 items 轉成你 UI 需要的資料（補 image/name）
     const bySku = new Map((state.items||[]).map(p=>[String(p.sku), p]));
-    localCart = (j.items||[]).map(it=>{
-      const p = bySku.get(String(it.sku)) || {};
-      return {
-        sku: it.sku,
-        name: p.name || it.title || it.sku,
-        price: it.price || p.price || 0,
-        image: p.image || "",
-        qty: Number(it.qty||1)||1
-      };
-    });
+    localCart = (j.items||[])
+  .map(it=>{
+    const p = bySku.get(String(it.sku)) || {};
+    const qty = Number(it.qty ?? 0) || 0; // ✅ 0 就是 0，不要被 || 變成 1
+    return {
+      sku: it.sku,
+      name: p.name || it.title || it.sku,
+      price: Number(it.price ?? p.price ?? 0) || 0,
+      image: p.image || "",
+      qty
+    };
+  })
+  .filter(x => x.qty > 0); // ✅ 刪掉(變0) 就不顯示
 
     saveLocalCart(); // 讓 UI 走同一套 updateCartUI()
   }catch(e){
@@ -554,7 +557,7 @@ $("btnLoginLine").onclick = async () => {
       return;
     }
     list.innerHTML = localCart.map(p => {
-      total += Number(p.price || 0);
+      total += (Number(p.price || 0) * Number(p.qty || 0));
       return `
         <div class="cart-item">
           <img class="cart-item-img" src="${escapeAttr(p.image)}" />
