@@ -6,7 +6,7 @@
   <title>MURAIN 寄賣精品｜會員中心</title>
   <meta name="robots" content="noindex,nofollow" />
   <style>
-    /* --- 核心變數：改為「白金奢華風格」以匹配圖文選單 --- */
+    [cite_start]/* --- 核心變數：改為「白金奢華風格」以匹配圖文選單 [cite: 1, 2] --- */
     :root{
       --bg: #f9f9f9; /* 背景改亮 */
       --surface: #ffffff;
@@ -318,7 +318,7 @@
     // ====== 設定區 ======
     const API = new URL(location.href).searchParams.get("api") || "https://api2.murain.tw";
     
-    // ★ 請在此填入您的 LIFF ID 以啟用 LINE 登入功能
+    [cite_start]// ★ 請在此填入您的 LIFF ID 以啟用 LINE 登入功能 [cite: 65]
     const LIFF_ID = "2006589075-qdYPyF0S";
     // ===================
 
@@ -489,14 +489,16 @@
         // 組合地址顯示 (包含 7-11 門市資訊)
         let addrStr = o.address || ship.address || "";
         if(ship.cvs){
+          [cite_start]// 修正：調整 7-11 顯示顏色以適應白底 [cite: 104]
           addrStr = `<span style="color:#c5a059;font-weight:bold">[7-11 取貨]</span><br>門市：${ship.cvs.store_name} (${ship.cvs.store_id})<br>地址：${ship.cvs.store_addr||""}`;
         }
         document.getElementById("dAddr").innerHTML = addrStr || "無地址資訊";
 
       }catch(e){
         // ✅ 把真正錯誤顯示出來（你才知道是路由/權限/JSON 解析哪個問題）
+        [cite_start]// 修正：錯誤訊息顏色改為深紅色 [cite: 105]
         document.getElementById("dItems").innerHTML =
-          `<div style="color:#ffb4b4;font-size:12px;padding:10px 0;">
+          `<div style="color:#d9534f;font-size:12px;padding:10px 0;">
             無法讀取詳細資料：${esc(e.message || String(e))}
           </div>`;
         try{ toast("明細讀取失敗：" + (e.message||e)); }catch(_){}
