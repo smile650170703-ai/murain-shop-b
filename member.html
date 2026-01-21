@@ -258,36 +258,33 @@
     let idToken = "";
     let orders = [];
 
-    // 初始化 LINE LIFF
-    async function init(){
-      if(!LIFF_ID){
-        document.getElementById("msg").textContent = "系統提示：請於程式碼中設定 LIFF ID 才能啟用 LINE 登入。";
-        return;
-      }
-      try{
-        await liff.init({ liffId: LIFF_ID });
-        if(!liff.isLoggedIn()){
-  document.getElementById("lineStatus").textContent = "正在導向 LINE 登入...";
-  liff.login({ redirectUri: location.href }); // ✅ 一打開就要求登入
-  return;
-} else {
-  const p = await liff.getProfile();
-  idToken = liff.getIDToken();
+    // 初始化 LINE LIFF（✅ 一進頁面就強制登入）
+async function init(){
+  if(!LIFF_ID){
+    document.getElementById("msg").textContent = "系統提示：請於程式碼中設定 LIFF ID 才能啟用 LINE 登入。";
+    return;
+  }
+  try{
+    await liff.init({ liffId: LIFF_ID });
 
-  document.getElementById("lineName").textContent = p.displayName || "會員";
-  document.getElementById("lineStatus").textContent = "已透過 LINE 登入";
-
-  // ✅ 顯示大頭照
-  const av = document.getElementById("lineAvatar");
-  if (av && p.pictureUrl) av.src = p.pictureUrl;
-
-  // 自動載入訂單
-  loadMyOrders();
-}
-      }catch(e){
-        document.getElementById("msg").textContent = "LINE 初始化失敗: " + e.message;
-      }
+    // ✅ 沒登入：立刻導去 LINE 登入
+    if(!liff.isLoggedIn()){
+      document.getElementById("lineStatus").textContent = "正在導向 LINE 登入...";
+      liff.login({ redirectUri: location.href });
+      return;
     }
+
+    // 已登入：顯示資料＋自動載入訂單
+    const p = await liff.getProfile();
+    idToken = liff.getIDToken();
+    document.getElementById("lineName").textContent = p.displayName;
+    document.getElementById("lineStatus").textContent = "已透過 LINE 登入";
+    loadMyOrders();
+
+  }catch(e){
+    document.getElementById("msg").textContent = "LINE 初始化失敗: " + e.message;
+  }
+}
 
     // API 請求工具
     async function post(path, body){
