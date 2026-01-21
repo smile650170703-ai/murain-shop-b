@@ -360,9 +360,11 @@
             const u = new URL(pic);
             u.searchParams.set("t", String(Date.now())); // 避免快取一直顯示舊圖
             av.src = u.toString();
-          }catch(_e){
-            av.src = pic;
-          }
+          }catch(e){
+  const m = "LINE 初始化失敗: " + (e?.message || String(e));
+  document.getElementById("msg").textContent = m;
+  document.getElementById("lineStatus").textContent = m; // ✅ 直接顯示在「尚未登入」那行
+}
         }
 
         // 自動載入訂單
