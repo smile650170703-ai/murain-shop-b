@@ -39,16 +39,29 @@
     .wrap{ max-width: 800px; margin: 0 auto; padding: 0; }
 
     /* --- 頂部導航 --- */
-    .topbar {
-      display: flex;
-      align-items: center; justify-content: space-between;
-      padding: 16px 20px; background: var(--surface-glass);
-      backdrop-filter: blur(12px); border-bottom: 1px solid var(--line);
-      position: sticky; top: 0;
-      z-index: 50;
-    }
-    .brand { font-family: var(--font-serif); font-size: 20px; color: var(--gold); letter-spacing: 1px; font-weight: bold; }
-    
+    .topbar{
+  display:flex;
+  align-items:center;
+  justify-content:center;   /* ✅ 置中 */
+  padding:16px 20px;
+  background: var(--surface-glass);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  position: sticky;
+}
+
+    /* ✅ 品牌置中 */
+.brand{
+  font-family: var(--font-serif);
+  font-size: 20px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  font-weight: bold;
+  text-align: center;
+}
     .btn-ghost {
       background: transparent; border: 1px solid var(--line); color: var(--text-sub);
       padding: 6px 12px; border-radius: 99px; font-size: 12px; cursor: pointer; text-decoration: none;
