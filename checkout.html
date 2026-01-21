@@ -3,30 +3,35 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>MURAIN 寄賣精品｜結帳</title>
+  <title>MURAIN｜購物車</title>
   <meta name="robots" content="noindex,nofollow" />
   <style>
-    /* --- 核心變數：與首頁一致的奢華黑金主題 --- */
+    /* --- 核心變數：白金奢華風格 (與會員中心一致) --- */
     :root{
-      --bg: #050505;
-      --surface: #141414;
-      --surface-glass: rgba(20, 20, 20, 0.95);
-      --card-bg: #18181b;
-      --gold: #D4AF37;
-      --gold-light: #F2D266;
-      --text: #ffffff;
-      --text-sub: #9e9e9e;
-      --line: rgba(255, 255, 255, 0.12);
+      --bg: #f9f9f9; /* 背景改亮 */
+      --surface: #ffffff;
+      --surface-glass: rgba(255, 255, 255, 0.95);
+      --card-bg: #ffffff;
+      --gold: #b38e46; /* 調整為較深沈穩的金色，適合白底 */
+      --gold-light: #f4e4bc;
+      --text: #333333; /* 文字改深色 */
+      --text-sub: #777777;
+      --line: rgba(179, 142, 70, 0.2); /* 線條改為淡淡的金色 */
       --danger: #d64d4d;
       --font-main: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
-      --font-serif: "Times New Roman", serif; 
+      --font-serif: "Times New Roman", serif;
+      --shadow: 0 4px 12px rgba(179, 142, 70, 0.1);
     }
 
     *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+    
     body{
       margin: 0; font-family: var(--font-main);
       background-color: var(--bg);
-      background-image: radial-gradient(circle at 50% 0%, #1a1a20 0%, var(--bg) 60%);
+      /* 模擬大理石紋理的微妙背景 */
+      background-image: 
+        radial-gradient(at 10% 10%, rgba(179,142,70,0.03) 0%, transparent 50%),
+        radial-gradient(at 90% 90%, rgba(179,142,70,0.03) 0%, transparent 50%);
       color: var(--text); padding-bottom: 60px;
     }
     
@@ -34,86 +39,125 @@
 
     /* --- Topbar --- */
     .topbar {
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex;
+      align-items: center; justify-content: space-between;
       padding: 16px 20px; background: var(--surface-glass);
       backdrop-filter: blur(12px); border-bottom: 1px solid var(--line);
-      position: sticky; top: 0; z-index: 50;
+      position: sticky; top: 0;
+      z-index: 50;
     }
-    .brand { font-family: var(--font-serif); font-size: 20px; color: var(--gold); letter-spacing: 1px; }
+    .brand { font-family: var(--font-serif); font-size: 20px; color: var(--gold); letter-spacing: 1px; font-weight: bold; }
     .btn-ghost {
       background: transparent; border: 1px solid var(--line); color: var(--text-sub);
       padding: 6px 12px; border-radius: 99px; font-size: 12px; cursor: pointer; text-decoration: none;
     }
 
-    /* --- Hero Banner --- */
+    /* --- Hero Banner (金屬漸層風格) --- */
     .hero-banner {
-      height: 180px; position: relative; overflow: hidden;
+      height: 160px;
+      position: relative; overflow: hidden;
       display: flex; align-items: center; justify-content: center; flex-direction: column;
-      background: linear-gradient(135deg, #0f0f12 0%, #1a1a20 100%);
-      border-bottom: 1px solid var(--line); margin-bottom: 24px;
+      /* 金屬漸層背景 */
+      background: linear-gradient(135deg, #a67c33 0%, #e8d08b 25%, #fbf5b7 50%, #e8d08b 75%, #a67c33 100%);
+      border-bottom: 1px solid #d4af37; 
+      margin-bottom: 24px;
+      box-shadow: 0 4px 10px rgba(166, 124, 51, 0.2);
     }
+    /* 光澤動畫 */
     .hero-banner::before {
-      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.10) 0%, transparent 60%);
-      animation: rotateLight 20s linear infinite;
+      content: '';
+      position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+      transform: skewX(-25deg);
+      animation: shine 6s infinite;
     }
-    @keyframes rotateLight { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
-    .hero-title { font-family: var(--font-serif); font-size: 28px; color: var(--gold); letter-spacing: 2px; position: relative; z-index: 2; }
-    .hero-sub { font-size: 11px; color: var(--text-sub); letter-spacing: 3px; text-transform: uppercase; position: relative; z-index: 2; margin-top: 8px;}
+    @keyframes shine { 
+      0% { left: -100%; } 
+      20% { left: 200%; } 
+      100% { left: 200%; } 
+    }
+
+    .hero-title { 
+      font-family: var(--font-serif);
+      font-size: 28px; 
+      color: #2c2108; /* 深色文字 */
+      letter-spacing: 2px; position: relative; z-index: 2; font-weight: bold;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+    }
+    .hero-sub { 
+      font-size: 11px; color: #584618; 
+      letter-spacing: 3px; text-transform: uppercase; position: relative; z-index: 2; margin-top: 8px; font-weight: 600;
+    }
 
     /* --- Layout Components --- */
     .container { padding: 0 16px; }
     
     .section-title {
-      font-size: 16px; color: var(--gold); margin: 30px 0 12px;
-      font-weight: 500; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;
+      font-size: 16px; color: #333;
+      margin: 30px 0 12px;
+      font-weight: bold; letter-spacing: 0.5px; display: flex; align-items: center; gap: 8px;
     }
-    .section-title::after { content:''; flex:1; height:1px; background:var(--line); }
+    .section-title::after { content:''; flex:1; height:2px; background:var(--gold); opacity: 0.3; }
 
     .card {
-      background: var(--card-bg); border: 1px solid var(--line);
-      border-radius: 16px; padding: 20px; margin-bottom: 20px;
+      background: var(--card-bg); 
+      border: 1px solid rgba(0,0,0,0.05);
+      border-left: 4px solid var(--gold); /* 左側金條裝飾 */
+      border-radius: 12px;
+      padding: 20px; margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     }
 
     /* --- Inputs --- */
     .input-group { margin-bottom: 16px; }
-    .label { font-size: 12px; color: var(--text-sub); margin-bottom: 6px; display: block; }
+    .label { font-size: 13px; color: var(--text); font-weight: bold; margin-bottom: 6px; display: block; }
+    
     input, select, textarea {
-      width: 100%; background: rgba(255,255,255,0.06);
-      border: 1px solid var(--line); color: var(--text);
-      border-radius: 12px; padding: 14px 16px; font-size: 14px; outline: none;
-      font-family: inherit; transition: border-color 0.3s;
+      width: 100%; background: #fcfcfc;
+      border: 1px solid #ddd; color: #333;
+      border-radius: 8px; padding: 14px 16px; font-size: 14px; outline: none;
+      font-family: inherit; transition: all 0.3s;
     }
-    input:focus, select:focus, textarea:focus { border-color: var(--gold); }
+    input:focus, select:focus, textarea:focus { 
+      border-color: var(--gold); 
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(179, 142, 70, 0.1);
+    }
     textarea { min-height: 100px; resize: vertical; }
+    input::placeholder { color: #aaa; }
     
     /* 兩欄排列 */
     .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
     /* --- Cart Items --- */
     .cart-item {
-      display: flex; justify-content: space-between; align-items: flex-start;
-      padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between; align-items: flex-start;
+      padding: 12px 0; border-bottom: 1px dashed #eee;
     }
     .cart-item:last-child { border-bottom: none; }
     .item-info { flex: 1; margin-right: 12px; }
-    .item-name { font-size: 14px; line-height: 1.4; color: #fff; margin-bottom: 4px; }
+    .item-name { font-size: 14px; line-height: 1.4; color: var(--text); margin-bottom: 4px; font-weight: 500; }
     .item-meta { font-size: 12px; color: var(--text-sub); font-family: monospace; }
-    .item-price { font-family: var(--font-serif); color: var(--gold); font-size: 16px; white-space: nowrap; }
+    .item-price { font-family: var(--font-serif); color: var(--gold); font-size: 16px; white-space: nowrap; font-weight: bold; }
 
     .total-row {
       display: flex; justify-content: space-between; align-items: center;
-      margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line);
+      margin-top: 16px;
+      padding-top: 16px; border-top: 2px solid #eee;
     }
-    .total-label { font-size: 14px; color: var(--text-sub); }
-    .total-amount { font-family: var(--font-serif); font-size: 24px; color: var(--gold); }
+    .total-label { font-size: 14px; color: #333; font-weight: bold; }
+    .total-amount { font-family: var(--font-serif); font-size: 24px; color: #c5a059; font-weight: bold; }
 
     /* --- Action Buttons --- */
     .btn-submit {
-      width: 100%; background: var(--gold); color: #000;
+      width: 100%;
+      background: linear-gradient(to bottom, #d4af37, #b38e46); /* 金色漸層 */
+      color: #fff;
       padding: 16px; border-radius: 12px; font-size: 16px; font-weight: bold;
       border: none; cursor: pointer; margin-top: 10px;
-      box-shadow: 0 4px 20px rgba(212, 175, 55, 0.2);
+      box-shadow: 0 4px 15px rgba(179, 142, 70, 0.3);
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
     }
     .btn-submit:active { transform: scale(0.98); }
 
@@ -121,12 +165,20 @@
 
     /* --- Toast & Utility --- */
     .toast {
-      position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%);
-      background: #fff; color: #000; padding: 10px 20px;
+      position: fixed;
+      left: 50%; bottom: 30px; transform: translateX(-50%);
+      background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px;
       border-radius: 99px; font-size: 14px; font-weight: 600;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.5); display: none; z-index: 999;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2); display: none; z-index: 999;
     }
     .hidden { display: none; }
+    
+    /* 銀行匯款區塊樣式微調 */
+    .k { color: var(--text-sub); font-size: 12px; }
+    .mono { font-family: monospace; color: var(--text); font-size: 15px; }
+    .btnGhost {
+      background: #eee; border:none; padding:4px 10px; border-radius:4px; font-size:12px; cursor:pointer; color:#555;
+    }
   </style>
 </head>
 <body>
@@ -189,14 +241,14 @@
           </select>
         </div>
 
-<div id="bankBox" class="card" style="display:none; margin-top:10px;">
-  <div class="k">匯款帳號</div>
-  <div class="row" style="gap:8px;align-items:center;flex-wrap:wrap;margin-top:6px;">
-    <div class="mono" id="bankText" style="font-weight:900;"></div>
-    <button type="button" class="btnGhost" id="btnCopyBank">一鍵複製</button>
-  </div>
-  <div class="k" style="margin-top:6px;">匯款後請在備註填寫：後五碼 / 金額 / 時間，方便對帳。</div>
-</div>
+        <div id="bankBox" class="card" style="display:none; margin-top:10px; background:#fdfbf7; border:1px dashed var(--gold);">
+          <div class="k">匯款帳號</div>
+          <div class="row" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-top:6px;">
+            <div class="mono" id="bankText" style="font-weight:900;"></div>
+            <button type="button" class="btnGhost" id="btnCopyBank">一鍵複製</button>
+          </div>
+          <div class="k" style="margin-top:6px;">匯款後請在備註填寫：後五碼 / 金額 / 時間，方便對帳。</div>
+        </div>
 
         <div class="input-group">
           <label class="label">運送方式 Shipping Method</label>
@@ -207,24 +259,24 @@
         </div>
 
         <div id="cvsBox" class="hidden">
-  <div class="input-group">
-    <label class="label" style="color:var(--gold)">7-11 門市資訊</label>
+          <div class="input-group">
+            <label class="label" style="color:var(--gold)">7-11 門市資訊</label>
 
-    <button type="button" class="btn-ghost" id="btnPick711" style="margin:8px 0 10px;">
-      選擇 7-11 門市
-    </button>
+            <button type="button" class="btn-ghost" id="btnPick711" style="margin:8px 0 10px;">
+              選擇 7-11 門市
+            </button>
 
-    <div class="row-2" style="margin-bottom:10px">
-      <input id="cvsStoreId" placeholder="門市代號 (會自動帶入)" readonly />
-      <input id="cvsStoreName" placeholder="門市名稱 (會自動帶入)" readonly />
-    </div>
-    <input id="cvsAddr" placeholder="門市地址 (會自動帶入)" readonly />
+            <div class="row-2" style="margin-bottom:10px">
+              <input id="cvsStoreId" placeholder="門市代號 (會自動帶入)" readonly />
+              <input id="cvsStoreName" placeholder="門市名稱 (會自動帶入)" readonly />
+            </div>
+            <input id="cvsAddr" placeholder="門市地址 (會自動帶入)" readonly />
 
-    <div style="font-size:11px;color:var(--text-sub);margin-top:6px">
-      * 請點「選擇 7-11 門市」自動帶回填入
-    </div>
-  </div>
-</div>
+            <div style="font-size:11px;color:var(--text-sub);margin-top:6px">
+              * 請點「選擇 7-11 門市」自動帶回填入
+            </div>
+          </div>
+        </div>
 
         <div id="homeBox" class="hidden">
           <div class="input-group">
@@ -263,7 +315,6 @@
     const API_DEFAULT = "https://api2.murain.tw";
     const LIFF_ID = "2006589075-qdYPyF0S"; // 若需要強制 LINE 登入請填入
     const API = new URL(location.href).searchParams.get("api") || API_DEFAULT;
-    
     document.getElementById("apiText").textContent = API;
     const LS_TOKEN = "murain_b_cart_token";
     
@@ -278,7 +329,7 @@
     }
     function getToken(){
       const u = new URL(location.href);
-const tQ = u.searchParams.get("cart") || u.searchParams.get("cart_token");
+      const tQ = u.searchParams.get("cart") || u.searchParams.get("cart_token");
       if (tQ) { localStorage.setItem(LS_TOKEN, tQ); return tQ; }
       let t = localStorage.getItem(LS_TOKEN);
       if (!t){ t = genToken(); localStorage.setItem(LS_TOKEN, t); }
@@ -286,15 +337,15 @@ const tQ = u.searchParams.get("cart") || u.searchParams.get("cart_token");
     }
     const cart_token = getToken();
     document.getElementById("cartText").textContent = cart_token;
-
     function money(n){ try{ return new Intl.NumberFormat("zh-TW").format(Number(n||0)); }catch{ return String(n||0); } }
     
     function toast(t){
-      toastEl.textContent = t; toastEl.style.display = "block";
+      toastEl.textContent = t;
+      toastEl.style.display = "block";
       clearTimeout(toastEl._t); toastEl._t = setTimeout(()=> toastEl.style.display="none", 2000);
     }
 
-   /* --- API 函式 [cite: 93, 95] --- */
+   /* --- API 函式 --- */
     async function apiGet(u){
       const res = await fetch(u, { method:"GET" });
       const j = await res.json().catch(()=>null);
@@ -310,38 +361,36 @@ const tQ = u.searchParams.get("cart") || u.searchParams.get("cart_token");
       return j;
     }
 
-   /* --- LINE Login (Optional) [cite: 98] --- */
+   /* --- LINE Login (Optional) --- */
     let LINE = { ok:false, userId:"", idToken:"", name:"" };
     async function initLINE(){
-  if(!LIFF_ID){
-  toast("缺少 LIFF_ID，無法結帳");
-  return; // 或 throw new Error("missing_LIFF_ID");
-}
-  try{
-    await liff.init({ liffId: LIFF_ID });
+      if(!LIFF_ID){
+        toast("缺少 LIFF_ID，無法結帳");
+        return; 
+      }
+      try{
+        await liff.init({ liffId: LIFF_ID });
+        if(!liff.isLoggedIn()){
+          liff.login({ redirectUri: location.href });
+          return;
+        }
 
-    if(!liff.isLoggedIn()){
-      liff.login({ redirectUri: location.href });
-      return;
+        const prof = await liff.getProfile();
+        const idToken = liff.getIDToken() || "";
+
+        LINE.ok = true;
+        LINE.userId = prof.userId || "";
+        LINE.name = prof.displayName || "";
+        // ✅ 給官網/會員頁共用
+        try{
+          localStorage.setItem("line_user_id", LINE.userId);
+          localStorage.setItem("line_display_name", LINE.name);
+          localStorage.setItem("line_id_token", idToken);
+        }catch(e){}
+      }catch(e){
+        console.error(e);
+      }
     }
-
-    const prof = await liff.getProfile();
-    const idToken = liff.getIDToken() || "";
-
-    LINE.ok = true;
-    LINE.userId = prof.userId || "";
-    LINE.name = prof.displayName || "";
-
-    // ✅ 給官網/會員頁共用
-    try{
-      localStorage.setItem("line_user_id", LINE.userId);
-      localStorage.setItem("line_display_name", LINE.name);
-      localStorage.setItem("line_id_token", idToken);
-    }catch(e){}
-  }catch(e){
-    console.error(e);
-  }
-}
     initLINE();
 
     /* --- 邏輯控制核心 --- */
@@ -351,79 +400,79 @@ const tQ = u.searchParams.get("cart") || u.searchParams.get("cart_token");
     const elShip = document.getElementById("shipMethod");
     const elCvsBox = document.getElementById("cvsBox");
     // ===== 7-11 e-map：選店 + 回填 =====
-const cvsStoreIdEl   = document.getElementById("cvsStoreId");
-const cvsStoreNameEl = document.getElementById("cvsStoreName");
-const cvsAddrEl      = document.getElementById("cvsAddr");
-const btnPick711     = document.getElementById("btnPick711");
+    const cvsStoreIdEl   = document.getElementById("cvsStoreId");
+    const cvsStoreNameEl = document.getElementById("cvsStoreName");
+    const cvsAddrEl      = document.getElementById("cvsAddr");
+    const btnPick711     = document.getElementById("btnPick711");
 
-function qget(k){
-  const u = new URL(location.href);
-  let v = u.searchParams.get(k);
-  if (!v) return "";
-  // 兼容 + 變空白
-  return decodeURIComponent(String(v).replace(/\+/g, "%20"));
-}
+    function qget(k){
+      const u = new URL(location.href);
+      let v = u.searchParams.get(k);
+      if (!v) return "";
+      // 兼容 + 變空白
+      return decodeURIComponent(String(v).replace(/\+/g, "%20"));
+    }
 
-function applyStoreFromQuery(){
-  const sid = qget("store_id");
-  if (!sid) return;
+    function applyStoreFromQuery(){
+      const sid = qget("store_id");
+      if (!sid) return;
 
-  const sname = qget("store_name");
-  const saddr = qget("store_addr");
+      const sname = qget("store_name");
+      const saddr = qget("store_addr");
 
-  if (cvsStoreIdEl)   cvsStoreIdEl.value = sid;
-  if (cvsStoreNameEl) cvsStoreNameEl.value = sname;
-  if (cvsAddrEl)      cvsAddrEl.value = saddr;
+      if (cvsStoreIdEl)   cvsStoreIdEl.value = sid;
+      if (cvsStoreNameEl) cvsStoreNameEl.value = sname;
+      if (cvsAddrEl)      cvsAddrEl.value = saddr;
 
-  // 確保切到 7-11 運送，並顯示 cvsBox
-  try{
-    if (elShip) elShip.value = "cvs_711";
-    updateInputBoxes();
-  }catch(e){}
+      // 確保切到 7-11 運送，並顯示 cvsBox
+      try{
+        if (elShip) elShip.value = "cvs_711";
+        updateInputBoxes();
+      }catch(e){}
 
-  // 可選：把 store_* 從網址拿掉（避免客人看到一堆參數）
-  try{
-    const u = new URL(location.href);
-    ["store_id","store_name","store_addr","store_src"].forEach(x => u.searchParams.delete(x));
-    history.replaceState(null, "", u.toString());
-  }catch(e){}
-}
+      // 可選：把 store_* 從網址拿掉（避免客人看到一堆參數）
+      try{
+        const u = new URL(location.href);
+        ["store_id","store_name","store_addr","store_src"].forEach(x => u.searchParams.delete(x));
+        history.replaceState(null, "", u.toString());
+      }catch(e){}
+    }
 
-function open711Map(){
-  const pay = (elPay?.value || "").trim();
-  const src = (pay === "cvs_cod") ? "cod" : "paid";
-  const customer = (document.getElementById("name")?.value || "").trim() || "guest";
+    function open711Map(){
+      const pay = (elPay?.value || "").trim();
+      const src = (pay === "cvs_cod") ? "cod" : "paid";
+      const customer = (document.getElementById("name")?.value || "").trim() || "guest";
 
-  const go = `${API}/cvs/map?src=${encodeURIComponent(src)}&cart_token=${encodeURIComponent(cart_token)}&customer=${encodeURIComponent(customer)}`;
-  location.href = go;
-}
+      const go = `${API}/cvs/map?src=${encodeURIComponent(src)}&cart_token=${encodeURIComponent(cart_token)}&customer=${encodeURIComponent(customer)}`;
+      location.href = go;
+    }
 
-btnPick711?.addEventListener("click", open711Map);
+    btnPick711?.addEventListener("click", open711Map);
+
     const elHomeBox = document.getElementById("homeBox");
 
     const BANK_INFO = `銀行：___
 戶名：___
 帳號：___`;
 
-const bankBox = document.getElementById("bankBox");
-const bankText = document.getElementById("bankText");
-const btnCopyBank = document.getElementById("btnCopyBank");
+    const bankBox = document.getElementById("bankBox");
+    const bankText = document.getElementById("bankText");
+    const btnCopyBank = document.getElementById("btnCopyBank");
 
     function updateShipOptions() {
       const pay = elPay.value;
       // 匯款資訊顯示/隱藏
-if (bankBox && bankText) {
-  if (pay === "bank_transfer") {
-    bankBox.style.display = "";
-    bankText.textContent = BANK_INFO;
-  } else {
-    bankBox.style.display = "none";
-  }
-}
+      if (bankBox && bankText) {
+        if (pay === "bank_transfer") {
+          bankBox.style.display = "";
+          bankText.textContent = BANK_INFO;
+        } else {
+          bankBox.style.display = "none";
+        }
+      }
       
       // 先清空運送選項
       elShip.innerHTML = "";
-
       if(pay === "cvs_cod") {
         // 若選 7-11 貨到付款 -> 只能選 7-11 取貨
         let opt = new Option("7-11 門市取貨", "cvs_711");
@@ -434,8 +483,8 @@ if (bankBox && bankText) {
         elShip.add(new Option("郵寄 / 宅配", "home"));
       }
       elShip.disabled = (pay === "cvs_cod");
-if (pay === "cvs_cod") elShip.value = "cvs_711";
-updateInputBoxes();
+      if (pay === "cvs_cod") elShip.value = "cvs_711";
+      updateInputBoxes();
     }
 
     function updateInputBoxes() {
@@ -454,21 +503,22 @@ updateInputBoxes();
     
     // 初始化
     updateShipOptions();
-applyStoreFromQuery(); 
-    btnCopyBank?.addEventListener('click', async ()=>{
-  try{
-    await navigator.clipboard.writeText(BANK_INFO);
-    toast('已複製匯款資訊 ✅');
-  }catch(e){
-    const ta=document.createElement('textarea');
-    ta.value=BANK_INFO; document.body.appendChild(ta);
-    ta.select(); document.execCommand('copy');
-    ta.remove();
-    toast('已複製匯款資訊 ✅');
-  }
-});
+    applyStoreFromQuery();
 
-  /* --- 載入購物車 [cite: 105] --- */
+    btnCopyBank?.addEventListener('click', async ()=>{
+      try{
+        await navigator.clipboard.writeText(BANK_INFO);
+        toast('已複製匯款資訊 ✅');
+      }catch(e){
+        const ta=document.createElement('textarea');
+        ta.value=BANK_INFO; document.body.appendChild(ta);
+        ta.select(); document.execCommand('copy');
+        ta.remove();
+        toast('已複製匯款資訊 ✅');
+      }
+    });
+
+    /* --- 載入購物車 --- */
     async function loadCart(){
       try{
         const data = await apiGet(`${API}/cart/get?cart_token=${encodeURIComponent(cart_token)}`);
@@ -490,13 +540,12 @@ applyStoreFromQuery();
             <div class="item-price">$ ${money(Number(it.price)*Number(it.qty))}</div>
           </div>
         `).join("");
-
       }catch(e){
         itemsEl.innerHTML = "讀取失敗";
       }
     }
 
-    /* --- 送出訂單 [cite: 112] --- */
+    /* --- 送出訂單 --- */
     document.getElementById("btnSubmit").onclick = async ()=>{
       if (LIFF_ID && !LINE.ok){ toast("請先完成 LINE 登入"); return; }
 
@@ -554,27 +603,28 @@ applyStoreFromQuery();
         const orderId = r.order_id || "";
         const total = r.total_amount || 0;
         
+        // 修正：調整這裡的內嵌樣式顏色，適應白色背景
         document.getElementById("result").innerHTML = `
-          <div style="background:rgba(212,175,55,0.1);border:1px solid var(--gold);padding:20px;border-radius:12px;text-align:center;margin-top:20px">
+          <div style="background:#fcfcfc;border:2px solid var(--gold);padding:20px;border-radius:12px;text-align:center;margin-top:20px;box-shadow:0 4px 15px rgba(0,0,0,0.05)">
             <h2 style="color:var(--gold);margin:0 0 10px">✅ 訂單已建立</h2>
-            <div style="font-size:18px;font-weight:bold;color:#fff">編號：${escapeHtml(orderId)}</div>
-            <div style="font-size:16px;color:#eee;margin-top:5px">金額：$ ${money(total)}</div>
-            <div style="font-size:13px;color:#aaa;margin-top:15px;line-height:1.6">
+            <div style="font-size:18px;font-weight:bold;color:#333">編號：${escapeHtml(orderId)}</div>
+            <div style="font-size:16px;color:#555;margin-top:5px">金額：$ ${money(total)}</div>
+            <div style="font-size:13px;color:#777;margin-top:15px;line-height:1.6">
               感謝您的購買。<br>
               若選擇線上支付，頁面即將跳轉至付款頁面...
             </div>
-            <a href="./index.html" style="display:inline-block;margin-top:20px;color:var(--gold);text-decoration:underline">返回官網</a>
+            <a href="./index.html" style="display:inline-block;margin-top:20px;color:var(--gold);text-decoration:underline;font-weight:bold;">返回官網</a>
           </div>
         `;
         
         // 隱藏表單
         document.querySelector(".container").style.display = "none";
         document.querySelector(".hero-banner").style.display = "none";
-        document.querySelector("#result").style.display = "block"; // 將結果移出 container 顯示 (或是簡單地只隱藏 form card)
+        document.querySelector("#result").style.display = "block";
+        // 將結果移出 container 顯示
         document.querySelector(".wrap").appendChild(document.getElementById("result"));
 
         toast("訂單建立成功");
-        
         // 可選：如果是 PayUNI 線上支付，這裡通常會收到 redirect_url
         if(r.payment_url) {
            setTimeout(() => location.href = r.payment_url, 1500);
