@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>MURAIN 寄賣精品｜官方旗艦</title>
+  <title>MURAIN｜官方旗艦</title>
   <style>
     /* --- 核心變數：奢華黑金主題 --- */
     :root{
@@ -586,9 +586,12 @@ $("btnLoginLine").onclick = async () => {
 
   async function goCheckout(){
   const lg = await ensureLineLogin();
-  if (!lg.ok) return;
+  if (!lg?.ok) return;
 
-  if(localCart.length === 0) {
+  // ✅ 先跟後端同步一次，避免 localCart 舊資料造成誤判「空的」
+  await refreshCartFromServer();
+
+  if (localCart.length === 0) {
     toast("購物車是空的");
     return;
   }
