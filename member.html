@@ -75,8 +75,7 @@
       background: var(--gold); color: #000; border: none;
       padding: 8px 16px; border-radius: 99px; font-weight: bold; font-size: 13px; cursor: pointer;
     }
-
-    /* ★ 會員頭像 */
+/* ✅ 大頭照 */
 .profile-left{
   display:flex;
   align-items:center;
@@ -87,8 +86,8 @@
   height:44px;
   border-radius:999px;
   border:1px solid var(--line);
+  object-fit:cover;
   background: rgba(255,255,255,0.06);
-  object-fit: cover;
   flex: 0 0 auto;
 }
 
@@ -177,6 +176,7 @@
     <img
       id="lineAvatar"
       class="profile-avatar"
+      referrerpolicy="no-referrer"
       alt=""
       src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='88' height='88'><rect width='100%25' height='100%25' fill='%23141414'/><circle cx='44' cy='34' r='16' fill='%23333333'/><rect x='18' y='56' width='52' height='22' rx='11' fill='%23333333'/></svg>"
     />
@@ -258,7 +258,7 @@
     let idToken = "";
     let orders = [];
 
-    // 初始化 LINE LIFF（✅ 一進頁面就強制登入）
+// 初始化 LINE LIFF（✅ 一進頁面就強制登入 + 顯示大頭照）
 async function init(){
   if(!LIFF_ID){
     document.getElementById("msg").textContent = "系統提示：請於程式碼中設定 LIFF ID 才能啟用 LINE 登入。";
@@ -274,11 +274,27 @@ async function init(){
       return;
     }
 
-    // 已登入：顯示資料＋自動載入訂單
+    // ✅ 已登入：取 profile
     const p = await liff.getProfile();
     idToken = liff.getIDToken();
-    document.getElementById("lineName").textContent = p.displayName;
+
+    document.getElementById("lineName").textContent = p.displayName || "會員";
     document.getElementById("lineStatus").textContent = "已透過 LINE 登入";
+
+    // ✅ 顯示大頭照（pictureUrl 優先；沒有就用 ID Token 的 picture）
+    const av = document.getElementById("lineAvatar");
+    let pic = p.pictureUrl || (liff.getDecodedIDToken && liff.getDecodedIDToken()?.picture) || "";
+    if(av && pic){
+      try{
+        const u = new URL(pic);
+        u.searchParams.set("t", String(Date.now())); // 避免快取一直顯示舊圖
+        av.src = u.toString();
+      }catch(_e){
+        av.src = pic;
+      }
+    }
+
+    // 自動載入訂單
     loadMyOrders();
 
   }catch(e){
