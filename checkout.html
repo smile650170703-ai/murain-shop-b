@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>MURAIN｜購物車</title>
+  <title>MURAIN 寄賣精品｜結帳</title>
   <meta name="robots" content="noindex,nofollow" />
   <style>
     /* --- 核心變數：白金奢華風格 (與會員中心一致) --- */
@@ -12,11 +12,11 @@
       --surface: #ffffff;
       --surface-glass: rgba(255, 255, 255, 0.95);
       --card-bg: #ffffff;
-      --gold: #b38e46; /* 調整為較深沈穩的金色，適合白底 */
+      --gold: #b38e46; /* 較深沈穩的金色 */
       --gold-light: #f4e4bc;
       --text: #333333; /* 文字改深色 */
       --text-sub: #777777;
-      --line: rgba(179, 142, 70, 0.2); /* 線條改為淡淡的金色 */
+      --line: rgba(179, 142, 70, 0.2); /* 淡淡的金色線條 */
       --danger: #d64d4d;
       --font-main: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
       --font-serif: "Times New Roman", serif;
@@ -28,7 +28,7 @@
     body{
       margin: 0; font-family: var(--font-main);
       background-color: var(--bg);
-      /* 模擬大理石紋理的微妙背景 */
+      /* 模擬大理石紋理的背景 */
       background-image: 
         radial-gradient(at 10% 10%, rgba(179,142,70,0.03) 0%, transparent 50%),
         radial-gradient(at 90% 90%, rgba(179,142,70,0.03) 0%, transparent 50%);
@@ -63,7 +63,6 @@
       margin-bottom: 24px;
       box-shadow: 0 4px 10px rgba(166, 124, 51, 0.2);
     }
-    /* 光澤動畫 */
     .hero-banner::before {
       content: '';
       position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
@@ -85,8 +84,8 @@
       text-shadow: 0 1px 0 rgba(255,255,255,0.4);
     }
     .hero-sub { 
-      font-size: 11px; color: #584618; 
-      letter-spacing: 3px; text-transform: uppercase; position: relative; z-index: 2; margin-top: 8px; font-weight: 600;
+      font-size: 13px; color: #584618; 
+      letter-spacing: 3px; position: relative; z-index: 2; margin-top: 8px; font-weight: 600;
     }
 
     /* --- Layout Components --- */
@@ -126,7 +125,6 @@
     textarea { min-height: 100px; resize: vertical; }
     input::placeholder { color: #aaa; }
     
-    /* 兩欄排列 */
     .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
     /* --- Cart Items --- */
@@ -173,7 +171,6 @@
     }
     .hidden { display: none; }
     
-    /* 銀行匯款區塊樣式微調 */
     .k { color: var(--text-sub); font-size: 12px; }
     .mono { font-family: monospace; color: var(--text); font-size: 15px; }
     .btnGhost {
@@ -190,53 +187,53 @@
     </div>
 
     <div class="hero-banner">
-      <div class="hero-title">CHECKOUT</div>
-      <div class="hero-sub">SECURE PAYMENT</div>
+      <div class="hero-title">結帳中心</div>
+      <div class="hero-sub">安全支付結帳</div>
     </div>
 
     <div class="container">
       
-      <div class="section-title">購物車內容 (ORDER SUMMARY)</div>
+      <div class="section-title">購物車內容</div>
       <div class="card">
         <div id="items">載入中...</div>
         <div class="total-row">
-          <div class="total-label">總金額 (Total)</div>
+          <div class="total-label">總金額</div>
           <div class="total-amount">$ <span id="total">0</span></div>
         </div>
       </div>
 
-      <div class="section-title">顧客資料 (CUSTOMER INFO)</div>
+      <div class="section-title">顧客資料</div>
       <div class="card">
         <div class="row-2">
           <div class="input-group">
-            <label class="label">姓名 Name</label>
+            <label class="label">姓名</label>
             <input id="name" placeholder="請填寫真實姓名" />
           </div>
           <div class="input-group">
-            <label class="label">電話 Phone</label>
+            <label class="label">電話</label>
             <input id="phone" placeholder="09xxxxxxxx" />
           </div>
         </div>
         <div class="input-group">
-          <label class="label">Email (接收發票與訂單通知)</label>
+          <label class="label">電子信箱 (接收訂單通知)</label>
           <input id="email" placeholder="example@email.com" />
         </div>
       </div>
 
-      <div class="section-title">付款與運送 (PAYMENT & SHIPPING)</div>
+      <div class="section-title">付款與運送</div>
       <div class="card">
         
         <div class="input-group">
-          <label class="label">付款方式 Payment Method</label>
+          <label class="label">付款方式</label>
           <select id="payMethod">
             <option value="" disabled selected>請選擇付款方式</option>
-            <option value="cvs_cod">7-11 貨到付款 (Pay at 7-11)</option>
-            <option value="bank_transfer">銀行匯款 (Bank Transfer)</option>
-            <option value="payuni_card">線上刷卡 (Credit Card)</option>
+            <option value="cvs_cod">7-11 貨到付款</option>
+            <option value="bank_transfer">銀行匯款</option>
+            <option value="payuni_card">線上刷卡</option>
             <option value="payuni_3">線上刷卡 - 3期零利率</option>
             <option value="payuni_6">線上刷卡 - 6期零利率</option>
             <option value="payuni_9">線上刷卡 - 9期零利率</option>
-            <option value="payuni_af">AF 先享後付 (AfterPay)</option>
+            <option value="payuni_af">AF 先享後付</option>
             <option value="payuni_linepay">LINE Pay</option>
           </select>
         </div>
@@ -251,7 +248,7 @@
         </div>
 
         <div class="input-group">
-          <label class="label">運送方式 Shipping Method</label>
+          <label class="label">運送方式</label>
           <select id="shipMethod">
             <option value="cvs_711">7-11 門市取貨</option>
             <option value="home">郵寄 / 宅配</option>
@@ -280,19 +277,19 @@
 
         <div id="homeBox" class="hidden">
           <div class="input-group">
-            <label class="label" style="color:var(--gold)">收件地址 Address</label>
+            <label class="label" style="color:var(--gold)">收件地址</label>
             <textarea id="address" placeholder="請填寫完整收件地址 (縣市/區/路/號)"></textarea>
           </div>
         </div>
 
         <div class="input-group">
-          <label class="label">備註 Note (可選)</label>
+          <label class="label">備註 (可選)</label>
           <textarea id="note" style="min-height:60px" placeholder="例如：匯款帳號末五碼、管理室代收..."></textarea>
         </div>
 
       </div>
 
-      <button class="btn-submit" id="btnSubmit">送出訂單 (PLACE ORDER)</button>
+      <button class="btn-submit" id="btnSubmit">送出訂單</button>
       <div id="submitMsg" style="text-align:center;margin-top:10px;color:var(--gold)"></div>
       <div class="note-text" id="result">
         點擊送出即代表同意購買條款。<br>
@@ -381,7 +378,6 @@
         LINE.ok = true;
         LINE.userId = prof.userId || "";
         LINE.name = prof.displayName || "";
-        // ✅ 給官網/會員頁共用
         try{
           localStorage.setItem("line_user_id", LINE.userId);
           localStorage.setItem("line_display_name", LINE.name);
@@ -462,50 +458,50 @@
     const btnCopyBank = document.getElementById("btnCopyBank");
 
     // ===== 表單草稿：跳選店前保存，回來自動還原 =====
-const DRAFT_KEY = `murain_checkout_draft_${cart_token}`;
+    const DRAFT_KEY = `murain_checkout_draft_${cart_token}`;
 
-function saveDraft(){
-  try{
-    const draft = {
-      name:  document.getElementById("name")?.value || "",
-      phone: document.getElementById("phone")?.value || "",
-      email: document.getElementById("email")?.value || "",
-      note:  document.getElementById("note")?.value || "",
-      pay:   document.getElementById("payMethod")?.value || "",
-      ship:  document.getElementById("shipMethod")?.value || "",
-      address: document.getElementById("address")?.value || "",
-    };
-    localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
-  }catch(e){}
-}
+    function saveDraft(){
+      try{
+        const draft = {
+          name:  document.getElementById("name")?.value || "",
+          phone: document.getElementById("phone")?.value || "",
+          email: document.getElementById("email")?.value || "",
+          note:  document.getElementById("note")?.value || "",
+          pay:   document.getElementById("payMethod")?.value || "",
+          ship:  document.getElementById("shipMethod")?.value || "",
+          address: document.getElementById("address")?.value || "",
+        };
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+      }catch(e){}
+    }
 
-function loadDraft(){
-  try{
-    const s = localStorage.getItem(DRAFT_KEY);
-    if(!s) return;
-    const d = JSON.parse(s);
+    function loadDraft(){
+      try{
+        const s = localStorage.getItem(DRAFT_KEY);
+        if(!s) return;
+        const d = JSON.parse(s);
 
-    const nameEl = document.getElementById("name");
-    const phoneEl = document.getElementById("phone");
-    const emailEl = document.getElementById("email");
-    const noteEl = document.getElementById("note");
-    const addrEl = document.getElementById("address");
-    const payEl = document.getElementById("payMethod");
-    const shipEl = document.getElementById("shipMethod");
+        const nameEl = document.getElementById("name");
+        const phoneEl = document.getElementById("phone");
+        const emailEl = document.getElementById("email");
+        const noteEl = document.getElementById("note");
+        const addrEl = document.getElementById("address");
+        const payEl = document.getElementById("payMethod");
+        const shipEl = document.getElementById("shipMethod");
 
-    if (nameEl && d.name && !nameEl.value) nameEl.value = d.name;
-    if (phoneEl && d.phone && !phoneEl.value) phoneEl.value = d.phone;
-    if (emailEl && d.email && !emailEl.value) emailEl.value = d.email;
-    if (noteEl && d.note && !noteEl.value) noteEl.value = d.note;
-    if (addrEl && d.address && !addrEl.value) addrEl.value = d.address;
+        if (nameEl && d.name && !nameEl.value) nameEl.value = d.name;
+        if (phoneEl && d.phone && !phoneEl.value) phoneEl.value = d.phone;
+        if (emailEl && d.email && !emailEl.value) emailEl.value = d.email;
+        if (noteEl && d.note && !noteEl.value) noteEl.value = d.note;
+        if (addrEl && d.address && !addrEl.value) addrEl.value = d.address;
 
-    // 先還原付款→重建運送選項→再還原運送
-    if (payEl && d.pay) payEl.value = d.pay;
-    try{ updateShipOptions(); }catch(e){}
-    if (shipEl && d.ship) shipEl.value = d.ship;
-    try{ updateInputBoxes(); }catch(e){}
-  }catch(e){}
-}
+        // 先還原付款→重建運送選項→再還原運送
+        if (payEl && d.pay) payEl.value = d.pay;
+        try{ updateShipOptions(); }catch(e){}
+        if (shipEl && d.ship) shipEl.value = d.ship;
+        try{ updateInputBoxes(); }catch(e){}
+      }catch(e){}
+    }
 
     function updateShipOptions() {
       const pay = elPay.value;
@@ -550,9 +546,9 @@ function loadDraft(){
     elShip.addEventListener("change", updateInputBoxes);
     
     // 初始化
-loadDraft();
-updateShipOptions();
-applyStoreFromQuery();
+    loadDraft();
+    updateShipOptions();
+    applyStoreFromQuery();
 
     btnCopyBank?.addEventListener('click', async ()=>{
       try{
@@ -634,7 +630,7 @@ applyStoreFromQuery();
       const btn = document.getElementById("btnSubmit");
       const msg = document.getElementById("submitMsg");
       btn.disabled = true;
-      msg.textContent = "處理中 (Processing)...";
+      msg.textContent = "處理中...";
 
       try{
         const r = await apiPost(`${API}/checkout`, {
