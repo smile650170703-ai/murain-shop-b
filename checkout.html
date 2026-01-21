@@ -443,6 +443,8 @@
       const src = (pay === "cvs_cod") ? "cod" : "paid";
       const customer = (document.getElementById("name")?.value || "").trim() || "guest";
 
+      saveDraft();
+
       const go = `${API}/cvs/map?src=${encodeURIComponent(src)}&cart_token=${encodeURIComponent(cart_token)}&customer=${encodeURIComponent(customer)}`;
       location.href = go;
     }
@@ -458,6 +460,52 @@
     const bankBox = document.getElementById("bankBox");
     const bankText = document.getElementById("bankText");
     const btnCopyBank = document.getElementById("btnCopyBank");
+
+    // ===== 表單草稿：跳選店前保存，回來自動還原 =====
+const DRAFT_KEY = `murain_checkout_draft_${cart_token}`;
+
+function saveDraft(){
+  try{
+    const draft = {
+      name:  document.getElementById("name")?.value || "",
+      phone: document.getElementById("phone")?.value || "",
+      email: document.getElementById("email")?.value || "",
+      note:  document.getElementById("note")?.value || "",
+      pay:   document.getElementById("payMethod")?.value || "",
+      ship:  document.getElementById("shipMethod")?.value || "",
+      address: document.getElementById("address")?.value || "",
+    };
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+  }catch(e){}
+}
+
+function loadDraft(){
+  try{
+    const s = localStorage.getItem(DRAFT_KEY);
+    if(!s) return;
+    const d = JSON.parse(s);
+
+    const nameEl = document.getElementById("name");
+    const phoneEl = document.getElementById("phone");
+    const emailEl = document.getElementById("email");
+    const noteEl = document.getElementById("note");
+    const addrEl = document.getElementById("address");
+    const payEl = document.getElementById("payMethod");
+    const shipEl = document.getElementById("shipMethod");
+
+    if (nameEl && d.name && !nameEl.value) nameEl.value = d.name;
+    if (phoneEl && d.phone && !phoneEl.value) phoneEl.value = d.phone;
+    if (emailEl && d.email && !emailEl.value) emailEl.value = d.email;
+    if (noteEl && d.note && !noteEl.value) noteEl.value = d.note;
+    if (addrEl && d.address && !addrEl.value) addrEl.value = d.address;
+
+    // 先還原付款→重建運送選項→再還原運送
+    if (payEl && d.pay) payEl.value = d.pay;
+    try{ updateShipOptions(); }catch(e){}
+    if (shipEl && d.ship) shipEl.value = d.ship;
+    try{ updateInputBoxes(); }catch(e){}
+  }catch(e){}
+}
 
     function updateShipOptions() {
       const pay = elPay.value;
@@ -502,8 +550,9 @@
     elShip.addEventListener("change", updateInputBoxes);
     
     // 初始化
-    updateShipOptions();
-    applyStoreFromQuery();
+loadDraft();
+updateShipOptions();
+applyStoreFromQuery();
 
     btnCopyBank?.addEventListener('click', async ()=>{
       try{
