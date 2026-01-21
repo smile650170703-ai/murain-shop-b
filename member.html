@@ -365,39 +365,60 @@ async function init(){
       document.getElementById("dAddr").textContent = "";
 
       try{
-        const data = await post("/member/order/get", { id_token: idToken, order_id });
-        const o = data.order || {};
-        const items = data.items || [];
-        const ship = o.shipping_info ? JSON.parse(o.shipping_info) : {};
+  const data = await post("/member/order/get", { id_token: idToken, order_id });
 
-        // 渲染商品清單
-        document.getElementById("dItems").innerHTML = items.map(it => `
-          <div class="item-row">
-            <div class="item-name">
-              ${esc(it.title || it.product_name || "商品")}
-              <span class="item-sub">SKU: ${esc(it.sku)}</span>
-            </div>
-            <div class="item-meta">
-              x${it.qty}<br>
-              $${money(it.price)}
-            </div>
+  const o = data.order || {};
+  const items = Array.isArray(data.items) ? data.items : [];
+
+  // ✅ shipping_info 防爆：可能是字串/物件/空值/壞 JSON
+  let ship = {};
+  try{
+    if (o.shipping_info) {
+      ship = (typeof o.shipping_info === "string")
+        ? JSON.parse(o.shipping_info)
+        : (o.shipping_info || {});
+    }
+  }catch(_e){
+    ship = {};
+  }
+
+  // 渲染商品清單
+  document.getElementById("dItems").innerHTML =
+    items.length
+      ? items.map(it => `
+        <div class="item-row">
+          <div class="item-name">
+            ${esc(it.title || it.product_name || "商品")}
+            <span class="item-sub">SKU: ${esc(it.sku || "")}</span>
           </div>
-        `).join("");
+          <div class="item-meta">
+            x${Number(it.qty||0)}<br>
+            $${money(it.price)}
+          </div>
+        </div>
+      `).join("")
+      : "<div style='color:#999;font-size:12px;padding:10px 0;'>此訂單沒有商品明細</div>";
 
-        // 渲染寄送資訊
-        document.getElementById("dShipMethod").textContent = o.shipping_method || ship.ship_method || "-";
-        document.getElementById("dTrack").textContent = o.tracking_no || "尚未產生";
-        
-        // 組合地址顯示 (包含 7-11 門市資訊)
-        let addrStr = o.address || ship.address || "";
-        if(ship.cvs){
-          addrStr = `<span style="color:var(--gold)">[7-11 取貨]</span><br>門市：${ship.cvs.store_name} (${ship.cvs.store_id})<br>地址：${ship.cvs.store_addr||""}`;
-        }
-        document.getElementById("dAddr").innerHTML = addrStr || "無地址資訊";
+  // 渲染寄送資訊
+  document.getElementById("dShipMethod").textContent = o.shipping_method || ship.ship_method || "-";
+  document.getElementById("dTrack").textContent = o.tracking_no || "尚未產生";
 
-      }catch(e){
-        document.getElementById("dItems").innerHTML = "無法讀取詳細資料";
-      }
+  // 組合地址顯示 (包含 7-11 門市資訊)
+  let addrStr = o.address || ship.address || "";
+  if(ship.cvs){
+    addrStr = `<span style="color:var(--gold)">[7-11 取貨]</span><br>門市：${ship.cvs.store_name} (${ship.cvs.store_id})<br>地址：${ship.cvs.store_addr||""}`;
+  }
+  document.getElementById("dAddr").innerHTML = addrStr || "無地址資訊";
+
+}catch(e){
+  // ✅ 把真正錯誤顯示出來（你才知道是路由/權限/JSON 解析哪個問題）
+  document.getElementById("dItems").innerHTML =
+    `<div style="color:#ffb4b4;font-size:12px;padding:10px 0;">
+      無法讀取詳細資料：${esc(e.message || String(e))}
+    </div>`;
+  try{ toast("明細讀取失敗：" + (e.message||e)); }catch(_){}
+  console.log("order detail error:", e);
+}
     }
 
     function closeModal(){
