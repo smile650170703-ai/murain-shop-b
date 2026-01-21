@@ -288,7 +288,7 @@
       clearTimeout(toastEl._t); toastEl._t = setTimeout(()=> toastEl.style.display="none", 2000);
     }
 
-    [cite_start]/* --- API 函式 [cite: 93, 95] --- */
+   /* --- API 函式 [cite: 93, 95] --- */
     async function apiGet(u){
       const res = await fetch(u, { method:"GET" });
       const j = await res.json().catch(()=>null);
@@ -304,7 +304,7 @@
       return j;
     }
 
-    [cite_start]/* --- LINE Login (Optional) [cite: 98] --- */
+   /* --- LINE Login (Optional) [cite: 98] --- */
     let LINE = { ok:false, userId:"", idToken:"", name:"" };
     async function initLINE(){
   if(!LIFF_ID){
@@ -412,7 +412,7 @@ updateInputBoxes();
   }
 });
 
-    [cite_start]/* --- 載入購物車 [cite: 105] --- */
+  /* --- 載入購物車 [cite: 105] --- */
     async function loadCart(){
       try{
         const data = await apiGet(`${API}/cart/get?cart_token=${encodeURIComponent(cart_token)}`);
@@ -440,7 +440,7 @@ updateInputBoxes();
       }
     }
 
-    [cite_start]/* --- 送出訂單 [cite: 112] --- */
+    /* --- 送出訂單 [cite: 112] --- */
     document.getElementById("btnSubmit").onclick = async ()=>{
       if (LIFF_ID && !LINE.ok){ toast("請先完成 LINE 登入"); return; }
 
