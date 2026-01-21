@@ -5,25 +5,32 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
   <title>MURAIN｜官方旗艦</title>
   <style>
-    /* --- 核心變數：奢華黑金主題 --- */
+    /* --- 核心變數：白金奢華風格 (與會員中心/購物車一致) --- */
     :root{
-      --bg: #050505;
-      --surface: #141414;
-      --surface-glass: rgba(20, 20, 20, 0.95);
-      --gold: #D4AF37;
-      --gold-light: #F2D266;
-      --text: #ffffff;
-      --text-sub: #9e9e9e;
-      --line: rgba(255, 255, 255, 0.12);
+      --bg: #f9f9f9; /* 背景改亮 */
+      --surface: #ffffff;
+      --surface-glass: rgba(255, 255, 255, 0.95);
+      --card-bg: #ffffff;
+      --gold: #b38e46; /* 較深沈穩的金色 */
+      --gold-light: #f4e4bc;
+      --text: #333333; /* 文字改深色 */
+      --text-sub: #777777;
+      --line: rgba(179, 142, 70, 0.2); /* 淡淡的金色線條 */
       --font-main: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
-      --font-serif: "Times New Roman", serif; 
+      --font-serif: "Times New Roman", serif;
+      --shadow: 0 4px 12px rgba(179, 142, 70, 0.1);
+      --danger: #d64d4d;
     }
 
     *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+    
     body{
       margin: 0; font-family: var(--font-main);
       background-color: var(--bg);
-      background-image: radial-gradient(circle at 50% 0%, #1a1a20 0%, var(--bg) 60%);
+      /* 模擬大理石紋理的背景 */
+      background-image: 
+        radial-gradient(at 10% 10%, rgba(179,142,70,0.03) 0%, transparent 50%),
+        radial-gradient(at 90% 90%, rgba(179,142,70,0.03) 0%, transparent 50%);
       color: var(--text); padding-bottom: 90px;
     }
     a{ color: inherit; text-decoration: none; }
@@ -42,8 +49,10 @@
     .brand h1 {
       margin: 0; font-family: var(--font-serif); font-size: 24px;
       color: var(--gold); letter-spacing: 1.5px;
-      background: linear-gradient(45deg, var(--gold), var(--gold-light));
+      /* 改為深色漸層文字 */
+      background: linear-gradient(45deg, #b38e46, #8c6b2d);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      font-weight: bold;
     }
 
     .nav-actions { display: flex; align-items: center; gap: 12px; }
@@ -51,136 +60,172 @@
     .cart-trigger {
       position: relative; cursor: pointer; display: flex; align-items: center;
     }
+    /* 購物車圖示改為深色 */
     .cart-icon { width: 24px; height: 24px; fill: var(--text); }
     .cart-count {
       position: absolute; top: -5px; right: -5px;
-      background: var(--gold); color: #000;
+      background: var(--gold); color: #fff;
       font-size: 10px; font-weight: bold;
       width: 16px; height: 16px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
     }
 
-    /* --- Banner --- */
+    /* --- Banner (金屬漸層風格) --- */
     .hero-banner {
       margin: 0 -16px 28px -16px; height: 240px;
       position: relative; overflow: hidden;
       display: flex; align-items: center; justify-content: center; flex-direction: column;
-      background: linear-gradient(135deg, #0f0f12 0%, #1a1a20 100%);
-      border-bottom: 1px solid var(--line);
+      /* 金屬漸層背景 */
+      background: linear-gradient(135deg, #a67c33 0%, #e8d08b 25%, #fbf5b7 50%, #e8d08b 75%, #a67c33 100%);
+      border-bottom: 1px solid #d4af37;
+      box-shadow: 0 4px 10px rgba(166, 124, 51, 0.2);
     }
     .hero-banner::before {
-      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 60%);
-      animation: rotateLight 15s linear infinite;
+      content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+      transform: skewX(-25deg);
+      animation: shine 6s infinite;
     }
-    @keyframes rotateLight { from {transform: rotate(0deg);} to {transform: rotate(360deg);} }
-    .hero-title { font-family: var(--font-serif); font-size: 36px; color: var(--gold); margin: 0; letter-spacing: 2px; position: relative; z-index: 2; }
-    .hero-sub { font-size: 12px; color: var(--text-sub); letter-spacing: 4px; text-transform: uppercase; position: relative; z-index: 2; margin-top: 8px;}
+    @keyframes shine { 
+      0% { left: -100%; } 
+      20% { left: 200%; } 
+      100% { left: 200%; } 
+    }
+    .hero-title { 
+      font-family: var(--font-serif); font-size: 36px; 
+      color: #2c2108; /* 深色文字 */
+      margin: 0; letter-spacing: 2px; position: relative; z-index: 2; 
+      text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+      font-weight: bold;
+    }
+    .hero-sub { 
+      font-size: 13px; color: #584618; 
+      letter-spacing: 3px; position: relative; z-index: 2; margin-top: 8px; font-weight: 600;
+      display: none; /* 隱藏英文副標 */
+    }
 
     /* --- Controls --- */
     .controls { display: flex; gap: 12px; margin-bottom: 24px; align-items: center; }
     select#filterBrand {
-      background: rgba(255,255,255,0.06); border: 1px solid var(--line);
-      color: var(--text); border-radius: 12px; padding: 14px 16px; font-size: 15px; width: 100%;
+      background: #ffffff; border: 1px solid #ddd;
+      color: #333; border-radius: 12px; padding: 14px 16px; font-size: 15px; width: 100%;
       appearance: none;
-      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d4af37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      /* 箭頭改為金色 */
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23b38e46' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
       background-repeat: no-repeat; background-position: right 16px center; background-size: 16px;
+      transition: all 0.3s;
     }
+    select#filterBrand:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(179, 142, 70, 0.1); }
+
     .btn-reload {
       flex: 0 0 48px; height: 48px; display: flex; align-items: center; justify-content: center;
-      background: transparent; border: 1px solid var(--line); color: var(--gold);
+      background: #ffffff; border: 1px solid #ddd; color: var(--gold);
       border-radius: 12px; font-size: 20px; cursor: pointer;
+      transition: all 0.2s;
     }
+    .btn-reload:active { background: #f0f0f0; }
 
     /* --- Grid --- */
     .grid { display: grid; grid-template-columns: 1fr; gap: 36px; }
     @media(min-width: 600px){ .grid { grid-template-columns: 1fr 1fr; gap: 24px; } }
 
-    .card { display: flex; flex-direction: column; cursor: pointer; }
+    .card { 
+      display: flex; flex-direction: column; cursor: pointer;
+      background: #fff; border-radius: 16px; padding: 16px;
+      border: 1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+      transition: transform 0.2s;
+    }
+    .card:active { transform: scale(0.98); }
+
     .imgbox {
-      width: 100%; aspect-ratio: 4/5; background: #1a1a1a;
-      border-radius: 16px; overflow: hidden; position: relative;
-      border: 1px solid rgba(255,255,255,0.05); margin-bottom: 12px;
+      width: 100%; aspect-ratio: 4/5; background: #f4f4f4;
+      border-radius: 12px; overflow: hidden; position: relative;
+      margin-bottom: 12px;
     }
     .imgbox img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
     .badge-brand {
       position: absolute; left: 12px; top: 12px;
-      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      background: rgba(255,255,255,0.9); color: #333;
+      backdrop-filter: blur(4px);
       padding: 6px 12px; border-radius: 6px; font-size: 11px;
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid #ddd; font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
-    .title { font-size: 16px; color: #eee; margin-bottom: 6px; line-height: 1.5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;}
-    .price { font-family: var(--font-serif); font-size: 20px; color: var(--gold); }
+    .title { font-size: 16px; color: #333; margin-bottom: 6px; line-height: 1.5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; font-weight: 500;}
+    .price { font-family: var(--font-serif); font-size: 20px; color: var(--gold); font-weight: bold; }
     .price-row { display: flex; justify-content: space-between; align-items: flex-end; }
-    .more-btn { font-size: 12px; color: var(--text-sub); border-bottom: 1px solid var(--line); }
+    .more-btn { font-size: 12px; color: #999; border-bottom: 1px solid #ddd; }
 
-    /* --- Modal --- */
+    /* --- Modal (白底風格) --- */
     .modal-mask {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px);
       z-index: 100; display: none; align-items: flex-end; justify-content: center;
     }
     .modal-content {
-      width: 100%; max-width: 500px; background: #18181b;
-      border-radius: 24px 24px 0 0; border-top: 1px solid var(--line);
+      width: 100%; max-width: 500px; background: #ffffff;
+      border-radius: 24px 24px 0 0; 
       max-height: 85vh; overflow-y: auto; display: flex; flex-direction: column;
       position: relative; animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
     }
     @keyframes slideUp { from {transform: translateY(100%);} to {transform: translateY(0);} }
     .close-btn {
       position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border-radius: 50%;
-      background: rgba(0,0,0,0.5); border: none; color: #fff; font-size: 20px; z-index: 10; cursor: pointer;
+      background: rgba(0,0,0,0.1); border: none; color: #333; font-size: 20px; z-index: 10; cursor: pointer;
     }
-    .modal-img { width: 100%; height: 350px; background: #000; object-fit: contain; }
+    .modal-img { width: 100%; height: 350px; background: #f9f9f9; object-fit: contain; }
     .modal-body { padding: 24px; display: flex; flex-direction: column; gap: 16px; }
-    .modal-title { font-size: 20px; margin: 0; line-height: 1.4; font-weight: 500; }
-    .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: rgba(255,255,255,0.03); padding: 16px; border-radius: 12px; font-size: 13px; color: var(--text-sub); }
-    .data-grid b { color: var(--text); display: block; margin-bottom: 4px; font-size: 14px; }
-    .desc-text { font-size: 14px; line-height: 1.8; color: #ccc; white-space: pre-wrap; }
+    .modal-title { font-size: 20px; margin: 0; line-height: 1.4; font-weight: bold; color: #333; }
+    .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; background: #fcfcfc; padding: 16px; border-radius: 12px; font-size: 13px; color: #666; border: 1px solid #eee; }
+    .data-grid b { color: #333; display: block; margin-bottom: 4px; font-size: 14px; }
+    .desc-text { font-size: 14px; line-height: 1.8; color: #555; white-space: pre-wrap; }
     .action-bar { margin-top: auto; padding-top: 10px; display: flex; gap: 12px; }
     .btn-action { flex: 1; padding: 14px; border-radius: 12px; font-weight: 600; font-size: 14px; border: none; cursor: pointer; }
-    .btn-cart { background: rgba(255,255,255,0.1); color: #fff; }
-    .btn-buy { background: var(--gold); color: #000; }
-    /* ★ 隱藏：商品明細彈窗的「立即結帳」 */
-#mCheckout{ display:none !important; }
+    .btn-cart { background: #eee; color: #333; }
+    .btn-buy { background: linear-gradient(to bottom, #d4af37, #b38e46); color: #fff; box-shadow: 0 4px 15px rgba(179, 142, 70, 0.3); }
+    
+    #mCheckout{ display:none !important; }
 
     /* YouTube Wrap */
     .ytWrap { width: 100%; aspect-ratio: 16/9; background: #000; border-radius: 12px; overflow: hidden; margin-top: 10px; display: none; }
     .ytWrap iframe { width: 100%; height: 100%; border: none; }
 
-    /* --- Side Cart --- */
+    /* --- Side Cart (白底) --- */
     .cart-drawer-mask {
       position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 200;
       display: none; justify-content: flex-end;
     }
     .cart-drawer {
       width: 85%; max-width: 400px; height: 100%;
-      background: #111; border-left: 1px solid var(--line);
+      background: #ffffff; border-left: 1px solid #eee;
       display: flex; flex-direction: column;
       transform: translateX(100%); transition: transform 0.3s ease;
     }
     .cart-drawer.open { transform: translateX(0); }
-    .cart-head { padding: 20px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
-    .cart-head h2 { margin: 0; font-size: 18px; color: var(--gold); }
-    .cart-list { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; }
-    .cart-item { display: flex; gap: 12px; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; position: relative; }
-    .cart-item-img { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; background: #000; }
+    .cart-head { padding: 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+    .cart-head h2 { margin: 0; font-size: 18px; color: #333; font-weight: bold; }
+    .cart-list { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 16px; background: #f9f9f9; }
+    .cart-item { display: flex; gap: 12px; background: #fff; padding: 10px; border-radius: 12px; position: relative; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.03); }
+    .cart-item-img { width: 70px; height: 70px; border-radius: 8px; object-fit: cover; background: #eee; }
     .cart-item-info { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 4px; }
-    .cart-item-title { font-size: 14px; color: #fff; line-height: 1.3; }
-    .cart-item-price { font-size: 14px; color: var(--gold); font-family: var(--font-serif); }
-    .cart-item-del { position: absolute; right: 10px; top: 10px; color: #666; cursor: pointer; background: transparent; border: none; font-size: 18px; padding: 4px; }
+    .cart-item-title { font-size: 14px; color: #333; line-height: 1.3; }
+    .cart-item-price { font-size: 14px; color: #b38e46; font-family: var(--font-serif); font-weight: bold; }
+    .cart-item-del { position: absolute; right: 10px; top: 10px; color: #999; cursor: pointer; background: transparent; border: none; font-size: 18px; padding: 4px; }
     .cart-item-del:hover { color: #d64d4d; }
-    .cart-foot { padding: 20px; border-top: 1px solid var(--line); background: #141414; }
-    .cart-total { display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 16px; font-weight: bold; }
-    .btn-checkout { width: 100%; background: var(--gold); color: #000; padding: 14px; border-radius: 12px; border: none; font-weight: bold; font-size: 16px; cursor: pointer; }
+    .cart-foot { padding: 20px; border-top: 1px solid #eee; background: #fff; }
+    .cart-total { display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 16px; font-weight: bold; color: #333; }
+    .btn-checkout { width: 100%; background: linear-gradient(to bottom, #d4af37, #b38e46); color: #fff; padding: 14px; border-radius: 12px; border: none; font-weight: bold; font-size: 16px; cursor: pointer; box-shadow: 0 4px 15px rgba(179, 142, 70, 0.3); }
     
     /* --- Login Modal --- */
     .login-modal {
-      position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.9);
+      position: fixed; inset: 0; z-index: 300; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px);
       display: none; align-items: center; justify-content: center; padding: 20px;
     }
     .login-box {
-      background: #18181b; border: 1px solid var(--line);
+      background: #ffffff; border: 1px solid #eee;
       padding: 32px 24px; border-radius: 24px; text-align: center; width: 100%; max-width: 340px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     }
     .btn-line {
       background: #06C755; color: #fff; width: 100%;
@@ -191,11 +236,11 @@
 
     .toast {
       position: fixed; left: 50%; bottom: 30px; transform: translateX(-50%);
-      background: #fff; color: #000; padding: 10px 20px;
+      background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px;
       border-radius: 99px; font-size: 14px; font-weight: 600;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.5); display: none; z-index: 400;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.2); display: none; z-index: 400;
     }
-    .empty-cart-msg { text-align: center; color: var(--text-sub); margin-top: 40px; }
+    .empty-cart-msg { text-align: center; color: #999; margin-top: 40px; }
   </style>
 </head>
 <body>
@@ -214,13 +259,12 @@
     </div>
 
     <div class="hero-banner">
-      <div class="hero-title">MURAIN</div>
-      <div class="hero-sub">LUXURY CONSIGNMENT</div>
-    </div>
+      <div class="hero-title">官方旗艦</div>
+      </div>
 
     <div class="controls">
       <select id="filterBrand">
-        <option value="">所有品牌 (All Brands)</option>
+        <option value="">所有品牌</option>
       </select>
       <button class="btn-reload" id="btnReload">↻</button>
     </div>
@@ -259,16 +303,16 @@
   <div class="cart-drawer-mask" id="cartMask">
     <div class="cart-drawer" id="cartDrawer">
       <div class="cart-head">
-        <h2>MY BAG</h2>
-        <div onclick="toggleCart(false)" style="cursor:pointer;font-size:24px;">✕</div>
+        <h2>我的購物車</h2>
+        <div onclick="toggleCart(false)" style="cursor:pointer;font-size:24px;color:#999;">✕</div>
       </div>
       <div class="cart-list" id="cartList"></div>
       <div class="cart-foot">
         <div class="cart-total">
-          <span>Total</span>
+          <span>總計</span>
           <span id="cartTotalMoney">$ 0</span>
         </div>
-        <button class="btn-checkout" id="drawerCheckout">結帳 (Checkout)</button>
+        <button class="btn-checkout" id="drawerCheckout">前往結帳</button>
       </div>
     </div>
   </div>
@@ -276,22 +320,22 @@
   <div class="login-modal" id="loginModal">
     <div class="login-box">
       <h3 style="margin-top:0;font-size:20px;color:var(--gold)">會員認證</h3>
-      <p style="color:#ccc;font-size:14px;line-height:1.5;margin-bottom:24px;">
+      <p style="color:#666;font-size:14px;line-height:1.5;margin-bottom:24px;">
         為了確保交易安全，結帳前請先登入 LINE 會員進行身份認證。
       </p>
       <button class="btn-line" id="btnLoginLine">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M20 10c0-4.4-3.6-8-8-8s-8 3.6-8 8c0 3.9 2.8 7.2 6.6 7.9-.1-.2-.2-.5-.2-.7 0-.6.4-1.2 1-1.2h.5c.3 0 .6.1.8.3.2.2.3.5.3.8v.9c0 .4-.2.8-.5 1 .9.3 1.9.4 2.9.4 4.4 0 8-3.6 8-8z"/></svg>
         使用 LINE 帳號登入
       </button>
-      <div onclick="$('loginModal').style.display='none'" style="margin-top:16px;font-size:13px;color:#666;cursor:pointer">稍後再說</div>
+      <div onclick="$('loginModal').style.display='none'" style="margin-top:16px;font-size:13px;color:#999;cursor:pointer">稍後再說</div>
     </div>
   </div>
 
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script>
   const API = "https://api2.murain.tw";
-const requireLineLogin = true;
-const LIFF_ID = "2006589075-qdYPyF0S";
+  const requireLineLogin = true;
+  const LIFF_ID = "2006589075-qdYPyF0S";
   const $ = (id)=>document.getElementById(id);
   const state = { items: [], picked: null };
   let isLineLoggedIn = localStorage.getItem("is_line_logged_in") === "true";
@@ -350,7 +394,7 @@ const LIFF_ID = "2006589075-qdYPyF0S";
   function initBrandFilter() {
     const brands = [...new Set(state.items.map(p => p.brand).filter(b => !!b))].sort();
     const select = $("filterBrand");
-    select.innerHTML = '<option value="">所有品牌 (All Brands)</option>';
+    select.innerHTML = '<option value="">所有品牌</option>';
     brands.forEach(b => {
       const opt = document.createElement("option"); opt.value = b; opt.textContent = b; select.appendChild(opt);
     });
@@ -360,7 +404,7 @@ const LIFF_ID = "2006589075-qdYPyF0S";
     const selectedBrand = $("filterBrand").value;
     const list = state.items.filter(p => !selectedBrand || p.brand === selectedBrand);
     if(list.length === 0) {
-      $("grid").innerHTML = `<div style="text-align:center; padding:40px; color:#666;">無符合商品</div>`;
+      $("grid").innerHTML = `<div style="text-align:center; padding:40px; color:#999;">無符合商品</div>`;
       return;
     }
     $("grid").innerHTML = list.map(p => {
@@ -369,7 +413,7 @@ const LIFF_ID = "2006589075-qdYPyF0S";
       <div class="card" onclick="openModal('${escapeAttr(p.sku||"")}')">
         <div class="imgbox">
           <div class="badge-brand">${p.brand ? escapeHtml(p.brand) : "MURAIN"}</div>
-          ${img ? `<img src="${escapeAttr(img)}" alt="img" loading="lazy" />` : `<div style="height:100%;display:flex;align-items:center;justify-content:center;color:#444;font-size:12px">No Image</div>`}
+          ${img ? `<img src="${escapeAttr(img)}" alt="img" loading="lazy" />` : `<div style="height:100%;display:flex;align-items:center;justify-content:center;color:#999;font-size:12px">無圖片</div>`}
         </div>
         <div class="info">
           <div class="title">${escapeHtml(p.name || "")}</div>
@@ -420,98 +464,96 @@ const LIFF_ID = "2006589075-qdYPyF0S";
   $("mClose").onclick = closeModal;
   $("mask").onclick = (e)=>{ if(e.target===$("mask")) closeModal(); };
 
-/* --- Cart & Login --- */
-async function ensureLineLogin() {
-  if (!requireLineLogin) return { ok: true, profile: null, idToken: "" };
+  /* --- Cart & Login --- */
+  async function ensureLineLogin() {
+    if (!requireLineLogin) return { ok: true, profile: null, idToken: "" };
 
-  if (!LIFF_ID || LIFF_ID.includes("請貼上")) {
-    alert("尚未設定 LIFF_ID，請先在 index.html 填上 LIFF_ID");
-    return { ok: false };
-  }
-
-  try {
-    if (!window.liff) {
-      alert("LIFF SDK 未載入，請確認已加入 liff sdk script");
+    if (!LIFF_ID || LIFF_ID.includes("請貼上")) {
+      alert("尚未設定 LIFF_ID，請先在 index.html 填上 LIFF_ID");
       return { ok: false };
     }
 
-    await liff.init({ liffId: LIFF_ID });
-
-    if (!liff.isLoggedIn()) {
-      // 會跳到 LINE 登入，登入完回到此頁
-      liff.login({ redirectUri: location.href });
-      return { ok: false };
-    }
-
-    const profile = await liff.getProfile();
-    const idToken = liff.getIDToken() || "";
-
-    // ✅ 把 line_user_id 記起來，checkout 也會用到
     try {
-      localStorage.setItem("line_user_id", profile.userId || "");
-      localStorage.setItem("line_display_name", profile.displayName || "");
-      localStorage.setItem("line_id_token", idToken || "");
-    } catch {}
+      if (!window.liff) {
+        alert("LIFF SDK 未載入，請確認已加入 liff sdk script");
+        return { ok: false };
+      }
 
-    return { ok: true, profile, idToken };
-  } catch (e) {
-    console.error(e);
-    alert("LINE 登入初始化失敗，請稍後重試");
-    return { ok: false };
+      await liff.init({ liffId: LIFF_ID });
+
+      if (!liff.isLoggedIn()) {
+        // 會跳到 LINE 登入，登入完回到此頁
+        liff.login({ redirectUri: location.href });
+        return { ok: false };
+      }
+
+      const profile = await liff.getProfile();
+      const idToken = liff.getIDToken() || "";
+
+      // ✅ 把 line_user_id 記起來，checkout 也會用到
+      try {
+        localStorage.setItem("line_user_id", profile.userId || "");
+        localStorage.setItem("line_display_name", profile.displayName || "");
+        localStorage.setItem("line_id_token", idToken || "");
+      } catch {}
+
+      return { ok: true, profile, idToken };
+    } catch (e) {
+      console.error(e);
+      alert("LINE 登入初始化失敗，請稍後重試");
+      return { ok: false };
+    }
   }
-}
 
-// ✅ 保留你原本的登入彈窗按鈕：按下去就觸發 LIFF 登入
-$("btnLoginLine").onclick = async () => {
-  await ensureLineLogin();
-};
-
+  // ✅ 保留你原本的登入彈窗按鈕：按下去就觸發 LIFF 登入
+  $("btnLoginLine").onclick = async () => {
+    await ensureLineLogin();
+  };
 
   $("mAdd").onclick = async () => {
-  if(!state.picked) return;
-  const p = state.picked;
-    
+    if(!state.picked) return;
+    const p = state.picked;
+      
     const lg = await ensureLineLogin();
-  if (!lg.ok) return;
+    if (!lg.ok) return;
 
-  try{
-    const r = await fetch(`${API}/cart/add`, {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({ cart_token: cartToken, sku: p.sku, qty: 1 })
-    });
-    const j = await r.json().catch(()=>null);
-    if (!r.ok || !j?.ok) {
-      toast("加入失敗：" + (j?.error || r.status));
-      return;
+    try{
+      const r = await fetch(`${API}/cart/add`, {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify({ cart_token: cartToken, sku: p.sku, qty: 1 })
+      });
+      const j = await r.json().catch(()=>null);
+      if (!r.ok || !j?.ok) {
+        toast("加入失敗：" + (j?.error || r.status));
+        return;
+      }
+
+      await refreshCartFromServer();
+      toast("已加入購物車");
+      closeModal();
+      toggleCart(true);
+    }catch(e){
+      toast("加入失敗：network");
     }
-
-    await refreshCartFromServer();
-    toast("已加入購物車");
-    closeModal();
-    toggleCart(true);
-  }catch(e){
-    toast("加入失敗：network");
-  }
-};
-
+  };
 
   window.removeFromCart = async (sku) => {
-  try{
-    const r = await fetch(`${API}/cart/remove`, {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({ cart_token: cartToken, sku })
-    });
-    const j = await r.json().catch(()=>null);
-    if(!r.ok || !j?.ok) throw new Error(j?.error || r.status);
+    try{
+      const r = await fetch(`${API}/cart/remove`, {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify({ cart_token: cartToken, sku })
+      });
+      const j = await r.json().catch(()=>null);
+      if(!r.ok || !j?.ok) throw new Error(j?.error || r.status);
 
-    await refreshCartFromServer();
-    toast("已移除商品");
-  }catch(e){
-    toast("移除失敗");
-  }
-};
+      await refreshCartFromServer();
+      toast("已移除商品");
+    }catch(e){
+      toast("移除失敗");
+    }
+  };
 
   function saveLocalCart(){
     localStorage.setItem("murain_local_cart", JSON.stringify(localCart));
@@ -519,35 +561,33 @@ $("btnLoginLine").onclick = async () => {
   }
 
   async function refreshCartFromServer(){
-  try{
-    const r = await fetch(`${API}/cart/get?cart_token=${encodeURIComponent(cartToken)}`);
-    const j = await r.json();
-    if(!j?.ok) throw new Error(j?.error || "cart_get_failed");
+    try{
+      const r = await fetch(`${API}/cart/get?cart_token=${encodeURIComponent(cartToken)}`);
+      const j = await r.json();
+      if(!j?.ok) throw new Error(j?.error || "cart_get_failed");
 
-    // 把後端 items 轉成你 UI 需要的資料（補 image/name）
-    const bySku = new Map((state.items||[]).map(p=>[String(p.sku), p]));
-    localCart = (j.items||[])
-  .map(it=>{
-    const p = bySku.get(String(it.sku)) || {};
-    const qty = Number(it.qty ?? 0) || 0; // ✅ 0 就是 0，不要被 || 變成 1
-    return {
-      sku: it.sku,
-      name: p.name || it.title || it.sku,
-      price: Number(it.price ?? p.price ?? 0) || 0,
-      image: p.image || "",
-      qty
-    };
-  })
-  .filter(x => x.qty > 0); // ✅ 刪掉(變0) 就不顯示
+      // 把後端 items 轉成你 UI 需要的資料（補 image/name）
+      const bySku = new Map((state.items||[]).map(p=>[String(p.sku), p]));
+      localCart = (j.items||[])
+        .map(it=>{
+          const p = bySku.get(String(it.sku)) || {};
+          const qty = Number(it.qty ?? 0) || 0; 
+          return {
+            sku: it.sku,
+            name: p.name || it.title || it.sku,
+            price: Number(it.price ?? p.price ?? 0) || 0,
+            image: p.image || "",
+            qty
+          };
+        })
+        .filter(x => x.qty > 0); 
 
-    saveLocalCart(); // 讓 UI 走同一套 updateCartUI()
-  }catch(e){
-    // 讀不到就不要亂顯示假資料
-    localCart = [];
-    saveLocalCart();
+      saveLocalCart(); 
+    }catch(e){
+      localCart = [];
+      saveLocalCart();
+    }
   }
-}
-
 
   function updateCartUI(){
     $("cartCount").textContent = localCart.length;
@@ -587,19 +627,19 @@ $("btnLoginLine").onclick = async () => {
   $("cartMask").addEventListener("click", (e)=>{ if(e.target===$("cartMask")) toggleCart(false); });
 
   async function goCheckout(){
-  const lg = await ensureLineLogin();
-  if (!lg?.ok) return;
+    const lg = await ensureLineLogin();
+    if (!lg?.ok) return;
 
-  // ✅ 先跟後端同步一次，避免 localCart 舊資料造成誤判「空的」
-  await refreshCartFromServer();
+    // ✅ 先跟後端同步一次，避免 localCart 舊資料造成誤判「空的」
+    await refreshCartFromServer();
 
-  if (localCart.length === 0) {
-    toast("購物車是空的");
-    return;
+    if (localCart.length === 0) {
+      toast("購物車是空的");
+      return;
+    }
+
+    location.href = `./checkout.html?cart=${encodeURIComponent(cartToken)}&api=${encodeURIComponent(API)}`;
   }
-
-  location.href = `./checkout.html?cart=${encodeURIComponent(cartToken)}&api=${encodeURIComponent(API)}`;
-}
 
   $("mCheckout").onclick = goCheckout;
   $("drawerCheckout").onclick = goCheckout;
@@ -608,6 +648,5 @@ $("btnLoginLine").onclick = async () => {
 
   loadProducts();
 </script>
-  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </body>
 </html>
