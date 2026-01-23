@@ -318,6 +318,40 @@ gatePw.autocomplete = "off";  // ✅ 避免瀏覽器亂自動填
 
     function money(n){ try{return new Intl.NumberFormat("zh-TW").format(Number(n||0));}catch{return String(n||0);} }
 
+    function esc(s){
+  return String(s||"")
+    .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;").replaceAll("'","&#039;");
+}
+
+    function fmtDateTimeTW(s){
+  if(!s) return "";
+  const d = new Date(s);
+
+  // 不是 ISO / 無法解析 → 原樣顯示（避免把你後端原字串弄壞）
+  if(!isFinite(d)) return String(s);
+
+  const parts = new Intl.DateTimeFormat("zh-TW", {
+    timeZone: "Asia/Taipei",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false
+  }).formatToParts(d);
+
+  const y  = parts.find(p=>p.type==="year")?.value || "";
+  const m  = parts.find(p=>p.type==="month")?.value || "";
+  const da = parts.find(p=>p.type==="day")?.value || "";
+  const hh = parts.find(p=>p.type==="hour")?.value || "";
+  const mm = parts.find(p=>p.type==="minute")?.value || "";
+
+  return `${y}-${m}-${da} ${hh}:${mm}`;
+}
+
+
+
     // ✅ 狀態顯示中文（資料仍維持英文值）
 const STATUS_ZH = {
   pending_transfer: "待匯款",
@@ -365,16 +399,11 @@ function statusZh(v){
 <td><span class="badge badgeGold ${statusClass(o.status)}">${esc(statusZh(o.status||""))}</span></td>
           <td class="mono">$ ${money(o.total_amount)}</td>
           <td>${esc(o.customer_name||"")}<div class="k mono">${esc(o.phone||"")}</div></td>
-          <td class="k mono">${esc(o.created_at||"")}</td>
+<td class="k mono">${esc(fmtDateTimeTW(o.created_at))}</td>
         </tr>
       `).join("") || `<tr><td colspan="5" class="k">沒有資料</td></tr>`;
     }
 
-    function esc(s){
-      return String(s||"")
-        .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;").replaceAll("'","&#039;");
-    }
     function statusClass(v){
   const k = String(v||"").trim().toLowerCase();
 
