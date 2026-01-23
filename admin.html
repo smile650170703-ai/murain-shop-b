@@ -69,7 +69,23 @@
   </style>
 </head>
 <body>
-  <div class="wrap">
+  <!-- ✅ 外層密碼 Gate（先擋住整頁） -->
+  <div id="gate" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+    background:rgba(0,0,0,.72);backdrop-filter:blur(6px);z-index:9999;padding:16px;">
+    <div class="card" style="max-width:420px;width:100%">
+      <h1 style="margin:0 0 8px">MURAIN 後台</h1>
+      <div class="k">請先輸入管理密碼（建議直接用 ADMIN_KEY）</div>
+      <div class="row" style="margin-top:10px">
+        <input id="gatePw" class="input" type="password" placeholder="輸入密碼" />
+        <button id="gateBtn" class="btn" style="min-width:110px">進入</button>
+      </div>
+      <div class="k" id="gateMsg" style="margin-top:8px"></div>
+    </div>
+  </div>
+
+  <!-- ✅ 內頁內容先藏起來 -->
+  <div id="app" style="display:none">
+    <div class="wrap">
     <div class="card">
       <div class="row" style="justify-content:space-between">
         <h1>後台：訂單管理（手動確認收款→按鈕更新狀態/填貨單/記錄開票）</h1>
@@ -97,8 +113,9 @@
         <select class="select" id="status" style="flex:0 0 220px">
           <option value="">全部狀態</option>
           <option value="pending_transfer">pending_transfer</option>
-          <option value="paid">paid</option>
-          <option value="shipped">shipped</option>
+<option value="paid_ok">paid_ok</option>
+<option value="paid">paid</option>
+<option value="shipped">shipped</option>
           <option value="completed">completed</option>
           <option value="cancelled">cancelled</option>
         </select>
@@ -152,12 +169,13 @@
             <div style="flex:1;min-width:220px">
               <div class="k">status</div>
               <select class="select" id="dStatus">
-                <option value="pending_transfer">pending_transfer</option>
-                <option value="paid">paid</option>
-                <option value="shipped">shipped</option>
-                <option value="completed">completed</option>
-                <option value="cancelled">cancelled</option>
-              </select>
+  <option value="pending_transfer">pending_transfer</option>
+  <option value="paid_ok">paid_ok</option>
+  <option value="paid">paid</option>
+  <option value="shipped">shipped</option>
+  <option value="completed">completed</option>
+  <option value="cancelled">cancelled</option>
+</select>
             </div>
             <div style="flex:1;min-width:220px">
               <div class="k">paid_at（可空）</div>
@@ -209,6 +227,32 @@
     const keyEl=document.getElementById("key");
     apiEl.value = localStorage.getItem(LS_API) || "https://api2.murain.tw";
     keyEl.value = localStorage.getItem(LS_KEY) || "";
+    
+    // ===== ✅ Gate：外層密碼 =====
+const gateEl  = document.getElementById("gate");
+const appEl   = document.getElementById("app");
+const gatePw  = document.getElementById("gatePw");
+const gateBtn = document.getElementById("gateBtn");
+const gateMsg = document.getElementById("gateMsg");
+
+// 你想要「每次都要輸入」→ 不自動解鎖
+function unlock(){
+  const pw = String(gatePw.value || "").trim();
+  if(!pw){ gateMsg.textContent="請輸入密碼"; return; }
+
+  // ✅ 用輸入值當 ADMIN_KEY
+  keyEl.value = pw;
+  localStorage.setItem(LS_KEY, pw);
+
+  gateEl.style.display = "none";
+  appEl.style.display  = "block";
+}
+
+gateBtn.onclick = unlock;
+gatePw.addEventListener("keydown", (e)=>{ if(e.key==="Enter") unlock(); });
+
+    gatePw.focus();               // ✅ 一進來游標在密碼框
+gatePw.autocomplete = "off";  // ✅ 避免瀏覽器亂自動填
 
     let offsetStack=[""]; // 簡易上一頁
     let curOffset="";
@@ -230,17 +274,19 @@
       return j;
     }
     async function apiPost(path, body){
-      const API=getAPI(), key=getKey();
-      const url = API + path;
-      const res = await fetch(url, {
-        method:"POST",
-        headers:{ "Content-Type":"application/json", "X-Admin-Key": key },
-        body: JSON.stringify(body||{})
-      });
-      const j = await res.json().catch(()=>null);
-      if(!res.ok) throw new Error(j?.message || j?.error || "request_failed");
-      return j;
-    }
+  const API=getAPI(), key=getKey();
+  const url = API + path + (path.includes("?") ? "&" : "?") + "admin_key=" + encodeURIComponent(key);
+
+  const res = await fetch(url, {
+    method:"POST",
+    headers:{ "Content-Type":"application/json" },
+    body: JSON.stringify(body||{})
+  });
+
+  const j = await res.json().catch(()=>null);
+  if(!res.ok) throw new Error(j?.message || j?.error || "request_failed");
+  return j;
+}
 
     function money(n){ try{return new Intl.NumberFormat("zh-TW").format(Number(n||0));}catch{return String(n||0);} }
 
@@ -362,11 +408,11 @@
 
     document.getElementById("btnSave").onclick = ()=> savePatch();
     document.getElementById("btnMarkPaid").onclick = ()=> {
-      const now = new Date().toISOString();
-      document.getElementById("dStatus").value="paid";
-      document.getElementById("dPaidAt").value = now;
-      savePatch();
-    };
+  const now = new Date().toISOString();
+  document.getElementById("dStatus").value="paid_ok";
+  document.getElementById("dPaidAt").value = now;
+  savePatch();
+};
     document.getElementById("btnMarkShipped").onclick = ()=> {
       document.getElementById("dStatus").value="shipped";
       savePatch();
@@ -386,6 +432,9 @@
     };
 
     window.openOrder = openOrder;
-  </script>
+   </script>
+
+    </div><!-- /.wrap -->
+  </div><!-- /#app -->
 </body>
 </html>
