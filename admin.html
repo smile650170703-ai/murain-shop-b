@@ -359,6 +359,18 @@ gatePw.autocomplete = "off";  // ✅ 避免瀏覽器亂自動填
 
       document.getElementById("dShip").textContent = ship ? JSON.stringify(ship,null,2) : "(無 / 解析失敗)";
       document.getElementById("dMsg").textContent="";
+      // ✅ 已開票就鎖住「記錄開票」按鈕（避免誤按）
+const inv = ship?.invoice || {};
+const alreadyIssued =
+  String(inv.status || "") === "issued" ||
+  !!String(inv.invoice_no || "").trim() ||
+  !!String(inv.issued_at || "").trim();
+
+const btnInv = document.getElementById("btnInvoice");
+if (btnInv){
+  btnInv.disabled = alreadyIssued;
+  btnInv.textContent = alreadyIssued ? "已開票 ✅" : "一鍵：記錄開票";
+}
     }
 
     document.getElementById("btnLoad").onclick = async ()=>{
