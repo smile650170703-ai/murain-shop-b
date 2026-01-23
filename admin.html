@@ -120,12 +120,13 @@
       <div class="row" style="margin-top:10px">
         <select class="select" id="status" style="flex:0 0 220px">
           <option value="">全部狀態</option>
-          <option value="pending_transfer">pending_transfer</option>
-<option value="paid_ok">paid_ok</option>
-<option value="paid">paid</option>
-<option value="shipped">shipped</option>
-          <option value="completed">completed</option>
-          <option value="cancelled">cancelled</option>
+<option value="pending_transfer">待匯款</option>
+<option value="pending_pay">待付款</option>
+<option value="paid_ok">已收款</option>
+<option value="paid">已付款</option>
+<option value="shipped">已出貨</option>
+<option value="completed">已完成</option>
+<option value="cancelled">已取消</option>
         </select>
         <input class="input" id="q" placeholder="搜尋：order_id / phone / customer_name" style="flex:1;min-width:260px" />
         <button class="btnGhost" id="btnSearch">搜尋</button>
@@ -177,13 +178,14 @@
             <div style="flex:1;min-width:220px">
               <div class="k">status</div>
               <select class="select" id="dStatus">
-  <option value="pending_transfer">pending_transfer</option>
-  <option value="paid_ok">paid_ok</option>
-  <option value="paid">paid</option>
-  <option value="shipped">shipped</option>
-  <option value="completed">completed</option>
-  <option value="cancelled">cancelled</option>
+ <option value="pending_transfer">待匯款</option>
+<option value="paid_ok">已收款</option>
+<option value="paid">已付款</option>
+<option value="shipped">已出貨</option>
+<option value="completed">已完成</option>
+<option value="cancelled">已取消</option>
 </select>
+              <div class="k" id="dStatusZh" style="margin-top:6px"></div>
             </div>
             <div style="flex:1;min-width:220px">
               <div class="k">paid_at（可空）</div>
@@ -309,6 +311,25 @@ gatePw.autocomplete = "off";  // ✅ 避免瀏覽器亂自動填
 
     function money(n){ try{return new Intl.NumberFormat("zh-TW").format(Number(n||0));}catch{return String(n||0);} }
 
+    // ✅ 狀態顯示中文（資料仍維持英文值）
+const STATUS_ZH = {
+  pending_transfer: "待匯款",
+  pending_pay: "待付款",
+  pending: "待確認",
+  paid_ok: "已收款",
+  paid: "已付款",
+  shipped: "已出貨",
+  completed: "已完成",
+  cancelled: "已取消",
+  failed: "失敗",
+};
+
+function statusZh(v){
+  const k = String(v||"").trim();
+  return STATUS_ZH[k] || k; // 沒對到就原樣顯示
+}
+
+
     async function load(){
       const status=document.getElementById("status").value.trim();
       const q=document.getElementById("q").value.trim();
@@ -335,7 +356,7 @@ gatePw.autocomplete = "off";  // ✅ 避免瀏覽器亂自動填
       tbody.innerHTML = curOrders.map(o=>`
         <tr style="cursor:pointer" onclick="openOrder('${o.order_id.replaceAll("'","")}')">
           <td class="mono" style="font-weight:900">${esc(o.order_id)}</td>
-          <td><span class="badge badgeGold">${esc(o.status||"")}</span></td>
+<td><span class="badge badgeGold">${esc(statusZh(o.status||""))}</span></td>
           <td class="mono">$ ${money(o.total_amount)}</td>
           <td>${esc(o.customer_name||"")}<div class="k mono">${esc(o.phone||"")}</div></td>
           <td class="k mono">${esc(o.created_at||"")}</td>
@@ -363,6 +384,7 @@ gatePw.autocomplete = "off";  // ✅ 避免瀏覽器亂自動填
       document.getElementById("dTotal").textContent = "$ " + money(o.total_amount);
 
       document.getElementById("dStatus").value = o.status || "pending_transfer";
+      document.getElementById("dStatusZh").textContent = "目前狀態：" + statusZh(o.status || "");
       document.getElementById("dPaidAt").value = o.paid_at || "";
       document.getElementById("dNote").value = o.note || "";
 
@@ -461,6 +483,13 @@ if (btnInv){
         toast("失敗：" + e.message);
       }
     };
+
+    document.getElementById("dStatus").addEventListener("change", ()=>{
+  const v = document.getElementById("dStatus").value;
+  const el = document.getElementById("dStatusZh");
+  if(el) el.textContent = "目前狀態：" + statusZh(v);
+});
+
 
     window.openOrder = openOrder;
    </script>
