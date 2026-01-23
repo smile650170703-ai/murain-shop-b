@@ -434,28 +434,6 @@ function forceRelogin(msg){
     function money(n){ try{return new Intl.NumberFormat("zh-TW").format(Number(n||0));}catch{return String(n||0);} }
     function esc(s){ return String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;"); }
 
-    function fmtDateTW(s){
-  if(!s) return "";
-  const d = new Date(s);
-
-  // 不是 ISO（例如 "2026-01-23 10:10:56"）就先直接取日期
-  if(!isFinite(d)) return String(s).slice(0,10);
-
-  // ✅ 永遠用台灣時區輸出 YYYY-MM-DD
-  const parts = new Intl.DateTimeFormat("zh-TW", {
-    timeZone: "Asia/Taipei",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(d);
-
-  const y = parts.find(p=>p.type==="year")?.value || "";
-  const m = parts.find(p=>p.type==="month")?.value || "";
-  const day = parts.find(p=>p.type==="day")?.value || "";
-
-  return `${y}-${m}-${day}`;
-}
-
     // ✅ 狀態顯示中文（資料仍維持英文值）
 const STATUS_ZH = {
   pending_transfer: "待匯款",
@@ -517,7 +495,7 @@ container.innerHTML = orders.map(o => `
 <span class="order-status ${statusClass(o.status)}">${esc(o.status ? statusZh(o.status) : "處理中")}</span>
           </div>
           <div class="card-mid">
-<div class="order-date">${esc(fmtDateTW(o.created_at))}</div>
+            <div class="order-date">${esc(o.created_at?.split(' ')[0] || "")}</div>
             <div class="order-total">$ ${money(o.total_amount)}</div>
           </div>
           <div class="card-arrow">›</div>
@@ -569,7 +547,7 @@ async function loadMyOrders(){
       // 先填入列表已有的基本資料，讓使用者不用等
       const basic = orders.find(o => o.order_id === order_id) || {};
       document.getElementById("dId").textContent = order_id;
-document.getElementById("dDate").textContent = fmtDateTW(basic.created_at) || "-";
+      document.getElementById("dDate").textContent = basic.created_at || "-";
 document.getElementById("dStatus").textContent = basic.status ? statusZh(basic.status) : "-";
       paintDetailStatus(basic.status || "");
       document.getElementById("dTotal").textContent = "$ " + money(basic.total_amount);
