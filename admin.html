@@ -69,6 +69,11 @@
   /* ✅ Gate 解鎖後不顯示 ADMIN_KEY 欄位（避免看起來要輸入第二次） */
 #key { display:none !important; }
 #keyTitle { display:none !important; }
+    /* ✅ 傻瓜模式：隱藏「載入訂單」按鈕（不影響自動載入） */
+#btnLoad { display:none !important; }
+    /* ✅ 傻瓜模式：隱藏 API 整欄 */
+#apiBox { display:none !important; }
+
   </style>
 </head>
 <body>
@@ -98,10 +103,10 @@
       </div>
 
       <div class="row">
-        <div style="flex:1;min-width:260px">
-          <div class="k">API</div>
-          <input class="input" id="api" readonly />
-        </div>
+        <div id="apiBox" style="flex:1;min-width:260px">
+  <div class="k">API</div>
+  <input class="input" id="api" readonly />
+</div>
         <div style="flex:1;min-width:220px">
           <div class="k" id="keyTitle">ADMIN_KEY</div>
           <input class="input" id="key" placeholder="你的 ADMIN_KEY" />
@@ -238,8 +243,7 @@ const gatePw  = document.getElementById("gatePw");
 const gateBtn = document.getElementById("gateBtn");
 const gateMsg = document.getElementById("gateMsg");
 
-// 你想要「每次都要輸入」→ 不自動解鎖
-function unlock(){
+async function unlock(){
   const pw = String(gatePw.value || "").trim();
   if(!pw){ gateMsg.textContent="請輸入密碼"; return; }
 
@@ -247,9 +251,21 @@ function unlock(){
   keyEl.value = pw;
   localStorage.setItem(LS_KEY, pw);
 
+  // ✅ 顯示內頁
   gateEl.style.display = "none";
   appEl.style.display  = "block";
+
+  // ✅ 進來就自動載入訂單（等同按一次載入）
+  try{
+    curOffset=""; offsetStack=[""];
+    await load();
+    toast("已自動載入訂單 ✅");
+  }catch(e){
+    toast("自動載入失敗：" + e.message);
+  }
 }
+
+
 
 gateBtn.onclick = unlock;
 gatePw.addEventListener("keydown", (e)=>{ if(e.key==="Enter") unlock(); });
