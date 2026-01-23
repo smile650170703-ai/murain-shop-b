@@ -66,6 +66,9 @@
     }
     .badgeGold{border-color: rgba(201,162,74,.45); color: var(--gold2);}
     .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:rgba(0,0,0,.75);border:1px solid rgba(201,162,74,.35);color:var(--text);padding:10px 12px;border-radius:999px;display:none;z-index:999}
+  /* ✅ Gate 解鎖後不顯示 ADMIN_KEY 欄位（避免看起來要輸入第二次） */
+#key { display:none !important; }
+#keyTitle { display:none !important; }
   </style>
 </head>
 <body>
@@ -97,10 +100,10 @@
       <div class="row">
         <div style="flex:1;min-width:260px">
           <div class="k">API</div>
-          <input class="input" id="api" />
+          <input class="input" id="api" readonly />
         </div>
         <div style="flex:1;min-width:220px">
-          <div class="k">ADMIN_KEY</div>
+          <div class="k" id="keyTitle">ADMIN_KEY</div>
           <input class="input" id="key" placeholder="你的 ADMIN_KEY" />
         </div>
         <div style="min-width:120px">
