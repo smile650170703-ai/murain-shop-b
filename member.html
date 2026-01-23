@@ -488,9 +488,9 @@ function statusZh(v){
         return;
       }
 
-      container.innerHTML = orders.map(o => `
-        <div class="order-card" onclick="openOrder('${esc(o.order_id)}')">
-          <div class="card-top">
+container.innerHTML = orders.map(o => `
+  <div class="order-card" onclick="openOrder(${JSON.stringify(o.order_id||"")})">
+    <div class="card-top">
             <span class="order-id">#${esc(o.order_id)}</span>
 <span class="order-status ${statusClass(o.status)}">${esc(o.status ? statusZh(o.status) : "處理中")}</span>
           </div>
