@@ -73,6 +73,8 @@
 #btnLoad { display:none !important; }
     /* ✅ 傻瓜模式：隱藏 API 整欄 */
 #apiBox { display:none !important; }
+    /* ✅ 隱藏：回官網按鈕（不動其他） */
+.btnGhost[onclick*="index.html"]{display:none !important;}
 
   </style>
 </head>
@@ -328,7 +330,15 @@ function statusZh(v){
   const k = String(v||"").trim();
   return STATUS_ZH[k] || k; // 沒對到就原樣顯示
 }
+    function statusClass(v){
+  const k = String(v||"").trim().toLowerCase();
 
+  if(["pending_pay","pending_transfer","pending"].includes(k)) return "st-pending";
+  if(["paid_ok","paid","completed"].includes(k)) return "st-paid";
+  if(["shipped"].includes(k)) return "st-shipped";
+  if(["cancelled","failed"].includes(k)) return "st-bad";
+  return "st-pending";
+}
 
     async function load(){
       const status=document.getElementById("status").value.trim();
@@ -356,7 +366,7 @@ function statusZh(v){
       tbody.innerHTML = curOrders.map(o=>`
         <tr style="cursor:pointer" onclick="openOrder('${o.order_id.replaceAll("'","")}')">
           <td class="mono" style="font-weight:900">${esc(o.order_id)}</td>
-<td><span class="badge badgeGold">${esc(statusZh(o.status||""))}</span></td>
+<td><span class="badge ${statusClass(o.status)}">${esc(statusZh(o.status||""))}</span></td>
           <td class="mono">$ ${money(o.total_amount)}</td>
           <td>${esc(o.customer_name||"")}<div class="k mono">${esc(o.phone||"")}</div></td>
           <td class="k mono">${esc(o.created_at||"")}</td>
