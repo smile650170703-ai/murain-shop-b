@@ -177,6 +177,23 @@
       color: var(--status-text); border: 1px solid rgba(179, 142, 70, 0.3);
       font-weight: bold;
     }
+    /* ✅ 狀態 badge 顏色（顯示用，不影響後端值） */
+.order-status.st-pending{
+  background: #f2f2f2;
+  color: #666;
+  border-color: rgba(0,0,0,.12);
+}
+.order-status.st-paid{
+  background: #fdf8e6;          /* 金色系（你原本） */
+  color: #b38e46;
+  border-color: rgba(179,142,70,.35);
+}
+.order-status.st-shipped{
+  background: #eaf2ff;          /* 藍色系 */
+  color: #2b5fb8;
+  border-color: rgba(43,95,184,.35);
+}
+
     
     .card-mid { display: flex; justify-content: space-between; align-items: center; }
     .order-date { font-size: 12px; color: #999; }
@@ -299,7 +316,7 @@
           <div class="info-grid">
             <div class="info-row"><span>訂單編號</span><span class="info-val" id="dId"></span></div>
             <div class="info-row"><span>建立日期</span><span class="info-val" id="dDate"></span></div>
-            <div class="info-row"><span>訂單狀態</span><span class="info-val" id="dStatus" style="color:var(--gold);font-weight:bold;"></span></div>
+            <div class="info-row"><span>訂單狀態</span><span class="info-val" id="dStatus" style="font-weight:bold;"></span></div>
             <div class="info-row"><span>訂單金額</span><span class="info-val" id="dTotal" style="color:#c5a059;font-size:16px;font-weight:bold"></span></div>
           </div>
         </div>
@@ -341,6 +358,22 @@
 
     let idToken = "";
     let orders = [];
+
+    // ✅ idToken 逾時就強制重新登入（避免出現 IdToken expired）
+function needRelogin(){
+  try{
+    const d = liff.getDecodedIDToken?.();
+    const expMs = (Number(d?.exp || 0) * 1000);
+    return !!expMs && Date.now() > (expMs - 30*1000); // 提前 30 秒
+  }catch(_e){
+    return false;
+  }
+}
+function forceRelogin(msg){
+  try{ if(msg) toast(msg); }catch(_){}
+  try{ liff.logout(); }catch(_){}
+  liff.login({ redirectUri: location.href });
+}
 
     // 初始化 LINE LIFF（✅ 一進頁面就強制登入 + 顯示大頭照）
     async function init(){
@@ -401,6 +434,52 @@
     function money(n){ try{return new Intl.NumberFormat("zh-TW").format(Number(n||0));}catch{return String(n||0);} }
     function esc(s){ return String(s||"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;"); }
 
+    // ✅ 狀態顯示中文（資料仍維持英文值）
+const STATUS_ZH = {
+  pending_transfer: "待匯款",
+  pending_pay: "待付款",
+  pending: "待確認",
+  paid_ok: "已收款",
+  paid: "已付款",
+  shipped: "已出貨",
+  completed: "已完成",
+  cancelled: "已取消",
+  failed: "失敗",
+};
+
+function statusZh(v){
+  const k = String(v||"").trim();
+  return STATUS_ZH[k] || k;
+}
+    function statusClass(v){
+  const k = String(v||"").trim();
+
+  // 待付款/待匯款/待確認 → 灰
+  if(["pending_pay","pending_transfer","pending"].includes(k)) return "st-pending";
+
+  // 已收款/已付款/已完成 → 金（你要的已收款金）
+  if(["paid_ok","paid","completed"].includes(k)) return "st-paid";
+
+  // 已出貨 → 藍
+  if(["shipped"].includes(k)) return "st-shipped";
+
+  // 其他（cancelled/failed）先用灰
+  return "st-pending";
+}
+
+    function paintDetailStatus(st){
+  const el = document.getElementById("dStatus");
+  if(!el) return;
+  const cls = statusClass(st);
+
+  el.style.color =
+    (cls==="st-shipped") ? "#2b5fb8" :
+    (cls==="st-paid")    ? "#b38e46" :
+    "#666";
+}
+
+
+
     // 渲染訂單列表 (卡片樣式)
     function render(){
       const container = document.getElementById("orderList");
@@ -413,7 +492,7 @@
         <div class="order-card" onclick="openOrder('${esc(o.order_id)}')">
           <div class="card-top">
             <span class="order-id">#${esc(o.order_id)}</span>
-            <span class="order-status">${esc(o.status||"處理中")}</span>
+<span class="order-status ${statusClass(o.status)}">${esc(o.status ? statusZh(o.status) : "處理中")}</span>
           </div>
           <div class="card-mid">
             <div class="order-date">${esc(o.created_at?.split(' ')[0] || "")}</div>
@@ -424,28 +503,42 @@
       `).join("");
     }
 
-    // 載入訂單邏輯
-    async function loadMyOrders(){
-      if(LIFF_ID && !liff.isLoggedIn()){
-        liff.login();
-        return;
-      }
-      if(!idToken && LIFF_ID) idToken = liff.getIDToken();
-      if(!idToken) return toast("請先登入");
+async function loadMyOrders(){
+  if(LIFF_ID && !liff.isLoggedIn()){
+    liff.login({ redirectUri: location.href });
+    return;
+  }
 
-      const msg = document.getElementById("msg");
-      msg.textContent = "資料載入中...";
-      
-      try{
-        const data = await post("/member/orders", { id_token: idToken });
-        orders = data.orders || [];
-        render();
-        msg.textContent = `共找到 ${orders.length} 筆訂單`;
-      }catch(e){
-        msg.textContent = "載入失敗：" + e.message;
-        toast("錯誤：" + e.message);
-      }
+  // ✅ 每次載入都重新拿最新 idToken（不要吃舊的）
+  idToken = (LIFF_ID ? (liff.getIDToken() || "") : idToken);
+
+  // ✅ token 快過期/已過期 → 直接重新登入
+  if(LIFF_ID && needRelogin()){
+    document.getElementById("msg").textContent = "登入逾時，重新登入中…";
+    return forceRelogin("登入逾時，請重新登入");
+  }
+
+  if(!idToken) return toast("請先登入");
+
+  const msg = document.getElementById("msg");
+  msg.textContent = "資料載入中...";
+
+  try{
+    const data = await post("/member/orders", { id_token: idToken });
+    orders = data.orders || [];
+    render();
+    msg.textContent = `共找到 ${orders.length} 筆訂單`;
+  }catch(e){
+    const em = String(e?.message || e || "");
+    if(/idtoken expired/i.test(em)){
+      msg.textContent = "登入逾時，重新登入中…";
+      return forceRelogin("登入逾時，請重新登入");
     }
+    msg.textContent = "載入失敗：" + em;
+    toast("錯誤：" + em);
+  }
+}
+
 
     // 打開訂單詳情 (彈窗)
     async function openOrder(order_id){
@@ -455,7 +548,8 @@
       const basic = orders.find(o => o.order_id === order_id) || {};
       document.getElementById("dId").textContent = order_id;
       document.getElementById("dDate").textContent = basic.created_at || "-";
-      document.getElementById("dStatus").textContent = basic.status || "-";
+document.getElementById("dStatus").textContent = basic.status ? statusZh(basic.status) : "-";
+      paintDetailStatus(basic.status || "");
       document.getElementById("dTotal").textContent = "$ " + money(basic.total_amount);
       document.getElementById("dItems").innerHTML = "<div style='color:#999;font-size:12px;padding:10px 0;'>載入詳細資料中...</div>";
       
@@ -464,10 +558,16 @@
       document.getElementById("dTrack").textContent = "-";
       document.getElementById("dAddr").textContent = "";
 
+        // ✅ 每次開明細也更新一次 idToken，避免過期
+  idToken = (LIFF_ID ? (liff.getIDToken() || "") : idToken);
+  if(LIFF_ID && needRelogin()) return forceRelogin("登入逾時，請重新登入");
+
       try{
         const data = await post("/member/order/get", { id_token: idToken, order_id });
 
         const o = data.order || {};
+        document.getElementById("dStatus").textContent = o.status ? statusZh(o.status) : (basic.status ? statusZh(basic.status) : "-");
+        paintDetailStatus(o.status || basic.status || "");
         const items = Array.isArray(data.items) ? data.items : [];
 
         // ✅ shipping_info 防爆：可能是字串/物件/空值/壞 JSON
