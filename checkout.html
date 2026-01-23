@@ -411,6 +411,75 @@
     }
     initLINE();
 
+        // ✅ 會員中心：member.html（你已確認）
+    const MEMBER_CENTER_URL = new URL("./member.html", location.href).toString();
+
+    // ✅ 結單送出通知卡：同一張單只發一次（避免重複）
+    async function sendOrderSubmittedCardOnce(orderId){
+      try{
+        if(!orderId) return;
+
+        const sentKey = `sent_card_${orderId}`;
+        if (localStorage.getItem(sentKey) === "1") return;
+
+        // 只能在 LINE App 內的 LIFF 才能發送訊息
+        if (!window.liff || !liff.isInClient || !liff.isInClient()) return;
+
+        await liff.sendMessages([{
+          type: "flex",
+          altText: "✅ 結單已送出",
+          contents: {
+            type: "bubble",
+            body: {
+              type: "box",
+              layout: "vertical",
+              spacing: "md",
+              contents: [
+                { type: "text", text: "✅ 結單已送出", weight: "bold", size: "lg" },
+                { type: "text", text: `訂單編號：${orderId}`, size: "sm", wrap: true, color: "#666666" },
+                { type: "text", text: "可到會員中心查看訂單狀態與出貨進度。", size: "sm", wrap: true, color: "#666666" }
+              ]
+            },
+            footer: {
+              type: "box",
+              layout: "vertical",
+              spacing: "sm",
+              contents: [{
+                type: "button",
+                style: "primary",
+                action: { type: "uri", label: "到會員中心查看訂單", uri: MEMBER_CENTER_URL }
+              }]
+            }
+          }
+        }]);
+
+        localStorage.setItem(sentKey, "1");
+      }catch(e){
+        console.warn("send card failed:", e);
+      }
+    }
+
+    (function(){
+  try{
+    const pending = localStorage.getItem("pending_card_order_id") || "";
+    if (!pending) return;
+
+    const u = new URL(location.href);
+    const ok =
+      u.searchParams.get("paid") === "1" ||
+      u.searchParams.get("success") === "1" ||
+      u.searchParams.get("status") === "success";
+
+    // ✅ 只有「付款成功」回跳才發卡
+    if (ok) {
+      sendOrderSubmittedCardOnce(pending);
+      localStorage.removeItem("pending_card_order_id");
+    }
+  }catch(e){}
+})();
+
+
+
     /* --- 邏輯控制核心 --- */
 
     // 1. 監聽付款方式，連動運送選項
@@ -691,11 +760,16 @@
         // 將結果移出 container 顯示
         document.querySelector(".wrap").appendChild(document.getElementById("result"));
 
-        toast("訂單建立成功");
-        // 可選：如果是 PayUNI 線上支付，這裡通常會收到 redirect_url
-        if(r.payment_url) {
-           setTimeout(() => location.href = r.payment_url, 1500);
-        }
+                toast("訂單建立成功");
+
+// ✅ 線上付款：先不發卡，只記住這張單，等付款成功回來才發
+if (r.payment_url) {
+  try{ localStorage.setItem("pending_card_order_id", orderId); }catch(e){}
+  setTimeout(() => location.href = r.payment_url, 1500);
+} else {
+  // ✅ 非線上付款（匯款/貨到付款）：立刻發卡
+  sendOrderSubmittedCardOnce(orderId);
+}
 
       }catch(e){
         btn.disabled = false;
