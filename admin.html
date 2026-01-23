@@ -75,6 +75,11 @@
 #apiBox { display:none !important; }
     /* ✅ 隱藏：回官網按鈕（不動其他） */
 .btnGhost[onclick*="index.html"]{display:none !important;}
+    /* ✅ 狀態色：灰 / 金 / 藍 / 紅（更高優先權，蓋過 badgeGold） */
+.badge.badgeGold.st-pending{border-color:rgba(0,0,0,.18);color:#666;background:rgba(0,0,0,.03)}
+.badge.badgeGold.st-paid{border-color:rgba(201,162,74,.55);color:var(--gold2);background:rgba(201,162,74,.10)}
+.badge.badgeGold.st-shipped{border-color:rgba(90,160,255,.55);color:#8fc2ff;background:rgba(90,160,255,.10)}
+.badge.badgeGold.st-bad{border-color:rgba(255,120,120,.55);color:#ffb4b4;background:rgba(255,120,120,.10)}
 
   </style>
 </head>
@@ -366,7 +371,7 @@ function statusZh(v){
       tbody.innerHTML = curOrders.map(o=>`
         <tr style="cursor:pointer" onclick="openOrder('${o.order_id.replaceAll("'","")}')">
           <td class="mono" style="font-weight:900">${esc(o.order_id)}</td>
-<td><span class="badge ${statusClass(o.status)}">${esc(statusZh(o.status||""))}</span></td>
+<td><span class="badge badgeGold ${statusClass(o.status)}">${esc(o.status||"")}</span></td>
           <td class="mono">$ ${money(o.total_amount)}</td>
           <td>${esc(o.customer_name||"")}<div class="k mono">${esc(o.phone||"")}</div></td>
           <td class="k mono">${esc(o.created_at||"")}</td>
@@ -379,6 +384,23 @@ function statusZh(v){
         .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
         .replaceAll('"',"&quot;").replaceAll("'","&#039;");
     }
+    function statusClass(v){
+  const k = String(v||"").trim().toLowerCase();
+
+  // 待付款/待匯款/待確認 → 灰
+  if(["pending_pay","pending_transfer","pending"].includes(k)) return "st-pending";
+
+  // 已收款/已付款/已完成 → 金
+  if(["paid_ok","paid","completed"].includes(k)) return "st-paid";
+
+  // 已出貨 → 藍
+  if(["shipped"].includes(k)) return "st-shipped";
+
+  // 取消/失敗 → 紅
+  if(["cancelled","failed"].includes(k)) return "st-bad";
+
+  return "st-pending";
+}
 
     async function openOrder(orderId){
       curOrderId = orderId;
