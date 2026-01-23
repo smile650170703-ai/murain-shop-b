@@ -176,6 +176,24 @@
     .btnGhost {
       background: #eee; border:none; padding:4px 10px; border-radius:4px; font-size:12px; cursor:pointer; color:#555;
     }
+
+    .topbar a[href="./index.html"]{ display:none !important; }
+.topbar{ justify-content:center !important; }
+    /* ✅ 7-11 選店按鈕：改成主按鈕樣式（只影響 #btnPick711） */
+#btnPick711{
+  width:100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--gold);
+  background: linear-gradient(to bottom, #d4af37, #b38e46);
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 1px;
+  font-size: 14px;
+  box-shadow: 0 4px 15px rgba(179, 142, 70, 0.25);
+}
+#btnPick711:active{ transform: scale(0.98); }
+
   </style>
 </head>
 <body>
