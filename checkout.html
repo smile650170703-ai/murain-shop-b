@@ -615,7 +615,7 @@
       } else {
         // 其他 (匯款、線上支付) -> 可選 7-11 或 宅配
         elShip.add(new Option("7-11 門市取貨", "cvs_711"));
-        elShip.add(new Option("郵寄 / 宅配", "home"));
+        elShip.add(new Option("中華郵政郵寄", "home"));
       }
       elShip.disabled = (pay === "cvs_cod");
       if (pay === "cvs_cod") elShip.value = "cvs_711";
