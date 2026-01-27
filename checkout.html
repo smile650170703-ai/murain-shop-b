@@ -409,55 +409,76 @@
         console.error(e);
       }
     }
-    initLINE();
+    const LINE_INIT_PROMISE = initLINE();
 
         // ✅ 會員中心：member.html（你已確認）
     const MEMBER_CENTER_URL = new URL("./member.html", location.href).toString();
 
     // ✅ 結單送出通知卡：同一張單只發一次（避免重複）
-    async function sendOrderSubmittedCardOnce(orderId){
-      try{
-        if(!orderId) return;
+// ✅ 新增：同時自動發送文字「[MURAIN 寄賣品 - 已下單]」並跳回官方 LINE
+async function sendOrderSubmittedCardOnce(orderId){
+  try{
+    if(!orderId) return;
 
-        const sentKey = `sent_card_${orderId}`;
-        if (localStorage.getItem(sentKey) === "1") return;
+    // 確保 LIFF init 完成（避免付款回跳時太快觸發）
+    try{ await (typeof LINE_INIT_PROMISE !== "undefined" ? LINE_INIT_PROMISE : Promise.resolve()); }catch(e){}
 
-        // 只能在 LINE App 內的 LIFF 才能發送訊息
-        if (!window.liff || !liff.isInClient || !liff.isInClient()) return;
-
-        await liff.sendMessages([{
-          type: "flex",
-          altText: "✅ 結單已送出",
-          contents: {
-            type: "bubble",
-            body: {
-              type: "box",
-              layout: "vertical",
-              spacing: "md",
-              contents: [
-                { type: "text", text: "✅ 結單已送出", weight: "bold", size: "lg" },
-                { type: "text", text: `訂單編號：${orderId}`, size: "sm", wrap: true, color: "#666666" },
-                { type: "text", text: "可到會員中心查看訂單狀態與出貨進度。", size: "sm", wrap: true, color: "#666666" }
-              ]
-            },
-            footer: {
-              type: "box",
-              layout: "vertical",
-              spacing: "sm",
-              contents: [{
-                type: "button",
-                style: "primary",
-                action: { type: "uri", label: "到會員中心查看訂單", uri: MEMBER_CENTER_URL }
-              }]
-            }
-          }
-        }]);
-
-        localStorage.setItem(sentKey, "1");
-      }catch(e){
-        console.warn("send card failed:", e);
+    const sentKey = `sent_card_${orderId}`;
+    if (localStorage.getItem(sentKey) === "1") {
+      // 已送過也直接回 LINE（只在 LINE App 內有效）
+      if (window.liff && liff.isInClient && liff.isInClient()){
+        try{ liff.closeWindow(); }catch(e){}
       }
+      return;
     }
+
+    // 只能在 LINE App 內的 LIFF 才能發送訊息
+    if (!window.liff || !liff.isInClient || !liff.isInClient()) return;
+
+    await liff.sendMessages([
+      // ✅ 你要新增的那句文字（會送到「開啟此 LIFF 的聊天室」，通常就是官方帳號）
+      { type: "text", text: "[MURAIN 寄賣品 - 已下單]" },
+
+      // ✅ 原本的 Flex 卡片（保留不動）
+      {
+        type: "flex",
+        altText: "✅ 結單已送出",
+        contents: {
+          type: "bubble",
+          body: {
+            type: "box",
+            layout: "vertical",
+            spacing: "md",
+            contents: [
+              { type: "text", text: "✅ 結單已送出", weight: "bold", size: "lg" },
+              { type: "text", text: `訂單編號：${orderId}`, size: "sm", wrap: true, color: "#666666" },
+              { type: "text", text: "可到會員中心查看訂單狀態與出貨進度。", size: "sm", wrap: true, color: "#666666" }
+            ]
+          },
+          footer: {
+            type: "box",
+            layout: "vertical",
+            spacing: "sm",
+            contents: [{
+              type: "button",
+              style: "primary",
+              action: { type: "uri", label: "到會員中心查看訂單", uri: MEMBER_CENTER_URL }
+            }]
+          }
+        }
+      }
+    ]);
+
+    localStorage.setItem(sentKey, "1");
+
+    // ✅ 送完訊息 → 跳回官方 LINE（回到聊天室）
+    setTimeout(()=>{ try{ liff.closeWindow(); }catch(e){} }, 350);
+
+  }catch(e){
+    console.warn("send card/text failed:", e);
+  }
+}
+
 
     (function(){
   try{
