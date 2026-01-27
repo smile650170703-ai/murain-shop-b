@@ -150,6 +150,7 @@
               <tr>
                 <th>order_id</th>
                 <th>狀態</th>
+                <th>付款方式</th>
                 <th>金額</th>
                 <th>客戶</th>
                 <th>時間</th>
@@ -369,6 +370,71 @@ function statusZh(v){
   const k = String(v||"").trim();
   return STATUS_ZH[k] || k; // 沒對到就原樣顯示
 }
+    // ✅ 付款方式：盡量從訂單物件上抓（不動後端）
+// 你後端欄位叫什麼不確定，所以用多個常見 key 去兜
+function getPayMethod(o){
+  const x = o || {};
+  return (
+    x.payment_method ||
+    x.pay_method ||
+    x.pay_channel ||
+    x.pay_type ||
+    x.pay_method_code ||
+    x.payuni_mode ||
+    x.pay ||
+    x.payment ||
+    ""
+  );
+}
+
+// ✅ 顯示中文（抓不到就顯示 "-"，有值但不認得就原樣顯示）
+function payMethodZh(v){
+  const raw = String(v ?? "").trim();
+  const k = raw.toLowerCase();
+
+  if(!k) return "-";
+
+  const MAP = {
+    // 常見：信用卡/PayUNI
+    "payuni": "信用卡",
+    "payuni_credit": "信用卡",
+    "credit": "信用卡",
+    "credit_card": "信用卡",
+    "card": "信用卡",
+    "instalment": "信用卡分期",
+    "installment": "信用卡分期",
+    "payuni_installment": "信用卡分期",
+
+    // LINE Pay
+    "linepay": "LINE Pay",
+    "line_pay": "LINE Pay",
+
+    // 轉帳/ATM/匯款
+    "atm": "ATM",
+    "transfer": "匯款",
+    "bank": "匯款",
+
+    // 後付款/分期
+    "aftee": "AFTEE 後付款",
+    "yufu": "裕富分期",
+    "zerocard": "中租無卡分期",
+    "zero_card": "中租無卡分期",
+
+    // 貨到/超商
+    "cod": "貨到付款",
+    "cvs_cod": "7-11 取貨付款",
+  };
+
+  if(MAP[k]) return MAP[k];
+
+  // 再做一些模糊判斷（避免你後端回傳不同字）
+  if(k.includes("line") && k.includes("pay")) return "LINE Pay";
+  if(k.includes("payuni") && (k.includes("install") || k.includes("instal"))) return "信用卡分期";
+  if(k.includes("payuni")) return "信用卡";
+
+  return raw; // 不認得就原樣顯示
+}
+
 
     async function load(){
       const status=document.getElementById("status").value.trim();
@@ -397,11 +463,12 @@ function statusZh(v){
         <tr style="cursor:pointer" onclick="openOrder('${o.order_id.replaceAll("'","")}')">
           <td class="mono" style="font-weight:900">${esc(o.order_id)}</td>
 <td><span class="badge badgeGold ${statusClass(o.status)}">${esc(statusZh(o.status||""))}</span></td>
+<td><span class="badge">${esc(payMethodZh(getPayMethod(o)))}</span></td>
           <td class="mono">$ ${money(o.total_amount)}</td>
           <td>${esc(o.customer_name||"")}<div class="k mono">${esc(o.phone||"")}</div></td>
 <td class="k mono">${esc(fmtDateTimeTW(o.created_at))}</td>
         </tr>
-      `).join("") || `<tr><td colspan="5" class="k">沒有資料</td></tr>`;
+      `).join("") || `<tr><td colspan="6" class="k">沒有資料</td></tr>`;
     }
 
     function statusClass(v){
