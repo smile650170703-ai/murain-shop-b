@@ -2,456 +2,240 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
-  <title>MURAIN｜寄賣服務</title>
-  <meta name="robots" content="noindex,nofollow" />
-
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+  <title>MURAIN｜精品寄賣服務</title>
   <style>
-    :root{
-      --gold:#b38e46;
-      --gold2:#f4e4bc;
-      --ink:#141414;
-      --muted:#6f6f6f;
-
-      --paper:rgba(255,255,255,.92);
-      --glass:rgba(255,255,255,.84);
-      --line:rgba(179,142,70,.35);
-
-      --radius:18px;
-      --shadow:0 18px 55px rgba(0,0,0,.16);
-
-      --max:1100px;
-
-      /* ✅ 如果你有大理石背景圖網址，把 none 改成 url("...") */
-      --marble-url: none;
+    :root {
+      --gold: #A68B5B;
+      --gold-light: #F4E4BC;
+      --dark: #1C1C1C;
+      --muted: #8E8E93;
+      --bg: #F9F9FB;
+      --glass: rgba(255, 255, 255, 0.85);
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.05);
+      --radius: 20px;
     }
 
-    *{ box-sizing:border-box; }
-    html{ scroll-behavior:smooth; }
-    body{
-      margin:0;
-      color:var(--ink);
-      font-family: ui-sans-serif, system-ui, -apple-system, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", Arial;
-      background:
-        radial-gradient(900px 520px at 22% 10%, rgba(244,228,188,.65), transparent 60%),
-        radial-gradient(760px 460px at 86% 22%, rgba(179,142,70,.18), transparent 62%),
-        linear-gradient(180deg, #f8f8f8, #efefef);
-      min-height:100vh;
-      position:relative;
-    }
-    body::before{
-      content:"";
-      position:fixed;
-      inset:0;
-      background-image: var(--marble-url);
-      background-size: cover;
-      background-position:center;
-      opacity:.28;
-      pointer-events:none;
-      z-index:-1;
+    /* 基礎設置 */
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background-color: var(--bg);
+      color: var(--dark);
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
 
-    .page{ max-width:var(--max); margin:22px auto; padding:16px; }
-
-    .frame{
-      position:relative;
-      border-radius:22px;
-      background:linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.76));
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      border:1px solid rgba(179,142,70,.25);
-    }
-    .frame::before{
-      content:"";
-      position:absolute;
-      inset:12px;
-      border-radius:18px;
-      border:2px solid rgba(179,142,70,.30);
-      pointer-events:none;
-    }
-    .frame::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      border-radius:22px;
-      border:1px solid rgba(255,255,255,.65);
-      pointer-events:none;
+    /* 動態進場 */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .mast{
-      position:sticky;
-      top:0;
-      z-index:10;
+    .animate-in { animation: fadeInUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+    /* 頂部標識 */
+    .header {
+      padding: 30px 20px 10px;
+      text-align: center;
+      background: linear-gradient(to bottom, #fff, var(--bg));
+    }
+    .brand-logo {
+      font-family: "Times New Roman", serif;
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 4px;
+      margin: 0;
+    }
+    .brand-sub {
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--gold);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    /* 容器 */
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; padding-bottom: 100px; }
+
+    /* 功能卡片（大方塊） */
+    .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
+    .tile {
+      background: white;
+      padding: 24px 20px;
+      border-radius: var(--radius);
+      text-decoration: none;
+      color: inherit;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(166, 139, 91, 0.1);
+      transition: all 0.3s;
+      text-align: center;
+    }
+    .tile:active { transform: scale(0.96); background: var(--gold-light); }
+    .tile-icon { font-size: 24px; margin-bottom: 8px; display: block; }
+    .tile h3 { margin: 5px 0; font-size: 16px; font-weight: 700; }
+    .tile p { margin: 0; font-size: 10px; color: var(--muted); letter-spacing: 1px; }
+
+    /* 核心區塊（Hero） */
+    .hero {
+      background: var(--dark);
+      color: white;
+      border-radius: var(--radius);
+      padding: 35px 25px;
+      margin-bottom: 30px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    .hero::after {
+      content: ""; position: absolute; top: -50%; right: -20%;
+      width: 200px; height: 200px; background: var(--gold);
+      filter: blur(80px); opacity: 0.3;
+    }
+    .hero h2 { font-size: 32px; margin: 0 0 15px; font-family: serif; letter-spacing: 1px; }
+    .hero-btn {
+      display: inline-flex; align-items: center; background: var(--gold);
+      color: white; padding: 12px 24px; border-radius: 50px;
+      text-decoration: none; font-size: 14px; font-weight: 700; transition: 0.3s;
+    }
+
+    /* 列表區塊 */
+    .section-title { font-size: 18px; font-weight: 800; margin: 30px 0 15px; padding-left: 5px; border-left: 3px solid var(--gold); }
+    .card {
+      background: var(--glass);
       backdrop-filter: blur(10px);
-      background:linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.70));
-      border-bottom:1px solid rgba(179,142,70,.22);
-      padding:14px 16px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .brand{
-      display:flex;
-      flex-direction:column;
-      line-height:1.05;
-      letter-spacing:.5px;
-      user-select:none;
-    }
-    .brand .logo{
-      font-family: ui-serif, "Times New Roman", "Noto Serif TC", serif;
-      font-weight:800;
-      font-size:22px;
-    }
-    .brand .sub{
-      font-family: ui-serif, "Times New Roman", "Noto Serif TC", serif;
-      font-weight:600;
-      font-size:13px;
-      color:#2b2b2b;
-      opacity:.85;
-    }
-    .nav{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-    .nav a{
-      text-decoration:none;
-      color:var(--ink);
-      font-weight:700;
-      font-size:13px;
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid rgba(179,142,70,.28);
-      background:rgba(255,255,255,.65);
-      box-shadow:0 10px 24px rgba(0,0,0,.06);
-      transition:transform .15s ease, box-shadow .15s ease;
-      white-space:nowrap;
-    }
-    .nav a:hover{ transform: translateY(-1px); box-shadow:0 14px 30px rgba(0,0,0,.10); }
-
-    .menu{ padding:18px 16px 10px; }
-    .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
-
-    .tile{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      padding:14px 14px;
-      border-radius:18px;
-      background:var(--paper);
-      border:1px solid rgba(179,142,70,.30);
-      box-shadow:0 14px 34px rgba(0,0,0,.08);
-      text-decoration:none;
-      color:inherit;
-      transition:transform .15s ease, box-shadow .15s ease;
-      position:relative;
-      overflow:hidden;
-      min-height:86px;
-    }
-    .tile:hover{ transform: translateY(-2px); box-shadow:0 18px 44px rgba(0,0,0,.12); }
-    .tile::after{
-      content:"";
-      position:absolute;
-      inset:10px;
-      border-radius:14px;
-      border:2px solid rgba(179,142,70,.18);
-      pointer-events:none;
+      border-radius: var(--radius);
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.5);
+      box-shadow: var(--shadow-soft);
+      margin-bottom: 15px;
     }
 
-    .icon{
-      width:52px; height:52px;
-      border-radius:14px;
-      border:1px solid rgba(179,142,70,.35);
-      background:linear-gradient(180deg, rgba(244,228,188,.85), rgba(179,142,70,.18));
-      display:grid;
-      place-items:center;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
-      flex:0 0 auto;
-    }
-    .icon svg{ width:28px; height:28px; fill: rgba(120,90,30,.9); }
+    .rule-list { margin: 0; padding: 0 0 0 18px; font-size: 14px; color: #444; }
+    .rule-list li { margin-bottom: 12px; }
+    .rule-list b { color: var(--dark); }
 
-    .tile h3{
-      margin:0;
-      font-family: ui-serif, "Times New Roman", "Noto Serif TC", serif;
-      font-weight:900;
-      font-size:20px;
-      letter-spacing:.5px;
+    /* 下載按鈕組 */
+    .file-item { display: flex; align-items: center; justify-content: space-between; margin-bottom: 15px; }
+    .file-info { flex: 1; }
+    .file-name { font-size: 15px; font-weight: 700; display: block; }
+    .file-desc { font-size: 12px; color: var(--muted); }
+    .btn-group { display: flex; gap: 8px; }
+    .icon-btn {
+      width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
+      background: #eee; text-decoration: none; color: var(--dark); transition: 0.3s;
     }
-    .tile p{
-      margin:4px 0 0;
-      font-weight:700;
-      font-size:12px;
-      color:var(--muted);
-      letter-spacing:.3px;
-    }
+    .icon-btn.primary { background: var(--gold-light); color: var(--gold); }
 
-    .hero{
-      margin:14px 0;
-      border-radius:20px;
-      border:1px solid rgba(179,142,70,.35);
-      background:
-        radial-gradient(220px 140px at 20% 30%, rgba(255,255,255,.65), transparent 65%),
-        radial-gradient(260px 160px at 80% 55%, rgba(255,255,255,.40), transparent 68%),
-        linear-gradient(90deg, rgba(179,142,70,.25), rgba(244,228,188,.75), rgba(179,142,70,.25));
-      box-shadow:0 22px 60px rgba(0,0,0,.12);
-      padding:18px 14px;
-      position:relative;
-      overflow:hidden;
+    /* 手機專用底部導航 */
+    .nav-bar {
+      position: fixed; bottom: 20px; left: 20px; right: 20px;
+      background: rgba(28, 28, 28, 0.95);
+      backdrop-filter: blur(10px);
+      height: 64px; border-radius: 32px;
+      display: flex; align-items: center; justify-content: space-around;
+      padding: 0 10px; z-index: 100;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
-    .hero::before{
-      content:"";
-      position:absolute;
-      width:260px;
-      height:260px;
-      right:-120px;
-      top:-120px;
-      background: radial-gradient(circle, rgba(255,255,255,.65), transparent 60%);
-      transform: rotate(18deg);
-      opacity:.7;
-    }
-    .heroInner{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-    .heroTitle{
-      font-family: ui-serif, "Times New Roman", "Noto Serif TC", serif;
-      font-weight:950;
-      font-size:40px;
-      letter-spacing:2px;
-    }
-    .heroBtn{
-      text-decoration:none;
-      color:#1a1a1a;
-      font-weight:900;
-      letter-spacing:.6px;
-      border-radius:999px;
-      padding:12px 16px;
-      border:1px solid rgba(120,90,30,.45);
-      background: linear-gradient(180deg, rgba(244,228,188,.95), rgba(179,142,70,.35));
-      box-shadow: 0 18px 45px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.85);
-      display:flex;
-      align-items:center;
-      gap:10px;
-      transition:transform .15s ease, box-shadow .15s ease;
-    }
-    .heroBtn:hover{ transform: translateY(-1px); box-shadow: 0 22px 55px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.85); }
-    .arrow{
-      width:34px; height:34px;
-      border-radius:999px;
-      border:1px solid rgba(120,90,30,.35);
-      background: rgba(255,255,255,.55);
-      display:grid;
-      place-items:center;
-      font-size:20px;
-      font-weight:950;
-    }
+    .nav-item { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 10px; text-align: center; flex: 1; }
+    .nav-item.active { color: var(--gold-light); }
+    .nav-item svg { display: block; margin: 0 auto 4px; width: 20px; height: 20px; fill: currentColor; }
 
-    .section{ padding:8px 16px 18px; }
-    .section h2{
-      margin:8px 0 10px;
-      font-family: ui-serif, "Times New Roman", "Noto Serif TC", serif;
-      font-weight:950;
-      letter-spacing:1px;
-      font-size:26px;
-    }
-    .panel{
-      background:var(--glass);
-      border:1px solid rgba(179,142,70,.26);
-      border-radius:18px;
-      padding:14px 14px;
-      box-shadow:0 16px 44px rgba(0,0,0,.08);
-      position:relative;
-      overflow:hidden;
-    }
-    .panel::after{
-      content:"";
-      position:absolute;
-      inset:10px;
-      border-radius:14px;
-      border:2px solid rgba(179,142,70,.14);
-      pointer-events:none;
-    }
-
-    .rules{ margin:0; padding-left:18px; line-height:1.65; font-weight:650; }
-    .rules li{ margin:10px 0; }
-    .rules b{ color:#1b1b1b; font-weight:900; }
-    .note{ margin-top:10px; font-size:12px; color:var(--muted); font-weight:700; }
-
-    .files{ display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; margin-top:10px; }
-    .fileCard{
-      border-radius:18px;
-      background:var(--paper);
-      border:1px solid rgba(179,142,70,.28);
-      box-shadow:0 14px 36px rgba(0,0,0,.08);
-      padding:14px 14px;
-      position:relative;
-      overflow:hidden;
-    }
-    .fileCard::after{
-      content:"";
-      position:absolute;
-      inset:10px;
-      border-radius:14px;
-      border:2px solid rgba(179,142,70,.14);
-      pointer-events:none;
-    }
-    .fileName{
-      font-family: ui-serif, "Times New Roman", "Noto Serif TC", serif;
-      font-weight:950;
-      font-size:18px;
-      letter-spacing:.6px;
-      margin:0 0 6px;
-    }
-    .fileDesc{ margin:0 0 12px; font-size:12px; color:var(--muted); font-weight:750; line-height:1.5; }
-    .btnRow{ display:flex; gap:10px; flex-wrap:wrap; }
-    .btn{
-      text-decoration:none;
-      font-weight:900;
-      font-size:13px;
-      padding:10px 12px;
-      border-radius:999px;
-      border:1px solid rgba(120,90,30,.40);
-      background: linear-gradient(180deg, rgba(244,228,188,.95), rgba(179,142,70,.30));
-      color:#1a1a1a;
-      box-shadow: 0 14px 34px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.85);
-      transition:transform .15s ease, box-shadow .15s ease;
-    }
-    .btn:hover{ transform: translateY(-1px); box-shadow: 0 18px 42px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.85); }
-    .btn.ghost{
-      background: rgba(255,255,255,.70);
-      border:1px solid rgba(179,142,70,.25);
-      color:#222;
-      box-shadow: 0 12px 28px rgba(0,0,0,.08);
-    }
-
-    .tips{ margin-top:10px; font-size:12px; color:var(--muted); font-weight:800; line-height:1.55; }
-
-    .foot{
-      padding:12px 16px 18px;
-      border-top:1px solid rgba(179,142,70,.18);
-      color:rgba(0,0,0,.55);
-      font-weight:800;
-      font-size:12px;
-      text-align:center;
-    }
-
-    @media (max-width: 720px){
-      .grid{ grid-template-columns: 1fr; }
-      .files{ grid-template-columns: 1fr; }
-      .heroTitle{ font-size:34px; }
-      .mast{ padding:12px 12px; }
-      .menu, .section{ padding-left:12px; padding-right:12px; }
-    }
-    @media (prefers-reduced-motion: reduce){
-      *{ transition:none !important; scroll-behavior:auto; }
+    @media (min-width: 600px) {
+      body { background-color: #f0f0f2; }
+      .container { background: white; min-height: 100vh; box-shadow: 0 0 50px rgba(0,0,0,0.05); }
     }
   </style>
 </head>
 
 <body>
-  <div class="page">
-    <div class="frame">
+  <header class="header animate-in">
+    <h1 class="brand-logo">MURAIN</h1>
+    <div class="brand-sub">Boutique & Consignment</div>
+  </header>
 
-      <header class="mast">
-        <div class="brand">
-          <div class="logo">MURAIN</div>
-          <div class="sub">Boutique</div>
-        </div>
-        <nav class="nav">
-          <a href="#rules">寄賣須知</a>
-          <a href="#downloads">寄賣檔案下載</a>
-          <a href="index.html">商城首頁</a>
-        </nav>
-      </header>
-
-      <main class="menu">
-        <div class="grid">
-          <a class="tile" href="index.html">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M12 3l9 8h-3v10a2 2 0 0 1-2 2h-3v-7H11v7H8a2 2 0 0 1-2-2V11H3l9-8z"/></svg>
-            </div>
-            <div>
-              <h3>寄賣商城</h3>
-              <p>SHOP</p>
-            </div>
-          </a>
-
-          <a class="tile" href="member.html">
-            <div class="icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5z"/></svg>
-            </div>
-            <div>
-              <h3>會員中心</h3>
-              <p>MEMBER</p>
-            </div>
-          </a>
-        </div>
-
-        <section class="hero" aria-label="寄賣商城">
-          <div class="heroInner">
-            <div class="heroTitle">寄賣商城</div>
-            <a class="heroBtn" href="index.html">
-              立即進入 <span class="arrow">›</span>
-            </a>
-          </div>
-        </section>
-      </main>
-
-      <section id="rules" class="section">
-        <h2>寄賣須知</h2>
-        <div class="panel">
-          <ol class="rules">
-            <li><b>收件範圍</b>：精品包款／配件／服飾等（請依實際可收件品項調整）。</li>
-            <li><b>商品狀況</b>：需可正常使用；重大破損／嚴重異味／缺件者可能不收。</li>
-            <li><b>真偽鑑定</b>：本店保留鑑定與退件權利；疑慮品將不予上架。</li>
-            <li><b>定價方式</b>：依品牌、成色、市場行情評估；可提供期望價供參考。</li>
-            <li><b>分潤與費用</b>：成交後依合約比例結算（請改成你的正式規則）。</li>
-            <li><b>結算時間</b>：每月/每週結算一次（請填你實際週期與方式）。</li>
-            <li><b>退件規則</b>：未售出可申請退件；退件運費與流程依規範辦理。</li>
-          </ol>
-          <div class="note">※ 你只要改上面文字，不需要改任何程式。</div>
-        </div>
-      </section>
-
-      <section id="downloads" class="section">
-        <h2>寄賣檔案下載</h2>
-        <div class="panel">
-          <div class="files">
-
-            <!-- ✅ 把檔案放到 /downloads/ 後，改 href 的檔名 -->
-            <div class="fileCard">
-              <div class="fileName">寄賣合約書（PDF）</div>
-              <div class="fileDesc">寄賣合作條款與分潤方式（以上架版本為準）。</div>
-              <div class="btnRow">
-                <a class="btn" href="downloads/consign-contract.pdf" download>下載</a>
-                <a class="btn ghost" href="downloads/consign-contract.pdf" target="_blank" rel="noopener">預覽</a>
-              </div>
-            </div>
-
-            <div class="fileCard">
-              <div class="fileName">寄賣品交接單（PDF）</div>
-              <div class="fileDesc">交付商品時填寫，用於紀錄品項與狀況。</div>
-              <div class="btnRow">
-                <a class="btn" href="downloads/consign-handover.pdf" download>下載</a>
-                <a class="btn ghost" href="downloads/consign-handover.pdf" target="_blank" rel="noopener">預覽</a>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="tips">
-            若在 LINE 內建瀏覽器無法直接下載：請點「預覽」→ 右上角分享 → 用瀏覽器開啟後再下載。
-          </div>
-        </div>
-      </section>
-
-      <footer class="foot">© MURAIN Boutique</footer>
+  <main class="container">
+    <div class="main-grid animate-in" style="animation-delay: 0.1s;">
+      <a href="index.html" class="tile">
+        <span class="tile-icon">🛍️</span>
+        <h3>寄賣商城</h3>
+        <p>EXPLORE SHOP</p>
+      </a>
+      <a href="member.html" class="tile">
+        <span class="tile-icon">👤</span>
+        <h3>會員中心</h3>
+        <p>MY ACCOUNT</p>
+      </a>
     </div>
-  </div>
+
+    <section class="hero animate-in" style="animation-delay: 0.2s;">
+      <h2>新季寄賣開放中</h2>
+      <p style="font-size:13px; opacity:0.8; margin-bottom:20px;">讓您的閒置精品，遇見下一位愛它的主人。</p>
+      <a href="index.html" class="hero-btn">立即進入商城 →</a>
+    </section>
+
+    <div id="rules" class="animate-in" style="animation-delay: 0.3s;">
+      <h2 class="section-title">寄賣須知</h2>
+      <div class="card">
+        <ul class="rule-list">
+          <li><b>收件範圍</b>：精品包款、配件、服飾。</li>
+          <li><b>商品狀況</b>：需功能正常；重大破損或異味恕不收件。</li>
+          <li><b>真偽鑑定</b>：本店嚴格把關，疑慮品將不予上架。</li>
+          <li><b>定價策略</b>：由專業團隊參考市場行情提出建議價。</li>
+          <li><b>結算週期</b>：成交後將於次月 10 號進行匯款撥付。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="downloads" class="animate-in" style="animation-delay: 0.4s;">
+      <h2 class="section-title">相關文件</h2>
+      <div class="card">
+        <div class="file-item">
+          <div class="file-info">
+            <span class="file-name">寄賣合約書</span>
+            <span class="file-desc">PDF 格式 · 包含分潤條款</span>
+          </div>
+          <div class="btn-group">
+            <a href="downloads/contract.pdf" class="icon-btn" target="_blank">👁️</a>
+            <a href="downloads/contract.pdf" class="icon-btn primary" download>⬇️</a>
+          </div>
+        </div>
+        <div style="height:1px; background:#eee; margin:15px 0;"></div>
+        <div class="file-item">
+          <div class="file-info">
+            <span class="file-name">寄賣品交接單</span>
+            <span class="file-desc">PDF 格式 · 品項紀錄用</span>
+          </div>
+          <div class="btn-group">
+            <a href="downloads/handover.pdf" class="icon-btn" target="_blank">👁️</a>
+            <a href="downloads/handover.pdf" class="icon-btn primary" download>⬇️</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p style="text-align:center; color:var(--muted); font-size:11px; margin-top:40px;">
+      © MURAIN Boutique 2026<br>
+      專注於二手精品的高階價值傳遞
+    </p>
+  </main>
+
+  <nav class="nav-bar">
+    <a href="#" class="nav-item active">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      首頁
+    </a>
+    <a href="#rules" class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+      須知
+    </a>
+    <a href="#downloads" class="nav-item">
+      <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+      下載
+    </a>
+  </nav>
+
 </body>
 </html>
