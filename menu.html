@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>MURAIN｜寄賣服務</title>
+  <meta name="robots" content="noindex,nofollow" />
+
+  <style>
+    :root{
+      --gold:#b38e46;
+      --gold2:#f4e4bc;
+      --ink:#141414;
+      --muted:#6f6f6f;
+
+      --paper:rgba(255,255,255,.92);
+      --glass:rgba(255,255,255,.84);
+      --line:rgba(179,142,70,.35);
+
+      --radius:18px;
+      --shadow:0 18px 55px rgba(0,0,0,.16);
+
+      --max:1100px;
+
+      /* ✅ 如果你有大理石背景圖網址，把 none 改成 url("...") */
+      --marble-url: none;
+    }
+
+    *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
+    body{
+      margin:0;
+      color:var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", Arial;
+      background:
+        radial-gradient(900px 520px at 22% 10%, rgba(244,228,188,.65), transparent 60%),
+        radial-gradient(760px 460px at 86% 22%, rgba(179,142,70,.18), transparent 62%),
+        linear-gradient(180deg, #f8f8f8, #efefef);
+      min-height:100vh;
+      position:relative;
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background-image: var(--marble-url);
+      background-size: cover;
+      background-position:center;
+      opacity:.28;
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    .page{ max-width:var(--max); margin:22px auto; padding:16px; }
+
+    .frame{
+      position:relative;
+      border-radius:22px;
+      background:linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.76));
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      border:1px solid rgba(179,142,70,.25);
+    }
+    .frame::before{
+      content:"";
+      position:absolute;
+      inset:12px;
+      border-radius:18px;
+      border:2px solid rgba(179,142,70,.30);
+      pointer-events:none;
+    }
+    .frame::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.65);
+      pointer-events:none;
+    }
+
+    .mast{
+      position:sticky;
+      top:0;
+      z-index:10;
+      backdrop-filter: blur(10px);
+      background:linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.70));
+      border-bottom:1px solid rgba(179,142,70,.22);
+      padding:14px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      flex-direction:column;
+      line-height:1.05;
+      letter-spacing:.5px;
+      user-select:none;
+    }
+    .brand .logo{
+      font-family: ui-serif, "Times New Roman", "Noto Serif TC", serif;
+      font-weight:800;
+      font-size:22px;
+    }
+    .brand .sub{
+      font-family: ui-serif, "Times New Roman", "Noto Serif TC", serif;
+      font-weight:600;
+      font-size:13px;
+      color:#2b2b2b;
+      opacity:.85;
+    }
+    .nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .nav a{
+      text-decoration:none;
+      color:var(--ink);
+      font-weight:700;
+      font-size:13px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(179,142,70,.28);
+      background:rgba(255,255,255,.65);
+      box-shadow:0 10px 24px rgba(0,0,0,.06);
+      transition:transform .15s ease, box-shadow .15s ease;
+      white-space:nowrap;
+    }
+    .nav a:hover{ transform: translateY(-1px); box-shadow:0 14px 30px rgba(0,0,0,.10); }
+
+    .menu{ padding:18px 16px 10px; }
+    .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
+
+    .tile{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:14px 14px;
+      border-radius:18px;
+      background:var(--paper);
+      border:1px solid rgba(179,142,70,.30);
+      box-shadow:0 14px 34px rgba(0,0,0,.08);
+      text-decoration:none;
+      color:inherit;
+      transition:transform .15s ease, box-shadow .15s ease;
+      position:relative;
+      overflow:hidden;
+      min-height:86px;
+    }
+    .tile:hover{ transform: translateY(-2px); box-shadow:0 18px 44px rgba(0,0,0,.12); }
+    .tile::after{
+      content:"";
+      position:absolute;
+      inset:10px;
+      border-radius:14px;
+      border:2px solid rgba(179,142,70,.18);
+      pointer-events:none;
+    }
+
+    .icon{
+      width:52px; height:52px;
+      border-radius:14px;
+      border:1px solid rgba(179,142,70,.35);
+      background:linear-gradient(180deg, rgba(244,228,188,.85), rgba(179,142,70,.18));
+      display:grid;
+      place-items:center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.8);
+      flex:0 0 auto;
+    }
+    .icon svg{ width:28px; height:28px; fill: rgba(120,90,30,.9); }
+
+    .tile h3{
+      margin:0;
+      font-family: ui-serif, "Times New Roman", "Noto Serif TC", serif;
+      font-weight:900;
+      font-size:20px;
+      letter-spacing:.5px;
+    }
+    .tile p{
+      margin:4px 0 0;
+      font-weight:700;
+      font-size:12px;
+      color:var(--muted);
+      letter-spacing:.3px;
+    }
+
+    .hero{
+      margin:14px 0;
+      border-radius:20px;
+      border:1px solid rgba(179,142,70,.35);
+      background:
+        radial-gradient(220px 140px at 20% 30%, rgba(255,255,255,.65), transparent 65%),
+        radial-gradient(260px 160px at 80% 55%, rgba(255,255,255,.40), transparent 68%),
+        linear-gradient(90deg, rgba(179,142,70,.25), rgba(244,228,188,.75), rgba(179,142,70,.25));
+      box-shadow:0 22px 60px rgba(0,0,0,.12);
+      padding:18px 14px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      width:260px;
+      height:260px;
+      right:-120px;
+      top:-120px;
+      background: radial-gradient(circle, rgba(255,255,255,.65), transparent 60%);
+      transform: rotate(18deg);
+      opacity:.7;
+    }
+    .heroInner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .heroTitle{
+      font-family: ui-serif, "Times New Roman", "Noto Serif TC", serif;
+      font-weight:950;
+      font-size:40px;
+      letter-spacing:2px;
+    }
+    .heroBtn{
+      text-decoration:none;
+      color:#1a1a1a;
+      font-weight:900;
+      letter-spacing:.6px;
+      border-radius:999px;
+      padding:12px 16px;
+      border:1px solid rgba(120,90,30,.45);
+      background: linear-gradient(180deg, rgba(244,228,188,.95), rgba(179,142,70,.35));
+      box-shadow: 0 18px 45px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.85);
+      display:flex;
+      align-items:center;
+      gap:10px;
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .heroBtn:hover{ transform: translateY(-1px); box-shadow: 0 22px 55px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.85); }
+    .arrow{
+      width:34px; height:34px;
+      border-radius:999px;
+      border:1px solid rgba(120,90,30,.35);
+      background: rgba(255,255,255,.55);
+      display:grid;
+      place-items:center;
+      font-size:20px;
+      font-weight:950;
+    }
+
+    .section{ padding:8px 16px 18px; }
+    .section h2{
+      margin:8px 0 10px;
+      font-family: ui-serif, "Times New Roman", "Noto Serif TC", serif;
+      font-weight:950;
+      letter-spacing:1px;
+      font-size:26px;
+    }
+    .panel{
+      background:var(--glass);
+      border:1px solid rgba(179,142,70,.26);
+      border-radius:18px;
+      padding:14px 14px;
+      box-shadow:0 16px 44px rgba(0,0,0,.08);
+      position:relative;
+      overflow:hidden;
+    }
+    .panel::after{
+      content:"";
+      position:absolute;
+      inset:10px;
+      border-radius:14px;
+      border:2px solid rgba(179,142,70,.14);
+      pointer-events:none;
+    }
+
+    .rules{ margin:0; padding-left:18px; line-height:1.65; font-weight:650; }
+    .rules li{ margin:10px 0; }
+    .rules b{ color:#1b1b1b; font-weight:900; }
+    .note{ margin-top:10px; font-size:12px; color:var(--muted); font-weight:700; }
+
+    .files{ display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; margin-top:10px; }
+    .fileCard{
+      border-radius:18px;
+      background:var(--paper);
+      border:1px solid rgba(179,142,70,.28);
+      box-shadow:0 14px 36px rgba(0,0,0,.08);
+      padding:14px 14px;
+      position:relative;
+      overflow:hidden;
+    }
+    .fileCard::after{
+      content:"";
+      position:absolute;
+      inset:10px;
+      border-radius:14px;
+      border:2px solid rgba(179,142,70,.14);
+      pointer-events:none;
+    }
+    .fileName{
+      font-family: ui-serif, "Times New Roman", "Noto Serif TC", serif;
+      font-weight:950;
+      font-size:18px;
+      letter-spacing:.6px;
+      margin:0 0 6px;
+    }
+    .fileDesc{ margin:0 0 12px; font-size:12px; color:var(--muted); font-weight:750; line-height:1.5; }
+    .btnRow{ display:flex; gap:10px; flex-wrap:wrap; }
+    .btn{
+      text-decoration:none;
+      font-weight:900;
+      font-size:13px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(120,90,30,.40);
+      background: linear-gradient(180deg, rgba(244,228,188,.95), rgba(179,142,70,.30));
+      color:#1a1a1a;
+      box-shadow: 0 14px 34px rgba(0,0,0,.10), inset 0 1px 0 rgba(255,255,255,.85);
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); box-shadow: 0 18px 42px rgba(0,0,0,.14), inset 0 1px 0 rgba(255,255,255,.85); }
+    .btn.ghost{
+      background: rgba(255,255,255,.70);
+      border:1px solid rgba(179,142,70,.25);
+      color:#222;
+      box-shadow: 0 12px 28px rgba(0,0,0,.08);
+    }
+
+    .tips{ margin-top:10px; font-size:12px; color:var(--muted); font-weight:800; line-height:1.55; }
+
+    .foot{
+      padding:12px 16px 18px;
+      border-top:1px solid rgba(179,142,70,.18);
+      color:rgba(0,0,0,.55);
+      font-weight:800;
+      font-size:12px;
+      text-align:center;
+    }
+
+    @media (max-width: 720px){
+      .grid{ grid-template-columns: 1fr; }
+      .files{ grid-template-columns: 1fr; }
+      .heroTitle{ font-size:34px; }
+      .mast{ padding:12px 12px; }
+      .menu, .section{ padding-left:12px; padding-right:12px; }
+    }
+    @media (prefers-reduced-motion: reduce){
+      *{ transition:none !important; scroll-behavior:auto; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="frame">
+
+      <header class="mast">
+        <div class="brand">
+          <div class="logo">MURAIN</div>
+          <div class="sub">Boutique</div>
+        </div>
+        <nav class="nav">
+          <a href="#rules">寄賣須知</a>
+          <a href="#downloads">寄賣檔案下載</a>
+          <a href="index.html">商城首頁</a>
+        </nav>
+      </header>
+
+      <main class="menu">
+        <div class="grid">
+          <a class="tile" href="index.html">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 3l9 8h-3v10a2 2 0 0 1-2 2h-3v-7H11v7H8a2 2 0 0 1-2-2V11H3l9-8z"/></svg>
+            </div>
+            <div>
+              <h3>寄賣商城</h3>
+              <p>SHOP</p>
+            </div>
+          </a>
+
+          <a class="tile" href="member.html">
+            <div class="icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5z"/></svg>
+            </div>
+            <div>
+              <h3>會員中心</h3>
+              <p>MEMBER</p>
+            </div>
+          </a>
+        </div>
+
+        <section class="hero" aria-label="寄賣商城">
+          <div class="heroInner">
+            <div class="heroTitle">寄賣商城</div>
+            <a class="heroBtn" href="index.html">
+              立即進入 <span class="arrow">›</span>
+            </a>
+          </div>
+        </section>
+      </main>
+
+      <section id="rules" class="section">
+        <h2>寄賣須知</h2>
+        <div class="panel">
+          <ol class="rules">
+            <li><b>收件範圍</b>：精品包款／配件／服飾等（請依實際可收件品項調整）。</li>
+            <li><b>商品狀況</b>：需可正常使用；重大破損／嚴重異味／缺件者可能不收。</li>
+            <li><b>真偽鑑定</b>：本店保留鑑定與退件權利；疑慮品將不予上架。</li>
+            <li><b>定價方式</b>：依品牌、成色、市場行情評估；可提供期望價供參考。</li>
+            <li><b>分潤與費用</b>：成交後依合約比例結算（請改成你的正式規則）。</li>
+            <li><b>結算時間</b>：每月/每週結算一次（請填你實際週期與方式）。</li>
+            <li><b>退件規則</b>：未售出可申請退件；退件運費與流程依規範辦理。</li>
+          </ol>
+          <div class="note">※ 你只要改上面文字，不需要改任何程式。</div>
+        </div>
+      </section>
+
+      <section id="downloads" class="section">
+        <h2>寄賣檔案下載</h2>
+        <div class="panel">
+          <div class="files">
+
+            <!-- ✅ 把檔案放到 /downloads/ 後，改 href 的檔名 -->
+            <div class="fileCard">
+              <div class="fileName">寄賣合約書（PDF）</div>
+              <div class="fileDesc">寄賣合作條款與分潤方式（以上架版本為準）。</div>
+              <div class="btnRow">
+                <a class="btn" href="downloads/consign-contract.pdf" download>下載</a>
+                <a class="btn ghost" href="downloads/consign-contract.pdf" target="_blank" rel="noopener">預覽</a>
+              </div>
+            </div>
+
+            <div class="fileCard">
+              <div class="fileName">寄賣品交接單（PDF）</div>
+              <div class="fileDesc">交付商品時填寫，用於紀錄品項與狀況。</div>
+              <div class="btnRow">
+                <a class="btn" href="downloads/consign-handover.pdf" download>下載</a>
+                <a class="btn ghost" href="downloads/consign-handover.pdf" target="_blank" rel="noopener">預覽</a>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="tips">
+            若在 LINE 內建瀏覽器無法直接下載：請點「預覽」→ 右上角分享 → 用瀏覽器開啟後再下載。
+          </div>
+        </div>
+      </section>
+
+      <footer class="foot">© MURAIN Boutique</footer>
+    </div>
+  </div>
+</body>
+</html>
