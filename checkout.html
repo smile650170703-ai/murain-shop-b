@@ -415,7 +415,7 @@
     const MEMBER_CENTER_URL = new URL("./member.html", location.href).toString();
 
     // ✅ 結單送出通知卡：同一張單只發一次（避免重複）
-// ✅ 新增：同時自動發送文字「[MURAIN 寄賣品 - 已下單]」並跳回官方 LINE
+// ✅ 新增：同時自動發送文字「MURAIN 寄賣品 - 已下單」並跳回官方 LINE
 async function sendOrderSubmittedCardOnce(orderId){
   try{
     if(!orderId) return;
@@ -437,7 +437,7 @@ async function sendOrderSubmittedCardOnce(orderId){
 
     await liff.sendMessages([
       // ✅ 你要新增的那句文字（會送到「開啟此 LIFF 的聊天室」，通常就是官方帳號）
-      { type: "text", text: "[MURAIN 寄賣品 - 已下單]" },
+      { type: "text", text: "MURAIN 寄賣品 - 已下單" },
 
       // ✅ 原本的 Flex 卡片（保留不動）
       {
