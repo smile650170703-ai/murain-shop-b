@@ -16,16 +16,15 @@
       --radius: 24px;
     }
 
-    /* 基礎設置 */
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html { scroll-behavior: smooth; }
     body {
-      margin: 0; background-color: var(--bg); color: var(--dark);
+      margin: 0;
+      background-color: var(--bg); color: var(--dark);
       font-family: -apple-system, "Noto Sans TC", "Segoe UI", sans-serif;
       line-height: 1.6; -webkit-font-smoothing: antialiased;
     }
 
-    /* 進場動畫 */
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -34,12 +33,10 @@
 
     .container { max-width: 500px; margin: 0 auto; padding: 20px 20px 120px; }
 
-    /* 頂部 Header */
     .header { padding: 40px 0 25px; text-align: center; }
     .brand-logo { font-family: serif; font-size: 32px; font-weight: 800; letter-spacing: 6px; margin: 0; }
     .brand-sub { font-size: 11px; letter-spacing: 4px; color: var(--gold); text-transform: uppercase; margin-top: 5px; font-weight: 600; }
 
-    /* 【對換後的網格佈局】 */
     .main-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 25px; }
     .tile {
       background: white; padding: 24px 20px; border-radius: var(--radius);
@@ -52,7 +49,6 @@
     .tile h3 { margin: 5px 0; font-size: 15px; font-weight: 800; }
     .tile p { margin: 0; font-size: 10px; color: var(--muted); letter-spacing: 1px; font-weight: 600; }
 
-    /* 核心英雄區：寄賣商城入口 */
     .hero {
       background: var(--dark); color: white; border-radius: var(--radius);
       padding: 45px 30px; margin-bottom: 30px; position: relative; overflow: hidden;
@@ -70,7 +66,6 @@
       padding: 12px 30px; border-radius: 50px; font-size: 14px; font-weight: 800;
     }
 
-    /* 服務特色 (圖片內容整合) */
     .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 30px; }
     .feature-card {
       background: white; padding: 18px 12px; border-radius: 20px; text-align: center;
@@ -79,7 +74,6 @@
     .feature-card b { display: block; font-size: 14px; color: var(--gold); margin-bottom: 4px; }
     .feature-card span { font-size: 11px; color: var(--muted); display: block; line-height: 1.4; }
 
-    /* 流程區塊 */
     .section-title { font-size: 18px; font-weight: 800; margin: 35px 0 20px; display: flex; align-items: center; gap: 10px; }
     .section-title::before { content: ""; width: 4px; height: 18px; background: var(--gold); border-radius: 2px; }
     
@@ -93,10 +87,9 @@
     }
     .step-item h4 { font-size: 15px; margin: 0 0 8px; font-weight: 800; }
     .step-item ul { padding: 0; margin: 0; list-style: none; font-size: 13px; color: #555; }
-    .step-item li { margin-bottom: 4px; display: flex; align-items: flex-start; gap: 6px; }
+    .step-item li { margin-bottom: 6px; display: flex; align-items: flex-start; gap: 6px; }
     .step-item li::before { content: "•"; color: var(--gold); }
 
-    /* 購物金福利 */
     .bonus-card {
       background: linear-gradient(135deg, #D4AF37, #A68B5B);
       border-radius: var(--radius); padding: 25px; color: white; margin-bottom: 30px;
@@ -105,12 +98,10 @@
     .bonus-card h3 { font-size: 18px; margin: 0 0 10px; font-weight: 800; }
     .bonus-item { background: rgba(255,255,255,0.15); padding: 8px 15px; border-radius: 12px; font-size: 12px; margin-bottom: 8px; font-weight: 600; }
 
-    /* 下載區 */
-    .file-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+    .file-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
     .file-row:last-child { border-bottom: none; }
-    .file-link { color: var(--gold); text-decoration: none; font-weight: 800; font-size: 14px; }
+    .file-link { color: var(--gold); text-decoration: none; font-weight: 800; font-size: 14px; border: 1px solid var(--gold); padding: 4px 12px; border-radius: 15px; }
 
-    /* 底部導航 */
     .nav-bar {
       position: fixed; bottom: 25px; left: 20px; right: 20px;
       background: rgba(28, 28, 28, 0.98); backdrop-filter: blur(15px);
@@ -121,6 +112,8 @@
     .nav-link { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 11px; text-align: center; flex: 1; }
     .nav-link.active { color: var(--gold-light); }
     .nav-link svg { display: block; margin: 0 auto 5px; width: 22px; height: 22px; fill: currentColor; }
+    
+    .notice-text { font-size: 11px; color: var(--muted); line-height: 1.5; margin-top: 15px; }
   </style>
 </head>
 
@@ -138,7 +131,8 @@
         <h3>會員中心</h3>
         <p>MY ACCOUNT</p>
       </a>
-      <a href="https://line.me" class="tile"> <span class="tile-icon">💬</span>
+      <a href="https://line.me" class="tile">
+        <span class="tile-icon">💬</span>
         <h3>官方 LINE 諮詢</h3>
         <p>CONTACT US</p>
       </a>
@@ -153,51 +147,62 @@
     <div class="feature-grid animate-in" style="animation-delay: 0.3s;">
       <div class="feature-card">
         <b>僅限正品</b>
-        <span>杜絕仿品，僅收本公司售出之正品 [cite: 69]</span>
+        <span>僅收本公司售出之商品 [cite: 14]</span>
       </div>
       <div class="feature-card">
         <b>80% 分潤</b>
-        <span>售價自訂，成交後 80% 歸您</span>
+        <span>成交後 80% 歸寄賣人 </span>
       </div>
       <div class="feature-card">
-        <b>續約延長</b>
-        <span>寄賣期 3 個月，可視情況續約延長</span>
+        <b>三個月期</b>
+        <span>寄賣期為 3 個月 </span>
       </div>
       <div class="feature-card">
-        <b>競標模式</b>
-        <span>支援競標，靈活提高成交率</span>
+        <b>透明作業</b>
+        <span>售出後 3 日內 Line 通知 [cite: 26]</span>
       </div>
     </div>
 
     <div id="rules" class="animate-in" style="animation-delay: 0.4s;">
-      <h3 class="section-title">寄賣流程</h3>
+      <h3 class="section-title">寄賣作業流程</h3>
       <div class="card">
         <div class="step-item">
           <div class="step-num">1</div>
-          <h4>準備資料</h4>
+          <h4>提交審核</h4>
           <ul>
-            <li>寄賣價格 (或選擇競標)</li>
-            <li>直播下單截圖</li>
-            <li>身分證正面照 (僅供核對)</li>
-            <li>存摺封面照 (用於匯款)</li>
+            <li>提供商品照/影片予官方 Line [cite: 15]</li>
+            <li>確認寄賣價 (生效日為通知後第 2 日) [cite: 16]</li>
+            <li>身分證正面照與匯款帳戶資料 [cite: 28, 87]</li>
           </ul>
         </div>
         <div class="step-item">
           <div class="step-num">2</div>
-          <h4>上架與通知</h4>
+          <h4>簽約寄送</h4>
           <ul>
-            <li>官網、直播同步上架曝光</li>
-            <li>售出 3 日內將透過 LINE 通知您</li>
+            <li>線上簽署電子契約或親自會面 [cite: 9]</li>
+            <li>商品寄送運費由乙方（寄賣人）負擔 [cite: 38]</li>
+            <li>需填寫個人一時貿易資料申報表 </li>
           </ul>
         </div>
         <div class="step-item" style="margin-bottom:0;">
           <div class="step-num">3</div>
-          <h4>結算撥款</h4>
+          <h4>售出結算</h4>
           <ul>
-            <li>成交後 30 日內完成結算 </li>
-            <li>可選：銀行匯款 或 購物金轉換</li>
+            <li>售出後 30 日內完成匯款撥款 </li>
+            <li>可選：銀行匯款 或 轉為購物金享受 5% 增值</li>
           </ul>
         </div>
+      </div>
+
+      <h3 class="section-title">重要法律規範</h3>
+      <div class="card">
+        <ul style="padding:0; margin:0; list-style:none; font-size:13px; color:#444;">
+          <li style="margin-bottom:12px;">⚠️ <b>仿品賠償</b>：若寄售非本公司售出之商品或仿品，須賠償新台幣 20 萬元；造成商譽受損另賠償 30 萬元 [cite: 42, 43, 45]。</li>
+          <li style="margin-bottom:12px;">⚠️ <b>私下銷售</b>：寄賣期間不得私自販售予他人，違者須賠償售價 30% 。</li>
+          <li style="margin-bottom:12px;">⚠️ <b>提前取回</b>：期滿前欲取回商品，須支付售價 10% 服務費 。</li>
+          <li style="margin-bottom:12px;">⚠️ <b>逾期處理</b>：期滿後 1 個月未取回或拒付運費者，商品歸屬本公司 [cite: 52, 54]。</li>
+          <li style="margin-bottom:0;">⚖️ <b>爭議管轄</b>：本契約爭議以臺灣臺南地方法院為第一審管轄法院 [cite: 63]。</li>
+        </ul>
       </div>
     </div>
 
@@ -210,22 +215,25 @@
     </div>
 
     <div id="downloads" class="animate-in" style="animation-delay: 0.6s;">
-      <h3 class="section-title">相關文件</h3>
+      <h3 class="section-title">相關文件下載</h3>
       <div class="card">
         <div class="file-row">
-          <span style="font-weight:700; font-size:14px;">寄賣合作合約書 (PDF) [cite: 71]</span>
+          <span style="font-weight:700; font-size:14px;">商品寄售契約 (PDF) [cite: 1]</span>
           <a href="downloads/contract.pdf" class="file-link" download>下載</a>
         </div>
         <div class="file-row">
-          <span style="font-weight:700; font-size:14px;">寄賣品交接單 (PDF) [cite: 72]</span>
-          <a href="downloads/handover.pdf" class="file-link" download>下載</a>
+          <span style="font-weight:700; font-size:14px;">個人一時貿易申報表 (PDF) </span>
+          <a href="downloads/tax_form.pdf" class="file-link" download>下載</a>
+        </div>
+        <div class="notice-text">
+          ※ 本申報表僅限向非經常買賣商品之個人購買者使用 [cite: 88]。
         </div>
       </div>
     </div>
 
     <p style="text-align:center; color:var(--muted); font-size:11px; margin-top:40px;">
       © MURAIN Boutique 2026<br>
-      專注於二手精品的高階價值傳遞
+      潘羿如即沐雨精品服飾 (統編: 94319633) [cite: 72, 73]
     </p>
   </div>
 
