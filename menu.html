@@ -4,20 +4,18 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
   <title>MURAIN｜精品寄賣服務</title>
-  <meta name="robots" content="noindex,nofollow" />
   <style>
     :root {
-      /* 高級感配色：香檳金與深邃黑 */
       --gold: #C5A059;
       --gold-light: #E8D5B5;
       --dark-premium: #111111;
       --dark-surface: #1C1C1C;
       --muted: #999999;
       --bg: #F9F9F9;
-      --glass: rgba(255, 255, 255, 0.9);
-      --shadow-lux: 0 15px 35px rgba(0,0,0,0.05);
-      --radius: 12px; /* 精品多採用小圓角顯得俐落 */
-      --border-light: rgba(197, 160, 89, 0.2);
+      --glass: rgba(255, 255, 255, 0.92);
+      --shadow-lux: 0 15px 40px rgba(0,0,0,0.04);
+      --radius: 8px; /* 較小圓角更顯簡潔俐落 */
+      --border-light: rgba(197, 160, 89, 0.18);
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -29,116 +27,108 @@
       line-height: 1.8; -webkit-font-smoothing: antialiased;
     }
 
-    /* 微動效 */
+    /* 高級感動效 */
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(15px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .animate-in { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    .animate-in { animation: fadeInUp 0.8s cubic-bezier(0.2, 1, 0.3, 1) both; }
 
     /* Top Bar */
     .topbar {
       position: sticky; top: 0; z-index: 200;
       background: var(--glass);
       backdrop-filter: blur(20px);
-      border-bottom: 0.5px solid rgba(0,0,0,0.05);
+      border-bottom: 0.5px solid rgba(0,0,0,0.06);
     }
     .topbar-inner {
       max-width: 800px; margin: 0 auto;
-      padding: 16px 20px;
+      padding: 14px 20px;
       display: flex; align-items: center; justify-content: space-between;
     }
-    .topbar-brand {
-      display: flex; flex-direction: column; line-height: 1.2;
-    }
+    .topbar-brand { display: flex; flex-direction: column; line-height: 1.1; }
     .topbar-logo {
       font-family: "Times New Roman", serif;
-      font-size: 20px; font-weight: 700; letter-spacing: 5px;
+      font-size: 22px; font-weight: 700; letter-spacing: 6px;
       color: var(--dark-premium);
     }
-    .topbar-sub {
-      font-size: 10px; letter-spacing: 3px; color: var(--muted); margin-top: 4px;
-    }
+    .topbar-sub { font-size: 9px; letter-spacing: 3px; color: var(--muted); margin-top: 5px; }
     .topbar-btn {
-      text-decoration: none;
-      padding: 8px 16px;
-      border-radius: 4px;
-      border: 1px solid var(--gold);
-      color: var(--gold);
-      font-weight: 600; font-size: 12px;
-      transition: all 0.3s;
-      background: transparent;
+      text-decoration: none; padding: 7px 14px; border-radius: 4px;
+      border: 1px solid var(--gold); color: var(--gold);
+      font-weight: 600; font-size: 11px; transition: 0.3s;
     }
     .topbar-btn:active { background: var(--gold); color: white; }
 
-    .container { max-width: 600px; margin: 0 auto; padding: 30px 20px 140px; }
+    .container { max-width: 600px; margin: 0 auto; padding: 25px 20px 140px; }
 
     /* Hero */
     .hero {
       background: var(--dark-premium); color: white; border-radius: var(--radius);
-      padding: 60px 40px; margin-bottom: 40px; position: relative; overflow: hidden;
-      box-shadow: 0 30px 60px rgba(0,0,0,0.15); text-decoration: none; display: block;
+      padding: 55px 35px; margin-bottom: 40px; position: relative; overflow: hidden;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.12); text-decoration: none; display: block;
     }
     .hero::after {
       content: ""; position: absolute; top: -10%; right: -10%;
-      width: 300px; height: 300px; 
-      background: radial-gradient(circle, rgba(197, 160, 89, 0.15) 0%, transparent 70%);
+      width: 250px; height: 250px; 
+      background: radial-gradient(circle, rgba(197, 160, 89, 0.12) 0%, transparent 70%);
     }
     .hero h2 {
-      font-size: 36px; margin: 0 0 15px; font-family: "Times New Roman", serif; 
+      font-size: 32px; margin: 0 0 12px; font-family: "Times New Roman", serif; 
       letter-spacing: 2px; font-weight: 400; position: relative; z-index: 1;
     }
     .hero p {
-      font-size: 15px; opacity: 0.8; margin: 0 0 35px; letter-spacing: 1px;
-      position: relative; z-index: 1;
+      font-size: 14px; opacity: 0.75; margin: 0 0 35px; letter-spacing: 1px;
+      position: relative; z-index: 1; font-weight: 300;
     }
     .hero-btn {
       display: inline-flex; background: var(--gold); color: white;
-      padding: 12px 30px; border-radius: 2px; font-size: 13px; font-weight: 600;
+      padding: 10px 25px; border-radius: 2px; font-size: 12px; font-weight: 600;
       letter-spacing: 2px; position: relative; z-index: 1;
     }
 
     /* Section Headers */
     .section-title {
-      font-size: 18px; font-weight: 600; margin: 50px 0 20px;
-      display: flex; align-items: center; gap: 15px;
-      font-family: serif; letter-spacing: 1px;
+      font-size: 17px; font-weight: 600; margin: 55px 0 25px;
+      display: flex; align-items: center; gap: 12px;
+      font-family: "Noto Serif TC", serif; letter-spacing: 1.5px;
     }
     .section-title::after { content: ""; flex: 1; height: 0.5px; background: var(--border-light); }
 
     .card { 
-      background: white; border-radius: var(--radius); padding: 30px; 
-      box-shadow: var(--shadow-lux); border: 0.5px solid rgba(0,0,0,0.03); 
+      background: white; border-radius: var(--radius); padding: 30px 25px; 
+      box-shadow: var(--shadow-lux); border: 0.5px solid rgba(0,0,0,0.02); 
       margin-bottom: 25px; 
     }
 
     .subhead {
-      font-size: 16px; font-weight: 700; margin: 0 0 15px; 
-      color: var(--dark-premium); border-left: 3px solid var(--gold); padding-left: 12px;
+      font-size: 15px; font-weight: 700; margin: 0 0 18px; 
+      color: var(--dark-premium); border-left: 2px solid var(--gold); padding-left: 14px;
+      letter-spacing: 1px;
     }
     
     .bullets { padding: 0; margin: 0; list-style: none; }
     .bullets li {
-      margin: 12px 0; display: flex; align-items: flex-start;
-      font-size: 14px; color: #444; line-height: 1.6;
+      margin: 14px 0; display: flex; align-items: flex-start;
+      font-size: 13.5px; color: #555; line-height: 1.7;
     }
     .bullets li::before { 
-      content: "—"; color: var(--gold); margin-right: 12px; font-weight: bold;
+      content: "—"; color: var(--gold); margin-right: 12px; font-weight: 300;
     }
 
-    /* 警示卡片 */
-    .warn-card { border-top: 3px solid #C0392B; }
-    .warn-card .subhead { border-left-color: #C0392B; }
-    .warn-card li::before { content: "●"; font-size: 8px; margin-top: 6px; color: #C0392B; }
+    /* 警示風格 */
+    .warn-card { border-top: 3px solid #A94442; }
+    .warn-card .subhead { border-left-color: #A94442; }
+    .warn-card li::before { content: "●"; font-size: 7px; margin-top: 7px; color: #A94442; }
 
     /* 流程設計 */
-    .step-item { position: relative; padding-left: 50px; margin-bottom: 35px; }
+    .step-item { position: relative; padding-left: 55px; margin-bottom: 35px; }
     .step-num {
-      position: absolute; left: 0; top: 0; width: 30px; height: 30px;
-      border: 1px solid var(--gold); color: var(--gold); border-radius: 50%;
-      display: grid; place-items: center; font-size: 12px; font-family: serif;
+      position: absolute; left: 0; top: -2px; width: 32px; height: 32px;
+      border: 0.5px solid var(--gold); color: var(--gold); border-radius: 50%;
+      display: grid; place-items: center; font-size: 11px; font-family: serif;
     }
-    .step-item h4 { font-size: 16px; margin: 0 0 12px; font-weight: 700; }
+    .step-item h4 { font-size: 15px; margin: 0 0 10px; font-weight: 700; letter-spacing: 0.5px; }
 
     /* 複製區塊 */
     .template-box {
@@ -146,67 +136,68 @@
       padding: 25px; border-radius: var(--radius);
     }
     .template-title {
-      text-align: center; font-size: 14px; font-weight: 700; margin-bottom: 15px;
-      color: var(--gold); letter-spacing: 2px;
+      text-align: center; font-size: 13px; font-weight: 700; margin-bottom: 18px;
+      color: var(--gold); letter-spacing: 3px;
     }
     .template-area {
       width: 100%; min-height: 220px; border: 1px solid #EEE;
-      padding: 15px; font-size: 13px; color: #555; background: #FFF;
-      outline: none; font-family: monospace; border-radius: 4px;
+      padding: 15px; font-size: 12px; color: #666; background: #FFF;
+      outline: none; font-family: "Courier New", monospace; border-radius: 4px;
     }
     .btn-dark {
-      width: 100%; margin-top: 15px; border: none; padding: 16px;
+      width: 100%; margin-top: 15px; border: none; padding: 15px;
       background: var(--dark-premium); color: white; font-weight: 600;
-      font-size: 14px; cursor: pointer; letter-spacing: 1px;
+      font-size: 13px; cursor: pointer; letter-spacing: 2px; transition: 0.3s;
     }
 
     /* 表格優化 */
-    .table-wrap { overflow: auto; margin-top: 20px; border: 1px solid #EEE; border-radius: 8px; }
-    table { width: 100%; border-collapse: collapse; min-width: 700px; font-size: 13px; }
-    th { background: #F8F8F8; padding: 15px 10px; font-weight: 700; text-align: left; border-bottom: 2px solid #EEE; }
-    td { padding: 15px 10px; border-bottom: 1px solid #EEE; color: #666; }
+    .table-wrap { overflow: auto; margin-top: 20px; border: 1px solid #F0F0F0; border-radius: 4px; }
+    table { width: 100%; border-collapse: collapse; min-width: 650px; font-size: 12px; }
+    th { background: #FAFAFA; padding: 14px 10px; font-weight: 700; text-align: left; border-bottom: 1px solid #EEE; color: #333; }
+    td { padding: 14px 10px; border-bottom: 1px solid #EEE; color: #777; }
 
     /* 下載列 */
     .file-row { 
       display: flex; justify-content: space-between; align-items: center; 
-      padding: 20px 0; border-bottom: 0.5px solid #EEE; 
+      padding: 18px 0; border-bottom: 0.5px solid #F0F0F0; 
     }
     .file-link {
       color: var(--dark-premium); text-decoration: none; font-weight: 700;
-      font-size: 12px; border: 1px solid #000; padding: 6px 15px; border-radius: 2px;
+      font-size: 11px; border: 0.5px solid #000; padding: 6px 14px; border-radius: 2px;
     }
 
-    /* 專屬福利 */
+    /* 尊榮福利 */
     .bonus-card {
-      background: var(--dark-premium); color: white; padding: 40px;
+      background: var(--dark-premium); color: white; padding: 45px 30px;
       border-radius: var(--radius); text-align: center;
     }
-    .bonus-card h3 { color: var(--gold-light); font-family: serif; font-size: 24px; margin-top: 0; }
+    .bonus-card h3 { color: var(--gold-light); font-family: "Times New Roman", serif; font-size: 22px; margin-top: 0; font-weight: 400; letter-spacing: 2px; }
+    .bonus-card p { font-size: 13px; font-weight: 300; opacity: 0.8; }
     .bonus-item {
-      display: inline-block; margin: 10px 5px; padding: 8px 15px;
-      background: rgba(255,255,255,0.05); border: 1px solid rgba(197,160,89,0.3);
-      font-size: 13px; border-radius: 4px;
+      display: inline-block; margin: 10px 4px; padding: 8px 14px;
+      background: rgba(255,255,255,0.04); border: 0.5px solid rgba(197,160,89,0.3);
+      font-size: 12px; border-radius: 2px; letter-spacing: 0.5px;
     }
 
     /* 底部導覽 */
     .nav-bar {
       position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
-      width: 90%; max-width: 400px; background: rgba(17,17,17,0.95);
-      backdrop-filter: blur(10px); height: 65px; border-radius: 50px;
+      width: 90%; max-width: 380px; background: rgba(17,17,17,0.96);
+      backdrop-filter: blur(15px); height: 62px; border-radius: 40px;
       display: flex; align-items: center; justify-content: space-around;
-      z-index: 100; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      z-index: 100; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
     }
-    .nav-link { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 10px; text-align: center; transition: 0.3s; }
+    .nav-link { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 10px; text-align: center; transition: 0.3s; }
     .nav-link.active { color: var(--gold-light); }
-    .nav-link svg { display: block; margin: 0 auto 4px; width: 20px; height: 20px; fill: currentColor; }
+    .nav-link svg { display: block; margin: 0 auto 5px; width: 18px; height: 18px; fill: currentColor; }
 
-    .notice-text { font-size: 11px; color: var(--muted); margin-top: 15px; }
-    footer { text-align: center; color: var(--muted); font-size: 11px; margin-top: 60px; padding-bottom: 20px; line-height: 2; }
+    .notice-text { font-size: 10.5px; color: var(--muted); margin-top: 15px; font-weight: 300; }
+    footer { text-align: center; color: var(--muted); font-size: 10px; margin-top: 65px; padding-bottom: 30px; line-height: 2.2; letter-spacing: 1px; }
     
     @media (max-width: 480px) {
-      .hero { padding: 40px 25px; }
-      .hero h2 { font-size: 28px; }
-      .card { padding: 20px; }
+      .hero { padding: 45px 25px; }
+      .hero h2 { font-size: 26px; }
+      .card { padding: 25px 20px; }
     }
   </style>
 </head>
@@ -220,71 +211,71 @@
         <span class="topbar-logo">MURAIN</span>
         <span class="topbar-sub">LUXURY CONSIGNMENT</span>
       </div>
-      <a class="topbar-btn" href="https://line.me" target="_blank" rel="noopener">LINE 諮詢</a>
+      <a class="topbar-btn" href="https://line.me" target="_blank" rel="noopener">專人諮詢</a>
     </div>
   </div>
 
   <div class="container">
 
     <a href="index.html" class="hero animate-in">
-      <h2>新季寄賣開放中</h2>
-      <p>讓閒置精品，遇見下一位愛它的主人</p>
-      <div class="hero-btn">開始挖寶 →</div>
+      <h2>典藏流轉・煥新啟幕</h2>
+      <p>讓每一份閒置精品，重拾被寵愛的溫度</p>
+      <div class="hero-btn">探索珍藏 →</div>
     </a>
 
     <section id="info" class="animate-in" style="animation-delay: 0.1s;">
-      <h3 class="section-title">寄賣說明服務須知</h3>
+      <h3 class="section-title">寄賣服務須知</h3>
       <div class="card">
-        <div class="notice-text">※ 以下為服務重點摘要，實際權利義務以簽署契約為準。</div>
+        <div class="notice-text">※ 服務細則摘錄如下，正式權益請以雙方簽署之紙本契約為準。</div>
         <div style="height:25px;"></div>
 
-        <div class="subhead">正品保證規範</div>
+        <div class="subhead">嚴選與鑑定規範</div>
         <ul class="bullets">
-          <li>僅收<b>沐雨精品服飾、栩願國際</b>售出之商品。</li>
-          <li>提供<b>購買證明截圖</b>(由本公司售出之憑證)。</li>
-          <li>商品需功能正常，無重大破損或明顯異味。</li>
+          <li>僅受理<b>沐雨精品服飾、栩願國際</b>售出之經典作品。</li>
+          <li>請備妥<b>購買證明截圖</b>（本公司核發之原始憑證）。</li>
+          <li>商品需功能完好，且無重大破損、異味等瑕疵。</li>
         </ul>
 
         <div style="height:20px;"></div>
 
-        <div class="subhead">售出結算匯款</div>
+        <div class="subhead">售出結算與撥款</div>
         <ul class="bullets">
-          <li>商品售出 7 日內通知，30 日內匯入指定帳戶。</li>
+          <li>作品售出 7 日內將主動通知，並於 30 日內匯入指定帳戶。</li>
         </ul>
 
         <div style="height:20px;"></div>
 
-        <div class="subhead">期滿處理方式</div>
+        <div class="subhead">期滿處理方案</div>
         <ul class="bullets">
-          <li>期滿可協議展延 3 個月或辦理領回。</li>
-          <li>線上簽署：期滿領回採「貨運寄回」。</li>
-          <li>到店辦理：期滿領回採「現場取回」。</li>
+          <li>期滿可協議續延 3 個月，或辦理商品領回。</li>
+          <li>線上簽署者：商品領回統一採「貨運寄回」方式。</li>
+          <li>親臨辦理者：商品領回統一採「現場取回」方式。</li>
         </ul>
       </div>
     </section>
 
     <section id="remind" class="animate-in" style="animation-delay: 0.2s;">
-      <h3 class="section-title">法律規範與提醒</h3>
+      <h3 class="section-title">權益保障與提醒</h3>
       <div class="card warn-card">
         <div class="subhead">重要法律義務</div>
         <ul class="bullets">
-          <li><b>仿品賠償</b>：若寄售非本公司售出之商品或仿品，須賠償 NT$200,000，商譽損失另計賠償 NT$300,000。</li>
-          <li><b>私下銷售</b>：寄賣期間不得私自販售予他人，違者須支付售價 30% 之違約金。</li>
-          <li><b>提前取回</b>：期滿前要求取回，須支付售價 10% 之服務費。</li>
-          <li><b>逾期處理</b>：期滿後一個月未取回或拒付運費者，商品所有權歸屬本公司。</li>
-          <li><b>管轄法院</b>：本服務爭議以臺灣臺南地方法院為第一審管轄法院。</li>
+          <li><b>仿品賠償</b>：若寄售非本公司售出或仿製商品，須賠償 NT$200,000，商譽損失另計。</li>
+          <li><b>私自銷售</b>：寄賣期間不得私下轉售予第三人，違者須支付售價 30% 之違約金。</li>
+          <li><b>提前領回</b>：合約期滿前申請領回，須支付售價 10% 之行政服務費。</li>
+          <li><b>逾期處理</b>：期滿一個月未領回或拒付運費者，作品所有權即歸屬本公司。</li>
+          <li><b>法律管轄</b>：本服務相關爭議以臺灣臺南地方法院為第一審管轄法院。</li>
         </ul>
       </div>
     </section>
 
     <section id="bonus" class="animate-in" style="animation-delay: 0.3s;">
-      <h3 class="section-title">專屬增值福利</h3>
+      <h3 class="section-title">專屬禮遇福利</h3>
       <div class="bonus-card">
         <h3>寄賣金轉購物金</h3>
-        <p>選擇轉換為品牌購物金，享有更多回饋：</p>
-        <div class="bonus-item">享有立即 +5% 儲值增值</div>
-        <div class="bonus-item">可全額折抵全站商品</div>
-        <div class="bonus-item">永久有效，自由累積</div>
+        <p>將寄賣所得轉換為品牌購物金，尊享資產增值：</p>
+        <div class="bonus-item">立即獲得 +5% 儲值增值回饋</div>
+        <div class="bonus-item">全站商品皆可全額折抵使用</div>
+        <div class="bonus-item">購物金永久有效，可靈活累積</div>
       </div>
     </section>
 
@@ -293,9 +284,9 @@
       <div class="card">
         <div class="step-item">
           <div class="step-num">01</div>
-          <h4>LINE 線上審核</h4>
+          <h4>LINE 影像初步審核</h4>
           <ul class="bullets">
-            <li>傳送購買證明截圖、商品現況照片/影片、欲寄賣價格。</li>
+            <li>提供購證截圖、實物細節照片/影片及預計寄賣價格。</li>
           </ul>
         </div>
 
@@ -303,52 +294,39 @@
           <div class="step-num">02</div>
           <h4>確認寄賣條件</h4>
           <ul class="bullets">
-            <li>核對清冊、定價、是否參與競標。</li>
-            <li>若參與競標需提供<b>底標價</b>（加價以 100 元為單位）。</li>
-            <li>調價通知於次日生效。</li>
+            <li>核對清冊、定價及是否參與競標（底標加價以 100 為單位）。</li>
+            <li>所有調價通知將於翌日正式生效。</li>
           </ul>
         </div>
 
         <div class="step-item">
           <div class="step-num">03</div>
-          <h4>包裹寄送</h4>
+          <h4>實體包裹寄送</h4>
           <ul class="bullets">
-            <li>包含：紙本契約(兩份)、商品、身分證正反面影本。</li>
+            <li>包含：紙本契約(一式兩份)、商品及身分證正反面影本。</li>
           </ul>
         </div>
 
         <div class="step-item" style="margin-bottom:0;">
           <div class="step-num">04</div>
-          <h4>上架銷售</h4>
+          <h4>正式上架銷售</h4>
           <ul class="bullets">
-            <li>確認收到包裹後回傳契約影像，正式進入銷售期。</li>
+            <li>確認包裹後回傳契約影像，作品即進入通路銷售期。</li>
           </ul>
         </div>
       </div>
 
       <div class="card">
         <div class="template-box">
-          <div class="template-title">第一步：複製寄賣資料模板</div>
+          <div class="template-title">第一步：複製寄賣模板</div>
           <textarea id="templateText" class="template-area" readonly>填寫寄賣資料【寄售清冊】
 編號	寄售商品品牌、名稱、規格	數量	官網價格	競標價格
 1	例：COACH 托特包 滿版紅	數量	價格	同意競標才填
 2	（或附圖由小幫手協助填寫）	數量	價格	同意競標才填
-3		數量	價格	同意競標才填
-4		數量	價格	同意競標才填
-5		數量	價格	同意競標才填
-6		數量	價格	同意競標才填
-7		數量	價格	同意競標才填
-8		數量	價格	同意競標才填
-9		數量	價格	同意競標才填
-10		數量	價格	同意競標才填
-11		數量	價格	同意競標才填
-12		數量	價格	同意競標才填
-13		數量	價格	同意競標才填
-14		數量	價格	同意競標才填
-15		數量	價格	同意競標才填
+3...	（下略至 15 項）
 （請另附上商品照片與購證截圖）</textarea>
           <button id="copyBtn" class="btn-dark" type="button">一鍵複製資料模板</button>
-          <div id="toast" style="text-align:center; font-size:12px; color:var(--gold); margin-top:10px; min-height:18px;"></div>
+          <div id="toast" style="text-align:center; font-size:11px; color:var(--gold); margin-top:10px; min-height:18px;"></div>
         </div>
 
         <div class="table-wrap">
@@ -356,59 +334,58 @@
             <thead>
               <tr>
                 <th>編號</th>
-                <th>商品品牌名稱規格</th>
+                <th>品牌規格名稱</th>
                 <th>數量</th>
                 <th>官網價格</th>
                 <th>競標價格</th>
               </tr>
             </thead>
             <tbody>
-              <tr><td>1</td><td>例：COACH 托特包 滿版紅</td><td>數量</td><td>價格</td><td>同意競標才填</td></tr>
-              <tr><td>2</td><td>（或附圖由小幫手協助填寫）</td><td>數量</td><td>價格</td><td>同意競標才填</td></tr>
-              <tr><td>3...</td><td>(下略至15項)</td><td></td><td></td><td></td></tr>
+              <tr><td>1</td><td>例：COACH 托特包 滿版紅</td><td>1</td><td>NT$ XXX</td><td>NT$ XXX</td></tr>
+              <tr><td>2</td><td>（支援影像輔助填寫）</td><td>-</td><td>-</td><td>-</td></tr>
             </tbody>
           </table>
         </div>
 
-        <div style="text-align:center; margin-top:30px;">
-          <a class="hero-btn" href="https://line.me" target="_blank" rel="noopener" style="display:inline-flex; text-decoration:none;">立即預約申請 →</a>
+        <div style="text-align:center; margin-top:35px;">
+          <a class="hero-btn" href="https://line.me" target="_blank" rel="noopener" style="display:inline-flex; text-decoration:none;">立即預約專人申請 →</a>
         </div>
       </div>
     </section>
 
     <section id="downloads" class="animate-in" style="animation-delay: 0.5s;">
-      <h3 class="section-title">相關文件下載</h3>
+      <h3 class="section-title">文件下載與導引</h3>
       <div class="card">
         <div class="file-row">
           <div>
-            <div style="font-weight:700;">商品寄售契約 (PDF)</div>
-            <div class="notice-text">請列印一式兩份並完成親簽</div>
+            <div style="font-weight:700; font-size:14px;">商品寄售契約 (PDF)</div>
+            <div class="notice-text">請務必列印一式兩份並完成親簽</div>
           </div>
-          <a href="downloads/contract.pdf" class="file-link" download>點擊下載</a>
+          <a href="downloads/contract.pdf" class="file-link" download>下載文件</a>
         </div>
 
         <div style="height:25px;"></div>
-        <div class="subhead">填寫位置提醒</div>
+        <div class="subhead">填寫位置指引</div>
         <ul class="bullets">
-          <li>P1：乙方姓名簽署</li>
-          <li>P3：乙方收款帳戶（限本人銀行帳戶）</li>
-          <li>P6：乙方個人資料、身分證字號、簽名蓋章</li>
-          <li>P7：寄售商品清冊</li>
-          <li>P2：(選填) 同意競標處簽名</li>
+          <li>P1：乙方（寄售人）姓名簽署</li>
+          <li>P3：乙方收款帳戶資料（限本人銀行帳戶）</li>
+          <li>P6：乙方詳實個資、身分證號及蓋章親簽</li>
+          <li>P7：寄售商品明細清冊</li>
+          <li>P2：(選填) 同意參與競標處簽名</li>
         </ul>
       </div>
     </section>
 
     <section id="shipping" class="animate-in" style="animation-delay: 0.6s;">
-      <h3 class="section-title">寄送資訊</h3>
+      <h3 class="section-title">物流收件資訊</h3>
       <div class="card">
-        <div class="subhead">物流收件資訊</div>
+        <div class="subhead">官方物流細節</div>
         <ul class="bullets">
-          <li><b>收件人：</b>沐雨精品服飾</li>
-          <li><b>電話：</b>06-7238700</li>
-          <li><b>地址：</b>臺南市佳里區文新里義民街 339 號 1 樓</li>
+          <li><b>收件單位：</b>沐雨精品服飾</li>
+          <li><b>專線電話：</b>06-7238700</li>
+          <li><b>收件地址：</b>臺南市佳里區文新里義民街 339 號 1 樓</li>
         </ul>
-        <div class="notice-text">※ 包裹請包含：契約、商品、身分證影本。</div>
+        <div class="notice-text">※ 溫馨提醒：請確認包裹內含「合約、商品、身分證影本」。</div>
       </div>
     </section>
 
@@ -445,7 +422,7 @@
       btn.addEventListener("click", async ()=>{
         try {
           await navigator.clipboard.writeText(ta.value);
-          show("✅ 範本已複製，請貼到 LINE 訊息");
+          show("✅ 範本已成功複製至剪貼簿");
         } catch(e) {
           ta.select();
           document.execCommand("copy");
