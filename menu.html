@@ -24,7 +24,6 @@
       line-height: 1.8; -webkit-font-smoothing: antialiased;
     }
 
-    /* 動畫 */
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(15px); }
       to { opacity: 1; transform: translateY(0); }
@@ -54,15 +53,16 @@
       background: linear-gradient(135deg, #111 0%, #2a2a2a 100%);
       color: white; border-radius: var(--radius); padding: 60px 35px;
       margin-bottom: 40px; position: relative; overflow: hidden;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.15); text-decoration: none; display: block;
-      border: 1px solid rgba(197, 160, 89, 0.2); transition: 0.4s;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.2); text-decoration: none; display: block;
+      border: 1px solid rgba(197, 160, 89, 0.3); transition: 0.4s;
     }
     .hero:hover { transform: translateY(-5px); border-color: var(--gold); }
-    .hero h2 { font-size: 32px; margin: 0 0 12px; font-family: serif; letter-spacing: 3px; font-weight: 400; }
-    .hero p { font-size: 15px; opacity: 0.8; margin: 0 0 40px; letter-spacing: 1.5px; }
+    .hero h2 { font-size: 34px; margin: 0 0 12px; font-family: serif; letter-spacing: 3px; font-weight: 400; }
+    .hero p { font-size: 15px; opacity: 0.85; margin: 0 0 40px; letter-spacing: 1.5px; }
     .hero-btn {
-      display: inline-flex; background: var(--gold); color: white;
-      padding: 12px 30px; border-radius: 2px; font-size: 12px; font-weight: 600; letter-spacing: 2px;
+      display: inline-flex; background: linear-gradient(to right, var(--gold), #E8D5B5); color: #FFF;
+      padding: 14px 35px; border-radius: 4px; font-size: 13px; font-weight: 600; letter-spacing: 2px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
     }
 
     /* 區塊標題 */
@@ -79,12 +79,13 @@
     .bullets li { margin: 14px 0; display: flex; align-items: flex-start; font-size: 14px; color: #444; }
     .bullets li::before { content: "—"; color: var(--gold); margin-right: 12px; }
 
-    /* 法律責任排版 */
+    /* 法律責任專屬 ◆ 排版 */
     .warn-card { border-top: 4px solid #A94442; }
     .warn-card .subhead { border-left-color: #A94442; color: #A94442; }
     .law-list { padding: 0; margin: 0; list-style: none; }
-    .law-list li { margin-bottom: 22px; display: flex; align-items: flex-start; font-size: 14px; line-height: 1.7; color: #333; }
-    .law-list li span { color: #A94442; margin-right: 12px; font-size: 12px; margin-top: 2px; }
+    .law-list li { margin-bottom: 22px; display: flex; align-items: flex-start; font-size: 14px; line-height: 1.8; color: #333; }
+    .law-list li span { color: #A94442; margin-right: 12px; font-size: 12px; margin-top: 4px; }
+    .law-list b { color: #000; }
 
     /* 流程設計 */
     .step-item { position: relative; padding-left: 55px; margin-bottom: 35px; }
@@ -95,17 +96,29 @@
     }
     .step-item h4 { font-size: 15px; margin: 0 0 10px; font-weight: 700; }
 
-    /* 預約大按鈕 */
+    /* 增值禮遇區塊 */
+    .bonus-card {
+      background: #111; color: white; padding: 45px 30px; border-radius: var(--radius); text-align: center;
+      border: 1px solid rgba(197, 160, 89, 0.3); margin-bottom: 25px;
+    }
+    .bonus-card h3 { color: var(--gold-light); font-family: serif; font-size: 22px; margin: 0 0 15px; }
+    .bonus-badge {
+      display: inline-block; padding: 10px 20px; background: rgba(197, 160, 89, 0.15);
+      border: 0.5px solid var(--gold); border-radius: 4px; font-size: 15px; font-weight: 700; color: var(--gold-light);
+      margin: 15px 0;
+    }
+
+    /* 預約大按鈕 - 更大更亮 */
     .btn-reserve-giant {
-      display: flex; width: 100%; height: 75px;
+      display: flex; width: 100%; min-height: 75px;
       background: linear-gradient(135deg, #D4AF37 0%, #F1D279 100%);
       color: #FFF !important; text-decoration: none; border-radius: 12px;
       font-size: 20px; font-weight: 700; letter-spacing: 5px;
       justify-content: center; align-items: center;
       box-shadow: 0 15px 35px rgba(212, 175, 55, 0.4);
-      transition: 0.3s; margin-top: 35px;
+      transition: 0.3s; margin-top: 35px; text-shadow: 0 1px 2px rgba(0,0,0,0.1);
     }
-    .btn-reserve-giant:hover { transform: scale(1.02); filter: brightness(1.1); }
+    .btn-reserve-giant:hover { transform: scale(1.02); filter: brightness(1.1); box-shadow: 0 20px 45px rgba(212, 175, 55, 0.5); }
 
     /* 表格 */
     .table-wrap { overflow: auto; margin: 20px 0; border: 1px solid #EEE; border-radius: 4px; }
@@ -135,6 +148,23 @@
       <div class="hero-btn">進入寄賣商城 尋寶去 →</div>
     </a>
 
+    <section id="info" class="animate-in">
+      <h3 class="section-title">寄賣服務須知</h3>
+      <div class="card">
+        <div class="subhead">正品鑑定與保證</div>
+        <ul class="bullets">
+          <li>僅受理<b>沐雨精品服飾、栩願國際</b>售出之品牌商品。</li>
+          <li>需提供<b>購買證明截圖</b>作為核對憑據。</li>
+          <li>商品需功能正常，無重大破損或明顯異味。</li>
+        </ul>
+        <div style="height:20px;"></div>
+        <div class="subhead">售出結算與撥款</div>
+        <ul class="bullets">
+          <li>商品售出 7 日內將主動通知，並於 30 日內匯入指定帳戶。</li>
+        </ul>
+      </div>
+    </section>
+
     <section id="remind" class="animate-in">
       <h3 class="section-title">權益保障與提醒</h3>
       <div class="card warn-card">
@@ -146,6 +176,16 @@
           <li><span>◆</span><div><b>逾期處理</b>：期滿一個月未領回或拒付運費者，所有權即自動歸屬本公司。</div></li>
           <li><span>◆</span><div><b>法律管轄</b>：本服務相關爭議，均以臺灣臺南地方法院為第一審管轄法院。</div></li>
         </ul>
+      </div>
+    </section>
+
+    <section id="bonus" class="animate-in">
+      <h3 class="section-title">尊榮增值禮遇</h3>
+      <div class="bonus-card">
+        <h3>寄賣所得轉購物金</h3>
+        <p style="font-size:14px; opacity:0.8;">選擇轉換為品牌購物金，尊享資產增值回饋：</p>
+        <div class="bonus-badge">立即獲得 +5% 之金額增值</div>
+        <div style="font-size:12px; opacity:0.6; margin-top:10px;">可全額折抵全站精品｜永久有效且可自由累積</div>
       </div>
     </section>
 
@@ -197,14 +237,14 @@
           </table>
         </div>
 
-        <div style="background:#FDFBF7; padding:20px; border-radius:4px; border:1px solid #E8D5B5; margin-top:25px;">
-           <div style="text-align:center; font-size:12px; font-weight:700; margin-bottom:10px;">第一步：點擊下方複製模板</div>
-           <textarea id="templateText" style="width:100%; height:120px; padding:10px; font-size:12px; border:1px solid #EEE;" readonly>【精品寄賣申請】
+        <div style="background:#FDFBF7; padding:25px; border-radius:4px; border:1px solid #E8D5B5; margin-top:25px;">
+           <div style="text-align:center; font-size:12px; font-weight:700; margin-bottom:12px; color:var(--gold);">第一步：點擊下方複製模板</div>
+           <textarea id="templateText" style="width:100%; height:120px; padding:12px; font-size:12px; border:1px solid #EEE;" readonly>【精品寄賣申請】
 1. 品牌規格：
    數量：
    官網價格：
    競標價格：</textarea>
-           <button id="copyBtn" style="width:100%; padding:15px; background:#111; color:#fff; border:none; margin-top:10px; font-size:13px; font-weight:600;">一鍵複製資料模板</button>
+           <button id="copyBtn" style="width:100%; padding:15px; background:#111; color:#fff; border:none; margin-top:10px; font-size:13px; font-weight:600; cursor:pointer;">一鍵複製資料模板</button>
            <div id="toast" style="text-align:center; font-size:11px; color:var(--gold); margin-top:8px; min-height:15px;"></div>
         </div>
 
@@ -215,12 +255,12 @@
     <section id="downloads" class="animate-in">
       <h3 class="section-title">相關文件與下載</h3>
       <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:20px; border-bottom:1px solid #EEE;">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:20px; border-bottom:1px solid #F0F0F0;">
           <div>
             <div style="font-weight:700; font-size:15px;">精品寄售契約 (PDF)</div>
             <div style="font-size:11px; color:var(--muted);">請務必列印一式兩份並完成親筆簽署</div>
           </div>
-          <a href="downloads/contract.pdf" style="color:#000; text-decoration:none; font-weight:700; font-size:12px; border:1px solid #000; padding:8px 16px; border-radius:4px;" download>點擊下載</a>
+          <a href="downloads/contract.pdf" style="color:#000; text-decoration:none; font-weight:700; font-size:12px; border:1.5px solid #000; padding:8px 18px; border-radius:4px;" download>點擊下載</a>
         </div>
         <div style="height:25px;"></div>
         <div class="subhead">合約填寫快速指引</div>
@@ -238,7 +278,7 @@
       <h3 class="section-title">收件與物流資訊</h3>
       <div class="card">
         <div class="subhead">官方物流收件資料</div>
-        <div style="font-size:14px; color:#444;">
+        <div style="font-size:14px; color:#444; line-height:2;">
           <b>收件單位：</b>沐雨精品服飾<br>
           <b>專線電話：</b>06-7238700<br>
           <b>物流地址：</b>臺南市佳里區文新里義民街 339 號 1 樓
@@ -249,11 +289,11 @@
     <footer>© MURAIN Boutique 2026<br>潘羿如即沐雨精品服飾（統編：94319633）</footer>
   </div>
 
-  <nav class="nav-bar" style="position:fixed; bottom:25px; left:50%; transform:translateX(-50%); width:94%; max-width:450px; background:rgba(17,17,17,0.96); backdrop-filter:blur(15px); height:68px; border-radius:40px; display:flex; align-items:center; justify-content:around; z-index:100;">
-    <a href="#top" class="nav-link active" style="color:var(--gold-light); text-decoration:none; font-size:10px; text-align:center; flex:1;">首頁</a>
-    <a href="#remind" class="nav-link" style="color:rgba(255,255,255,0.4); text-decoration:none; font-size:10px; text-align:center; flex:1;">須知</a>
-    <a href="#flow" class="nav-link" style="color:rgba(255,255,255,0.4); text-decoration:none; font-size:10px; text-align:center; flex:1;">流程</a>
-    <a href="#downloads" class="nav-link" style="color:rgba(255,255,255,0.4); text-decoration:none; font-size:10px; text-align:center; flex:1;">檔案</a>
+  <nav class="nav-bar" style="position:fixed; bottom:25px; left:50%; transform:translateX(-50%); width:94%; max-width:450px; background:rgba(17,17,17,0.96); backdrop-filter:blur(15px); height:68px; border-radius:40px; display:flex; align-items:center; justify-content:around; z-index:100; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+    <a href="#top" class="nav-link" style="color:var(--gold-light); text-decoration:none; font-size:11px; text-align:center; flex:1; font-weight:600;">首頁</a>
+    <a href="#remind" class="nav-link" style="color:rgba(255,255,255,0.4); text-decoration:none; font-size:11px; text-align:center; flex:1;">須知</a>
+    <a href="#flow" class="nav-link" style="color:rgba(255,255,255,0.4); text-decoration:none; font-size:11px; text-align:center; flex:1;">流程</a>
+    <a href="#downloads" class="nav-link" style="color:rgba(255,255,255,0.4); text-decoration:none; font-size:11px; text-align:center; flex:1;">檔案</a>
   </nav>
 
   <script>
