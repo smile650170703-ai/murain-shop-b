@@ -7,7 +7,7 @@
   <style>
     :root {
       --gold: #C5A059;
-      --gold-bright: #D4AF37; /* 更亮的金 */
+      --gold-bright: #D4AF37;
       --gold-light: #E8D5B5;
       --dark-premium: #111111;
       --dark-surface: #1C1C1C;
@@ -36,23 +36,18 @@
 
     /* Top Bar */
     .topbar {
-      position: sticky;
-      top: 0; z-index: 200;
-      background: var(--glass);
-      backdrop-filter: blur(20px);
+      position: sticky; top: 0; z-index: 200;
+      background: var(--glass); backdrop-filter: blur(20px);
       border-bottom: 0.5px solid rgba(0,0,0,0.06);
     }
     .topbar-inner {
-      max-width: 800px; margin: 0 auto;
-      padding: 14px 20px;
+      max-width: 800px; margin: 0 auto; padding: 14px 20px;
       display: flex; align-items: center; justify-content: space-between;
     }
     .topbar-brand { display: flex; flex-direction: column; line-height: 1.1; }
     .topbar-logo {
-      font-family: "Times New Roman", serif;
-      font-size: 22px; font-weight: 700;
-      letter-spacing: 6px;
-      color: var(--dark-premium);
+      font-family: "Times New Roman", serif; font-size: 22px; font-weight: 700;
+      letter-spacing: 6px; color: var(--dark-premium);
     }
     .topbar-sub { font-size: 9px; letter-spacing: 3px; color: var(--muted); margin-top: 5px; }
     .topbar-btn {
@@ -63,53 +58,41 @@
 
     .container { max-width: 600px; margin: 0 auto; padding: 25px 20px 140px; }
 
-    /* 高級版 Hero Card */
+    /* 高級版商城卡片 */
     .hero {
-      background: linear-gradient(145deg, #111 0%, #222 100%);
+      background: linear-gradient(135deg, #111 0%, #2a2a2a 100%);
       color: white; border-radius: var(--radius);
-      padding: 60px 35px; margin-bottom: 40px; position: relative; overflow: hidden;
-      box-shadow: 0 35px 70px rgba(0,0,0,0.15); text-decoration: none;
-      display: block; border: 1px solid rgba(197, 160, 89, 0.25);
-      transition: all 0.4s ease;
+      padding: 65px 35px; margin-bottom: 40px; position: relative; overflow: hidden;
+      box-shadow: 0 35px 70px rgba(0,0,0,0.2); text-decoration: none;
+      display: block; border: 1px solid rgba(197, 160, 89, 0.2);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    .hero:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 45px 85px rgba(0,0,0,0.2);
-      border-color: var(--gold);
-    }
+    .hero:hover { transform: translateY(-8px); border-color: var(--gold); }
     .hero::after {
-      content: ""; position: absolute; top: -10%; right: -10%;
-      width: 300px; height: 300px; 
-      background: radial-gradient(circle, rgba(197, 160, 89, 0.18) 0%, transparent 70%);
+      content: ""; position: absolute; top: -20%; right: -10%;
+      width: 320px; height: 320px; 
+      background: radial-gradient(circle, rgba(197, 160, 89, 0.15) 0%, transparent 70%);
     }
     .hero h2 {
-      font-size: 34px; margin: 0 0 12px;
-      font-family: "Times New Roman", serif; 
-      letter-spacing: 3px; font-weight: 400; position: relative; z-index: 1;
+      font-size: 34px; margin: 0 0 15px; font-family: "Times New Roman", serif; 
+      letter-spacing: 4px; font-weight: 400; position: relative; z-index: 1;
     }
     .hero p {
-      font-size: 15px; opacity: 0.85; margin: 0 0 40px;
-      letter-spacing: 1.5px;
-      position: relative; z-index: 1; font-weight: 300;
+      font-size: 15px; opacity: 0.8; margin: 0 0 45px;
+      letter-spacing: 2px; position: relative; z-index: 1; font-weight: 300;
     }
     .hero-btn {
       display: inline-flex;
-      background: linear-gradient(to right, var(--gold), #e0c080);
-      color: white;
-      padding: 14px 35px; border-radius: 4px; font-size: 13px; font-weight: 600;
-      letter-spacing: 3px; position: relative; z-index: 1;
-      box-shadow: 0 8px 25px rgba(197, 160, 89, 0.3);
+      background: linear-gradient(to right, #C5A059, #E8D5B5);
+      color: #FFF; padding: 14px 38px; border-radius: 2px;
+      font-size: 13px; font-weight: 600; letter-spacing: 3px;
+      position: relative; z-index: 1; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
       transition: 0.3s;
-    }
-    .hero:hover .hero-btn {
-      background: var(--gold-bright);
-      box-shadow: 0 10px 30px rgba(197, 160, 89, 0.5);
     }
 
     /* Section Headers */
     .section-title {
-      font-size: 17px;
-      font-weight: 600; margin: 55px 0 25px;
+      font-size: 17px; font-weight: 600; margin: 55px 0 25px;
       display: flex; align-items: center; gap: 12px;
       font-family: serif; letter-spacing: 1.5px;
     }
@@ -122,47 +105,39 @@
     }
 
     .subhead {
-      font-size: 15px;
-      font-weight: 700; margin: 0 0 18px; 
-      color: var(--dark-premium); border-left: 2px solid var(--gold); padding-left: 14px;
-      letter-spacing: 1px;
+      font-size: 15px; font-weight: 700; margin: 0 0 18px; 
+      color: var(--dark-premium); border-left: 3px solid var(--gold); padding-left: 14px;
+      letter-spacing: 1.2px;
     }
     
     .bullets { padding: 0; margin: 0; list-style: none; }
     .bullets li {
-      margin: 14px 0; display: flex; align-items: flex-start;
-      font-size: 13.5px; color: #555; line-height: 1.7;
+      margin: 16px 0; display: flex; align-items: flex-start;
+      font-size: 14px; color: #444; line-height: 1.7;
     }
     .bullets li::before { 
-      content: "—";
-      color: var(--gold); margin-right: 12px; font-weight: 300;
+      content: "—"; color: var(--gold); margin-right: 12px; font-weight: 300;
     }
 
-    /* 權益提醒（紅標設計）- 依照要求更換為 ◆ */
-    .warn-card { border-top: 3px solid #A94442; }
-    .warn-card .subhead { border-left-color: #A94442; }
-    .warn-card li { margin: 18px 0; color: #333; }
+    /* 法律責任區塊優化 */
+    .warn-card { border-top: 4px solid #A94442; }
+    .warn-card .subhead { border-left-color: #A94442; color: #A94442; }
+    .warn-card li { margin: 20px 0; }
     .warn-card li::before { 
-      content: "◆"; 
-      font-size: 12px; 
-      margin-top: 3px; 
-      color: #A94442; 
-      margin-right: 10px;
+      content: "◆"; color: #A94442; margin-right: 12px; font-size: 12px;
     }
 
-    /* 流程與模板區塊 */
+    /* 模板複製區塊 */
     .template-box {
-      background: #FDFBF7;
-      border: 1px solid var(--border-light);
+      background: #FDFBF7; border: 1px solid var(--border-light);
       padding: 25px; border-radius: var(--radius);
     }
     .template-title {
-      text-align: center;
-      font-size: 13px; font-weight: 700; margin-bottom: 18px;
+      text-align: center; font-size: 13px; font-weight: 700; margin-bottom: 18px;
       color: var(--gold); letter-spacing: 3px;
     }
     .template-area {
-      width: 100%; min-height: 220px; border: 1px solid #EEE;
+      width: 100%; min-height: 200px; border: 1px solid #EEE;
       padding: 15px; font-size: 12px; color: #666; background: #FFF;
       outline: none; font-family: monospace; border-radius: 4px;
     }
@@ -175,38 +150,41 @@
     /* 表格滑動優化 */
     .table-wrap { overflow: auto; margin-top: 20px; border: 1px solid #F0F0F0; border-radius: 4px; }
     table { width: 100%; border-collapse: collapse; min-width: 600px; font-size: 12px; }
-    th { background: #FAFAFA; padding: 14px 10px; font-weight: 700; text-align: left; border-bottom: 1px solid #EEE; }
-    td { padding: 14px 10px; border-bottom: 1px solid #EEE; color: #777; }
+    th { background: #FAFAFA; padding: 14px 10px; text-align: left; border-bottom: 1px solid #EEE; }
+    td { padding: 14px 10px; border-bottom: 1px solid #EEE; color: #666; }
 
-    /* 更大更亮的專人預約按鈕 */
+    /* 頂級亮色預約按鈕 */
     .btn-reserve-lux {
-      display: flex;
-      width: 100%;
-      background: linear-gradient(to right, #D4AF37, #F1D279);
-      color: #FFF !important;
-      text-decoration: none;
-      padding: 22px;
-      border-radius: 4px;
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: 4px;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 12px 35px rgba(212, 175, 55, 0.4);
-      transition: all 0.3s ease;
-      margin-top: 35px;
-      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      display: flex; width: 100%;
+      background: linear-gradient(135deg, #D4AF37 0%, #F1D279 100%);
+      color: #FFF !important; text-decoration: none;
+      padding: 22px; border-radius: 4px;
+      font-size: 18px; font-weight: 700; letter-spacing: 5px;
+      justify-content: center; align-items: center;
+      box-shadow: 0 15px 35px rgba(212, 175, 55, 0.4);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      margin-top: 35px; text-shadow: 0 1px 3px rgba(0,0,0,0.15);
     }
     .btn-reserve-lux:hover {
-      transform: scale(1.02);
-      box-shadow: 0 15px 45px rgba(212, 175, 55, 0.6);
-      filter: brightness(1.1);
+      transform: scale(1.03); filter: brightness(1.1);
+      box-shadow: 0 20px 45px rgba(212, 175, 55, 0.5);
     }
+
+    /* 下載列 */
+    .file-row { 
+      display: flex; justify-content: space-between; align-items: center; 
+      padding: 20px 0; border-bottom: 0.5px solid #F0F0F0;
+    }
+    .file-link {
+      color: var(--dark-premium); text-decoration: none; font-weight: 700;
+      font-size: 11px; border: 1px solid #000; padding: 8px 16px; border-radius: 2px;
+      transition: 0.3s;
+    }
+    .file-link:hover { background: #000; color: #FFF; }
 
     /* 底部導覽 */
     .nav-bar {
-      position: fixed;
-      bottom: 25px; left: 50%; transform: translateX(-50%);
+      position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
       width: 94%; max-width: 450px; background: rgba(17,17,17,0.96);
       backdrop-filter: blur(15px); height: 68px; border-radius: 40px;
       display: flex; align-items: center; justify-content: space-around;
@@ -216,8 +194,8 @@
     .nav-link.active { color: var(--gold-light); }
     .nav-link svg { display: block; margin: 0 auto 5px; width: 18px; height: 18px; fill: currentColor; }
 
-    .notice-text { font-size: 10.5px; color: var(--muted); margin-top: 15px; font-weight: 300; }
-    footer { text-align: center; color: var(--muted); font-size: 10px; margin-top: 65px; padding-bottom: 30px; line-height: 2.2; letter-spacing: 1px; }
+    .notice-text { font-size: 11px; color: var(--muted); margin-top: 15px; font-weight: 300; }
+    footer { text-align: center; color: var(--muted); font-size: 10px; margin-top: 65px; padding-bottom: 30px; line-height: 2.2; }
   </style>
 </head>
 
@@ -230,7 +208,7 @@
         <span class="topbar-logo">MURAIN</span>
         <span class="topbar-sub">LUXURY CONSIGNMENT</span>
       </div>
-      <a class="topbar-btn" href="https://line.me" target="_blank" rel="noopener">專人諮詢</a>
+      <a class="topbar-btn" href="https://line.me" target="_blank">專人諮詢</a>
     </div>
   </div>
 
@@ -249,14 +227,14 @@
         <div style="height:25px;"></div>
         <div class="subhead">正品鑑定與保證</div>
         <ul class="bullets">
-          <li>僅受理<b>沐雨精品服飾、栩願國際</b>售出之品牌商品 [cite: 70]。</li>
-          <li>需提供<b>購買證明截圖</b>作為核對憑據 [cite: 70]。</li>
-          <li>商品需功能正常，無重大破損或明顯異味 [cite: 70]。</li>
+          <li>僅受理<b>沐雨精品服飾、栩願國際</b>售出之品牌商品。</li>
+          <li>需提供<b>購買證明截圖</b>作為核對憑據。</li>
+          <li>商品需功能正常，無重大破損或明顯異味。</li>
         </ul>
         <div style="height:20px;"></div>
         <div class="subhead">售出結算與撥款</div>
         <ul class="bullets">
-          <li>商品售出 7 日內將主動通知，並於 30 日內匯入指定帳戶 [cite: 71]。</li>
+          <li>商品售出 7 日內將主動通知，並於 30 日內匯入指定帳戶。</li>
         </ul>
       </div>
     </section>
@@ -266,11 +244,11 @@
       <div class="card warn-card">
         <div class="subhead">委託法律責任</div>
         <ul class="bullets">
-          <li>◆ <b>仿品賠償</b>：若寄售非本公司售出或為贗品，須賠償 NT$200,000，商譽損失賠償 NT$300,000 另計 [cite: 72]。</li>
-          <li>◆ <b>私自銷售</b>：寄賣期間不得私下將商品販售予他人，違者須支付售價 30% 之違約金 [cite: 72]。</li>
-          <li>◆ <b>提前領回</b>：若於期滿前要求領回商品，須支付售價 10% 之行政服務費 [cite: 72, 73]。</li>
-          <li>◆ <b>逾期處理</b>：期滿一個月未領回或拒付運費者，所有權即自動歸屬本公司 [cite: 73]。</li>
-          <li>◆ <b>法律管轄</b>：本服務相關爭議，均以臺灣臺南地方法院為第一審管轄法院 [cite: 73]。</li>
+          <li>◆ <b>仿品賠償</b>：若寄售非本公司售出或為贗品，須賠償 NT$200,000，商譽損失賠償 NT$300,000 另計。</li>
+          <li>◆ <b>私自銷售</b>：寄賣期間不得私下將商品販售予他人，違者須支付售價 30% 之違約金。</li>
+          <li>◆ <b>提前領回</b>：若於期滿前要求領回商品，須支付售價 10% 之行政服務費。</li>
+          <li>◆ <b>逾期處理</b>：期滿一個月未領回或拒付運費者，所有權即自動歸屬本公司。</li>
+          <li>◆ <b>法律管轄</b>：本服務相關爭議，均以臺灣臺南地方法院為第一審管轄法院。</li>
         </ul>
       </div>
     </section>
@@ -305,7 +283,7 @@
           <div id="toast" style="text-align:center; font-size:11px; color:var(--gold); margin-top:10px; min-height:18px;"></div>
         </div>
 
-        <a class="btn-reserve-lux" href="https://line.me" target="_blank" rel="noopener">
+        <a class="btn-reserve-lux" href="https://line.me" target="_blank">
           立即預約專人申請 →
         </a>
       </div>
@@ -316,10 +294,10 @@
       <div class="card">
         <div class="file-row">
           <div>
-            <div style="font-weight:700; font-size:14px;">精品寄售契約 (PDF) [cite: 83]</div>
+            <div style="font-weight:700; font-size:15px;">精品寄售契約 (PDF)</div>
             <div class="notice-text">請務必列印一式兩份並完成親筆簽署</div>
           </div>
-          <a href="downloads/contract.pdf" class="file-link" download>點擊下載 [cite: 83]</a>
+          <a href="downloads/contract.pdf" class="file-link" download>點擊下載</a>
         </div>
       </div>
     </section>
@@ -329,9 +307,9 @@
       <div class="card">
         <div class="subhead">官方物流收件資料</div>
         <ul class="bullets">
-          <li><b>收件單位：</b>沐雨精品服飾 [cite: 84]</li>
-          <li><b>專線電話：</b>06-7238700 [cite: 85]</li>
-          <li><b>物流地址：</b>臺南市佳里區文新里義民街 339 號 1 樓 [cite: 85]</li>
+          <li><b>收件單位：</b>沐雨精品服飾</li>
+          <li><b>專線電話：</b>06-7238700</li>
+          <li><b>物流地址：</b>臺南市佳里區文新里義民街 339 號 1 樓</li>
         </ul>
       </div>
     </section>
