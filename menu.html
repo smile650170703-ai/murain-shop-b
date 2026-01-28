@@ -99,7 +99,7 @@
       background: #111; color: white; padding: 45px 30px; border-radius: var(--radius); text-align: center;
       border: 1px solid rgba(197, 160, 89, 0.3); margin-bottom: 25px;
     }
-    .bonus-card h3 { color: var(--gold-light); font-family: serif; font-size: 22px; margin: 0 0 15px; font-weight: 400; }
+    .bonus-card h3 { color: var(--gold-light); font-family: serif; font-size: 22px; margin: 0 0 15px; }
     .bonus-badge {
       display: inline-block; padding: 10px 20px; background: rgba(197, 160, 89, 0.15);
       border: 0.5px solid var(--gold); border-radius: 4px; font-size: 15px; font-weight: 700; color: var(--gold-light);
@@ -114,15 +114,20 @@
       font-size: 20px; font-weight: 700; letter-spacing: 5px;
       justify-content: center; align-items: center;
       box-shadow: 0 15px 35px rgba(212, 175, 55, 0.4);
-      transition: 0.3s; margin-top: 35px;
+      transition: 0.3s; margin-top: 35px; text-shadow: 0 1px 2px rgba(0,0,0,0.1);
     }
-    .btn-reserve-giant:hover { transform: scale(1.02); filter: brightness(1.1); box-shadow: 0 20px 45px rgba(212, 175, 55, 0.6); }
+    .btn-reserve-giant:hover { transform: scale(1.02); filter: brightness(1.1); box-shadow: 0 20px 45px rgba(212, 175, 55, 0.5); }
 
     /* 表格 */
     .table-wrap { overflow: auto; margin: 20px 0; border: 1px solid #EEE; border-radius: 4px; }
     table { width: 100%; border-collapse: collapse; min-width: 500px; font-size: 12px; }
     th { background: #FAFAFA; padding: 12px; text-align: left; border-bottom: 1px solid #EEE; }
     td { padding: 12px; border-bottom: 1px solid #EEE; color: #666; }
+
+    /* 高級指引勾勾列表 */
+    .guide-checklist { list-style: none; padding: 0; margin: 0; }
+    .guide-checklist li { display: flex; align-items: center; margin-bottom: 12px; font-size: 14.5px; color: #444; font-weight: 500; }
+    .guide-checklist .icon { font-size: 18px; margin-right: 12px; width: 24px; text-align: center; }
 
     footer { text-align: center; color: var(--muted); font-size: 10px; margin-top: 60px; padding-bottom: 40px; }
   </style>
@@ -191,9 +196,7 @@
         <h3>寄賣所得轉購物金</h3>
         <p style="font-size:14px; opacity:0.8;">選擇轉換為品牌購物金，尊享資產增值回饋：</p>
         <div class="bonus-badge">立即獲得 +5% 之金額增值</div>
-        <div style="font-size:13px; opacity:0.7; margin-top:10px;">
-          可全額折抵全站精品｜永久有效且可自由累積
-        </div>
+        <div style="font-size:12px; opacity:0.6; margin-top:10px;">可全額折抵全站精品｜永久有效且可自由累積</div>
       </div>
     </section>
 
@@ -236,7 +239,7 @@
         <div class="table-wrap">
           <table>
             <thead>
-              <tr><th>編號</th><th>品牌名稱規格 (範例) [cite: 80]</th><th>數量</th><th>官網價格</th><th>競標價格</th></tr>
+              <tr><th>編號</th><th>品牌名稱規格 (範例)</th><th>數量</th><th>官網價格</th><th>競標價格</th></tr>
             </thead>
             <tbody>
               <tr><td>1</td><td>CHANEL CF20 黑金 牛皮</td><td>1</td><td>$185,000</td><td>$175,000</td></tr>
@@ -255,42 +258,48 @@
            <button id="copyBtn" style="width:100%; padding:15px; background:#111; color:#fff; border:none; margin-top:10px; font-size:13px; font-weight:600; cursor:pointer;">一鍵複製資料模板</button>
            <div id="toast" style="text-align:center; font-size:11px; color:var(--gold); margin-top:8px; min-height:15px;"></div>
         </div>
-
-        <a class="btn-reserve-giant" href="https://line.me" target="_blank">立即預約專人申請 →</a>
       </div>
     </section>
 
     <section id="downloads" class="animate-in">
-      <h3 class="section-title">相關文件與下載</h3>
+      <h3 class="section-title">相關文件與收件指引</h3>
       <div class="card">
-        <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:20px; border-bottom:1px solid #F0F0F0;">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:25px; border-bottom:1px solid #F0F0F0; margin-bottom:25px;">
           <div>
             <div style="font-weight:700; font-size:15px;">精品寄售契約 (PDF)</div>
             <div style="font-size:11px; color:var(--muted);">請務必列印一式兩份並完成親筆簽署</div>
           </div>
           <a href="downloads/contract.pdf" style="color:#000; text-decoration:none; font-weight:700; font-size:12px; border:1.5px solid #000; padding:8px 18px; border-radius:4px;" download>點擊下載</a>
         </div>
-        <div style="height:25px;"></div>
-        <div class="subhead">合約填寫快速指引 </div>
-        <ul class="bullets">
-          <li><b>P1</b>：乙方（寄售人）姓名簽署。</li>
-          <li><b>P3</b>：乙方收款帳戶資料（限本人帳戶）。</li>
-          <li><b>P6</b>：個資、身分證號及蓋章親簽。</li>
-          <li><b>P7</b>：寄售商品明細清冊。</li>
-          <li><b>P2</b>：(選填) 同意參與競標處簽名。</li>
-        </ul>
-      </div>
-    </section>
 
-    <section id="shipping" class="animate-in">
-      <h3 class="section-title">收件與物流資訊</h3>
-      <div class="card">
-        <div class="subhead">官方物流收件資料</div>
-        <div style="font-size:14px; color:#444; line-height:2.2;">
-          <b>收件單位：</b>沐雨精品服飾<br>
-          <b>專線電話：</b>06-7238700<br>
-          <b>物流地址：</b>臺南市佳里區文新里義民街 339 號 1 樓
+        <div class="subhead">合約填寫快速指引</div>
+        <ul class="guide-checklist">
+          <li><span class="icon">✅</span> 第 1 頁：乙方（寄售人）姓名簽署</li>
+          <li><span class="icon">✔️</span> 第 3 頁：乙方收款帳戶資料（限本人帳戶）</li>
+          <li><span class="icon">✅</span> 第 6 頁：個資、身分證號及蓋章親簽</li>
+          <li><span class="icon">✔️</span> 第 7 頁：寄售商品明細清冊</li>
+          <li><span class="icon" style="color:#9B59B6;">💜</span> 第 2 頁：(選填) 同意參與競標處簽名</li>
+        </ul>
+
+        <hr style="border: 0; border-top: 1px solid #F0F0F0; margin: 30px 0;">
+
+        <div class="subhead">官方收件與物流資訊</div>
+        <div style="background: #F9F9F9; padding: 20px; border-radius: 6px; border-left: 4px solid var(--gold);">
+          <div style="font-size: 14px; font-weight: 700; color: #D4AF37; margin-bottom: 10px;">📦 寄送包裹（契約＋商品＋身分證件）</div>
+          <ul style="margin: 0 0 20px 0; padding-left: 20px; font-size: 13.5px; color: #555;">
+            <li>紙本契約 2 份</li>
+            <li>寄售商品本體</li>
+            <li>身分證正反面影本</li>
+          </ul>
+          
+          <div style="font-size: 14px; color: #444; line-height: 2;">
+            <b>收件單位：</b>沐雨精品服飾<br>
+            <b>專線電話：</b>06-7238700<br>
+            <b>物流地址：</b>臺南市佳里區文新里義民街 339 號 1 樓
+          </div>
         </div>
+
+        <a class="btn-reserve-giant" href="https://line.me" target="_blank">立即預約專人申請 →</a>
       </div>
     </section>
 
