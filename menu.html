@@ -14,7 +14,7 @@
       --bg: #F9F9F9;
       --glass: rgba(255, 255, 255, 0.92);
       --shadow-lux: 0 15px 40px rgba(0,0,0,0.04);
-      --radius: 8px; /* 較小圓角更顯簡潔俐落 */
+      --radius: 8px;
       --border-light: rgba(197, 160, 89, 0.18);
     }
 
@@ -27,7 +27,6 @@
       line-height: 1.8; -webkit-font-smoothing: antialiased;
     }
 
-    /* 高級感動效 */
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(15px); }
       to { opacity: 1; transform: translateY(0); }
@@ -58,7 +57,6 @@
       border: 1px solid var(--gold); color: var(--gold);
       font-weight: 600; font-size: 11px; transition: 0.3s;
     }
-    .topbar-btn:active { background: var(--gold); color: white; }
 
     .container { max-width: 600px; margin: 0 auto; padding: 25px 20px 140px; }
 
@@ -91,7 +89,7 @@
     .section-title {
       font-size: 17px; font-weight: 600; margin: 55px 0 25px;
       display: flex; align-items: center; gap: 12px;
-      font-family: "Noto Serif TC", serif; letter-spacing: 1.5px;
+      font-family: serif; letter-spacing: 1.5px;
     }
     .section-title::after { content: ""; flex: 1; height: 0.5px; background: var(--border-light); }
 
@@ -116,7 +114,7 @@
       content: "—"; color: var(--gold); margin-right: 12px; font-weight: 300;
     }
 
-    /* 警示風格 */
+    /* 權益提醒（紅標設計） */
     .warn-card { border-top: 3px solid #A94442; }
     .warn-card .subhead { border-left-color: #A94442; }
     .warn-card li::before { content: "●"; font-size: 7px; margin-top: 7px; color: #A94442; }
@@ -128,9 +126,9 @@
       border: 0.5px solid var(--gold); color: var(--gold); border-radius: 50%;
       display: grid; place-items: center; font-size: 11px; font-family: serif;
     }
-    .step-item h4 { font-size: 15px; margin: 0 0 10px; font-weight: 700; letter-spacing: 0.5px; }
+    .step-item h4 { font-size: 15px; margin: 0 0 10px; font-weight: 700; }
 
-    /* 複製區塊 */
+    /* 模板複製區塊 */
     .template-box {
       background: #FDFBF7; border: 1px solid var(--border-light);
       padding: 25px; border-radius: var(--radius);
@@ -142,18 +140,18 @@
     .template-area {
       width: 100%; min-height: 220px; border: 1px solid #EEE;
       padding: 15px; font-size: 12px; color: #666; background: #FFF;
-      outline: none; font-family: "Courier New", monospace; border-radius: 4px;
+      outline: none; font-family: monospace; border-radius: 4px;
     }
     .btn-dark {
       width: 100%; margin-top: 15px; border: none; padding: 15px;
       background: var(--dark-premium); color: white; font-weight: 600;
-      font-size: 13px; cursor: pointer; letter-spacing: 2px; transition: 0.3s;
+      font-size: 13px; cursor: pointer; letter-spacing: 2px;
     }
 
     /* 表格優化 */
     .table-wrap { overflow: auto; margin-top: 20px; border: 1px solid #F0F0F0; border-radius: 4px; }
     table { width: 100%; border-collapse: collapse; min-width: 650px; font-size: 12px; }
-    th { background: #FAFAFA; padding: 14px 10px; font-weight: 700; text-align: left; border-bottom: 1px solid #EEE; color: #333; }
+    th { background: #FAFAFA; padding: 14px 10px; font-weight: 700; text-align: left; border-bottom: 1px solid #EEE; }
     td { padding: 14px 10px; border-bottom: 1px solid #EEE; color: #777; }
 
     /* 下載列 */
@@ -166,28 +164,28 @@
       font-size: 11px; border: 0.5px solid #000; padding: 6px 14px; border-radius: 2px;
     }
 
-    /* 尊榮福利 */
+    /* 福利卡片 */
     .bonus-card {
       background: var(--dark-premium); color: white; padding: 45px 30px;
       border-radius: var(--radius); text-align: center;
     }
-    .bonus-card h3 { color: var(--gold-light); font-family: "Times New Roman", serif; font-size: 22px; margin-top: 0; font-weight: 400; letter-spacing: 2px; }
-    .bonus-card p { font-size: 13px; font-weight: 300; opacity: 0.8; }
+    .bonus-card h3 { color: var(--gold-light); font-family: serif; font-size: 22px; margin-top: 0; font-weight: 400; letter-spacing: 2px; }
     .bonus-item {
       display: inline-block; margin: 10px 4px; padding: 8px 14px;
       background: rgba(255,255,255,0.04); border: 0.5px solid rgba(197,160,89,0.3);
-      font-size: 12px; border-radius: 2px; letter-spacing: 0.5px;
+      font-size: 12px; border-radius: 2px;
     }
 
-    /* 底部導覽 */
+    /* 底部導覽 - 更新為四項 */
     .nav-bar {
       position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
-      width: 90%; max-width: 380px; background: rgba(17,17,17,0.96);
-      backdrop-filter: blur(15px); height: 62px; border-radius: 40px;
+      width: 94%; max-width: 450px; background: rgba(17,17,17,0.96);
+      backdrop-filter: blur(15px); height: 68px; border-radius: 40px;
       display: flex; align-items: center; justify-content: space-around;
       z-index: 100; box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      padding: 0 10px;
     }
-    .nav-link { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 10px; text-align: center; transition: 0.3s; }
+    .nav-link { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 10px; text-align: center; transition: 0.3s; flex: 1; }
     .nav-link.active { color: var(--gold-light); }
     .nav-link svg { display: block; margin: 0 auto 5px; width: 18px; height: 18px; fill: currentColor; }
 
@@ -220,36 +218,31 @@
     <a href="index.html" class="hero animate-in">
       <h2>典藏流轉・煥新啟幕</h2>
       <p>讓每一份閒置精品，重拾被寵愛的溫度</p>
-      <div class="hero-btn">探索珍藏 →</div>
+      <div class="hero-btn">進入商城 →</div>
     </a>
 
     <section id="info" class="animate-in" style="animation-delay: 0.1s;">
       <h3 class="section-title">寄賣服務須知</h3>
       <div class="card">
-        <div class="notice-text">※ 服務細則摘錄如下，正式權益請以雙方簽署之紙本契約為準。</div>
+        <div class="notice-text">※ 服務摘要如下，正式權益請以雙方簽署之紙本契約為準。</div>
         <div style="height:25px;"></div>
-
-        <div class="subhead">嚴選與鑑定規範</div>
+        <div class="subhead">正品鑑定與保證</div>
         <ul class="bullets">
-          <li>僅受理<b>沐雨精品服飾、栩願國際</b>售出之經典作品。</li>
-          <li>請備妥<b>購買證明截圖</b>（本公司核發之原始憑證）。</li>
-          <li>商品需功能完好，且無重大破損、異味等瑕疵。</li>
+          <li>僅受理於<b>沐雨精品服飾、栩願國際</b>售出之品牌商品。</li>
+          <li>需提供由本公司開立之<b>購買證明截圖</b>作為核對憑據。</li>
+          <li>商品需功能完好，且無重大破損、異味等外觀瑕疵。</li>
         </ul>
-
         <div style="height:20px;"></div>
-
         <div class="subhead">售出結算與撥款</div>
         <ul class="bullets">
           <li>作品售出 7 日內將主動通知，並於 30 日內匯入指定帳戶。</li>
         </ul>
-
         <div style="height:20px;"></div>
-
-        <div class="subhead">期滿處理方案</div>
+        <div class="subhead">期滿領回規範</div>
         <ul class="bullets">
-          <li>期滿可協議續延 3 個月，或辦理商品領回。</li>
-          <li>線上簽署者：商品領回統一採「貨運寄回」方式。</li>
-          <li>親臨辦理者：商品領回統一採「現場取回」方式。</li>
+          <li>期滿可協議續延 3 個月，或辦理商品領回手續。</li>
+          <li>線上辦理者，商品領回統一採「郵寄寄回」方式。</li>
+          <li>現場辦理者，商品領回統一採「門市取回」方式。</li>
         </ul>
       </div>
     </section>
@@ -257,68 +250,65 @@
     <section id="remind" class="animate-in" style="animation-delay: 0.2s;">
       <h3 class="section-title">權益保障與提醒</h3>
       <div class="card warn-card">
-        <div class="subhead">重要法律義務</div>
+        <div class="subhead">委託法律責任</div>
         <ul class="bullets">
-          <li><b>仿品賠償</b>：若寄售非本公司售出或仿製商品，須賠償 NT$200,000，商譽損失另計。</li>
-          <li><b>私自銷售</b>：寄賣期間不得私下轉售予第三人，違者須支付售價 30% 之違約金。</li>
-          <li><b>提前領回</b>：合約期滿前申請領回，須支付售價 10% 之行政服務費。</li>
-          <li><b>逾期處理</b>：期滿一個月未領回或拒付運費者，作品所有權即歸屬本公司。</li>
-          <li><b>法律管轄</b>：本服務相關爭議以臺灣臺南地方法院為第一審管轄法院。</li>
+          <li><b>鑑定賠償責任</b>：若寄售非本公司售出或為贗品，須賠償 NT$200,000，商譽損失賠償 NT$300,000 另計。</li>
+          <li><b>委託銷售規範</b>：寄賣期間不得私下將商品販售予他人，違者須支付售價 30% 之違約金。</li>
+          <li><b>提前終止合約</b>：若於期滿前要求領回商品，須支付售價 10% 之行政服務費。</li>
+          <li><b>逾期處理規則</b>：期滿一個月未領回或拒付運費者，作品所有權即自動歸屬本公司。</li>
+          <li><b>法律爭議管轄</b>：本服務相關爭議，均以臺灣臺南地方法院為第一審管轄法院。</li>
         </ul>
       </div>
     </section>
 
     <section id="bonus" class="animate-in" style="animation-delay: 0.3s;">
-      <h3 class="section-title">專屬禮遇福利</h3>
+      <h3 class="section-title">尊榮增值禮遇</h3>
       <div class="bonus-card">
-        <h3>寄賣金轉購物金</h3>
-        <p>將寄賣所得轉換為品牌購物金，尊享資產增值：</p>
-        <div class="bonus-item">立即獲得 +5% 儲值增值回饋</div>
-        <div class="bonus-item">全站商品皆可全額折抵使用</div>
-        <div class="bonus-item">購物金永久有效，可靈活累積</div>
+        <h3>寄賣所得轉購物金</h3>
+        <p>選擇將寄賣金轉換為品牌購物金，尊享資產增值回饋：</p>
+        <div class="bonus-item">立即獲得 +5% 之金額增值</div>
+        <div class="bonus-item">可全額折抵全站精品</div>
+        <div class="bonus-item">永久有效且可自由累積</div>
       </div>
     </section>
 
     <section id="flow" class="animate-in" style="animation-delay: 0.4s;">
-      <h3 class="section-title">標準寄賣流程</h3>
+      <h3 class="section-title">標準化寄賣流程</h3>
       <div class="card">
         <div class="step-item">
           <div class="step-num">01</div>
-          <h4>LINE 影像初步審核</h4>
+          <h4>LINE 數位初步審核</h4>
           <ul class="bullets">
-            <li>提供購證截圖、實物細節照片/影片及預計寄賣價格。</li>
+            <li>提供購證截圖、實物細節影像及預計寄賣價格。</li>
           </ul>
         </div>
-
         <div class="step-item">
           <div class="step-num">02</div>
-          <h4>確認寄賣條件</h4>
+          <h4>確認委託銷售條件</h4>
           <ul class="bullets">
-            <li>核對清冊、定價及是否參與競標（底標加價以 100 為單位）。</li>
-            <li>所有調價通知將於翌日正式生效。</li>
+            <li>核對清冊、定價及競標條件（底標加價以 100 為單位）。</li>
+            <li>所有價格異動通知將於翌日正式生效。</li>
           </ul>
         </div>
-
         <div class="step-item">
           <div class="step-num">03</div>
           <h4>實體包裹寄送</h4>
           <ul class="bullets">
-            <li>包含：紙本契約(一式兩份)、商品及身分證正反面影本。</li>
+            <li>包含：紙本契約(兩份)、商品及身分證正反面影本。</li>
           </ul>
         </div>
-
         <div class="step-item" style="margin-bottom:0;">
           <div class="step-num">04</div>
-          <h4>正式上架銷售</h4>
+          <h4>正式進入上架期</h4>
           <ul class="bullets">
-            <li>確認包裹後回傳契約影像，作品即進入通路銷售期。</li>
+            <li>確認收到包裹後回傳契約影像，作品正式進入銷售通路。</li>
           </ul>
         </div>
       </div>
 
-      <div class="card">
+      <div id="data" class="card">
         <div class="template-box">
-          <div class="template-title">第一步：複製寄賣模板</div>
+          <div class="template-title">第一步：複製寄賣模板資料</div>
           <textarea id="templateText" class="template-area" readonly>填寫寄賣資料【寄售清冊】
 編號	寄售商品品牌、名稱、規格	數量	官網價格	競標價格
 1	例：COACH 托特包 滿版紅	數量	價格	同意競標才填
@@ -328,25 +318,17 @@
           <button id="copyBtn" class="btn-dark" type="button">一鍵複製資料模板</button>
           <div id="toast" style="text-align:center; font-size:11px; color:var(--gold); margin-top:10px; min-height:18px;"></div>
         </div>
-
         <div class="table-wrap">
           <table>
             <thead>
-              <tr>
-                <th>編號</th>
-                <th>品牌規格名稱</th>
-                <th>數量</th>
-                <th>官網價格</th>
-                <th>競標價格</th>
-              </tr>
+              <tr><th>編號</th><th>品牌名稱規格</th><th>數量</th><th>官網價格</th><th>競標價格</th></tr>
             </thead>
             <tbody>
-              <tr><td>1</td><td>例：COACH 托特包 滿版紅</td><td>1</td><td>NT$ XXX</td><td>NT$ XXX</td></tr>
+              <tr><td>1</td><td>例：COACH 托特包 滿版紅</td><td>數量</td><td>價格</td><td>同意競標才填</td></tr>
               <tr><td>2</td><td>（支援影像輔助填寫）</td><td>-</td><td>-</td><td>-</td></tr>
             </tbody>
           </table>
         </div>
-
         <div style="text-align:center; margin-top:35px;">
           <a class="hero-btn" href="https://line.me" target="_blank" rel="noopener" style="display:inline-flex; text-decoration:none;">立即預約專人申請 →</a>
         </div>
@@ -354,36 +336,35 @@
     </section>
 
     <section id="downloads" class="animate-in" style="animation-delay: 0.5s;">
-      <h3 class="section-title">文件下載與導引</h3>
+      <h3 class="section-title">相關文件與下載</h3>
       <div class="card">
         <div class="file-row">
           <div>
-            <div style="font-weight:700; font-size:14px;">商品寄售契約 (PDF)</div>
-            <div class="notice-text">請務必列印一式兩份並完成親簽</div>
+            <div style="font-weight:700; font-size:14px;">精品寄售契約 (PDF)</div>
+            <div class="notice-text">請務必列印一式兩份並完成親筆簽署</div>
           </div>
-          <a href="downloads/contract.pdf" class="file-link" download>下載文件</a>
+          <a href="downloads/contract.pdf" class="file-link" download>點擊下載</a>
         </div>
-
         <div style="height:25px;"></div>
-        <div class="subhead">填寫位置指引</div>
+        <div class="subhead">合約填寫指引</div>
         <ul class="bullets">
-          <li>P1：乙方（寄售人）姓名簽署</li>
-          <li>P3：乙方收款帳戶資料（限本人銀行帳戶）</li>
-          <li>P6：乙方詳實個資、身分證號及蓋章親簽</li>
-          <li>P7：寄售商品明細清冊</li>
-          <li>P2：(選填) 同意參與競標處簽名</li>
+          <li>P1：乙方（寄售人）姓名簽署。</li>
+          <li>P3：乙方收款帳戶資料（限本人帳戶）。</li>
+          <li>P6：個資、身分證號及蓋章親簽。</li>
+          <li>P7：寄售商品明細清冊。</li>
+          <li>P2：(選填) 同意參與競標處簽名。</li>
         </ul>
       </div>
     </section>
 
     <section id="shipping" class="animate-in" style="animation-delay: 0.6s;">
-      <h3 class="section-title">物流收件資訊</h3>
+      <h3 class="section-title">收件與物流資訊</h3>
       <div class="card">
-        <div class="subhead">官方物流細節</div>
+        <div class="subhead">官方物流收件資料</div>
         <ul class="bullets">
           <li><b>收件單位：</b>沐雨精品服飾</li>
           <li><b>專線電話：</b>06-7238700</li>
-          <li><b>收件地址：</b>臺南市佳里區文新里義民街 339 號 1 樓</li>
+          <li><b>物流地址：</b>臺南市佳里區文新里義民街 339 號 1 樓</li>
         </ul>
         <div class="notice-text">※ 溫馨提醒：請確認包裹內含「合約、商品、身分證影本」。</div>
       </div>
@@ -397,13 +378,16 @@
 
   <nav class="nav-bar">
     <a href="#top" class="nav-link active">
-      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>首頁
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>品牌首頁
+    </a>
+    <a href="#info" class="nav-link">
+      <svg viewBox="0 0 24 24"><path d="M11 7h2v2h-2zm0 4h2v6h-2zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>服務須知
     </a>
     <a href="#flow" class="nav-link">
-      <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>流程
+      <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>寄賣流程
     </a>
     <a href="#downloads" class="nav-link">
-      <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>下載
+      <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>檔案資料
     </a>
   </nav>
 
