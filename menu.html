@@ -43,24 +43,24 @@
     .hero-btn { display: inline-flex; background: var(--gold); color: #FFF; padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 600; }
 
     /* 通用區塊標題 */
-    .section-title { font-size: 14px; font-weight: 600; color: var(--gray-text); margin: 35px 0 15px 5px; letter-spacing: 1px; }
+    .section-title { font-size: 14px; font-weight: 600; color: var(--gray-text); margin: 30px 0 12px 5px; letter-spacing: 1px; }
 
     /* 通用卡片樣式 */
     .card { background: var(--card-bg); border-radius: var(--radius); padding: 25px 20px; margin-bottom: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
     
-    /* 標題樣式 */
-    .subhead { font-size: 16px; font-weight: 700; margin: 0 0 18px; display: flex; align-items: center; color: #000; }
+    /* 副標題樣式 - 間距已縮小 */
+    .subhead { font-size: 16px; font-weight: 700; margin: 0 0 10px; display: flex; align-items: center; color: #000; }
     .subhead::before { content: ""; width: 4px; height: 18px; background: var(--gold); border-radius: 10px; margin-right: 12px; flex-shrink: 0; }
     
-    /* 清單樣式 - 手機防碎字 */
+    /* 清單樣式 - 手機防碎字且間距縮小 */
     .bullets { padding: 0; margin: 0; list-style: none; }
     .bullets li { 
-      margin: 15px 0; 
+      margin: 8px 0; /* 從 15px 縮減為 8px */
       display: flex; 
       align-items: flex-start; 
       font-size: 14.5px; 
       color: #3A3A3C; 
-      text-align: left; 
+      text-align: justify; 
     }
     .bullets li::before { 
       content: "•"; 
@@ -78,7 +78,7 @@
     .warn-card .subhead { color: #A94442; }
     .warn-card .subhead::before { background: #A94442; }
     .law-list { padding: 0; margin: 0; list-style: none; }
-    .law-list li { margin-bottom: 20px; display: flex; font-size: 14px; color: #333; line-height: 1.7; }
+    .law-list li { margin-bottom: 15px; display: flex; font-size: 14px; color: #333; line-height: 1.7; }
     .law-list li span { color: #A94442; margin-right: 12px; font-size: 14px; margin-top: 2px; }
 
     /* 福利黑卡 */
@@ -89,9 +89,9 @@
     .bonus-row span { color: #F1D279; margin-right: 15px; font-size: 16px; }
 
     /* 流程步驟 */
-    .step-item { position: relative; padding-left: 50px; margin-bottom: 30px; }
+    .step-item { position: relative; padding-left: 50px; margin-bottom: 25px; }
     .step-num { position: absolute; left: 0; top: 0; width: 30px; height: 30px; background: #F4EFE6; color: var(--gold-dark); border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 700; }
-    .step-item h4 { font-size: 16px; margin: 0 0 8px; font-weight: 700; color: #000; }
+    .step-item h4 { font-size: 16px; margin: 0 0 5px; font-weight: 700; color: #000; }
 
     /* 表格與模板 */
     .table-wrap { overflow-x: auto; margin: 15px 0; border: 1px solid #EEE; border-radius: 12px; -webkit-overflow-scrolling: touch; }
@@ -99,7 +99,7 @@
     th { background: #F8F8F8; padding: 14px; text-align: left; color: var(--gray-text); font-weight: 600; }
     td { padding: 14px; border-bottom: 1px solid #F2F2F7; color: #444; }
 
-    .template-box { background:#F9F9FB; padding:20px; border-radius:15px; border:1px solid #EEE; margin-top:20px; text-align: center; }
+    .template-box { background:#F9F9FB; padding:20px; border-radius:15px; border:1px solid #EEE; margin-top:15px; text-align: center; }
     textarea { width:100%; height:110px; padding:15px; font-size:13px; border:1px solid #DDD; border-radius: 10px; background: #FFF; margin-bottom: 15px; resize: none; }
     #copyBtn { width:100%; padding:16px; background:var(--dark); color:#fff; border:none; border-radius: 10px; font-size: 14px; font-weight: 600; }
     
@@ -111,16 +111,16 @@
     }
 
     /* 下載與收件指引 */
-    .download-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 0.5px solid #EEE; margin-bottom: 25px; }
+    .download-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 0.5px solid #EEE; margin-bottom: 20px; }
     .download-btn { color: var(--gold-dark); text-decoration: none; font-weight: 700; font-size: 12px; padding: 8px 16px; background: #F4EFE6; border-radius: 8px; }
     
-    .guide-item { display: flex; align-items: flex-start; margin-bottom: 10px; font-size: 14.5px; line-height: 1.5; } /* 間距已縮小 */
+    .guide-item { display: flex; align-items: flex-start; margin-bottom: 10px; font-size: 14.5px; line-height: 1.5; }
     .guide-check { margin-right: 12px; font-size: 18px; flex-shrink: 0; }
     .guide-item b { color: var(--dark); margin-right: 2px; }
 
-    .shipping-card { background: var(--dark); color: #FFF; padding: 25px; border-radius: var(--radius); margin-top: 30px; }
+    .shipping-card { background: var(--dark); color: #FFF; padding: 25px; border-radius: var(--radius); margin-top: 25px; }
     .shipping-bullets { padding: 0; margin: 15px 0 25px 0; list-style: none; }
-    .shipping-bullets li { margin: 12px 0; display: flex; align-items: flex-start; font-size: 14px; color: rgba(255,255,255,0.9); }
+    .shipping-bullets li { margin: 10px 0; display: flex; align-items: flex-start; font-size: 14px; color: rgba(255,255,255,0.9); }
     .shipping-bullets li::before { content: "•"; color: #F1D279; margin-right: 12px; font-weight: bold; }
 
     /* 底部導覽 - 深色圖示版 */
@@ -216,19 +216,18 @@
     <section id="info">
       <h3 class="section-title">寄賣服務須知</h3>
       <div class="card">
-        <div style="font-size: 11px; color: var(--gray-text); margin-bottom: 20px;">※ 服務摘要如下，權益請以紙本契約為準。</div>
+        <div style="font-size: 11px; color: var(--gray-text); margin-bottom: 15px;">※ 服務摘要如下，權益請以紙本契約為準。</div>
         <div class="subhead">正品鑑定與保證</div>
         <ul class="bullets">
           <li>僅受理 <b>沐雨精品服飾、栩願國際</b> 售出之品牌商品。</li>
           <li>需提供 <b>購買證明截圖</b> 作為核對憑據。</li>
           <li>商品需功能正常，無重大破損或明顯異味。</li>
         </ul>
-        <div style="height:30px;"></div>
-        <div class="subhead">售出結算與撥款</div>
+        <div style="height:20px;"></div> <div class="subhead">售出結算與撥款</div>
         <ul class="bullets">
           <li>商品售出 7 日內將主動通知，並於 30 日內匯入指定帳戶。</li>
         </ul>
-        <div style="height:30px;"></div>
+        <div style="height:20px;"></div>
         <div class="subhead">期滿處理方式</div>
         <ul class="bullets">
           <li>期滿可協議展延 3 個月或辦理領回。</li>
@@ -259,7 +258,7 @@
         <div class="bonus-row"><span>✧</span>立即 +5% 儲值回饋（活動公告為準）</div>
         <div class="bonus-row"><span>✧</span>可全額折抵購買任何商品</div>
         <div class="bonus-row"><span>✧</span>無使用期限，可自由累積</div>
-        <div style="font-size: 11px; opacity: 0.4; margin-top: 20px;">※ 此為加值服務說明</div>
+        <div style="font-size: 11px; opacity: 0.4; margin-top: 20px;">※ 此為加值服務說明，兌換規則可另行公告。</div>
       </div>
     </section>
 
@@ -274,7 +273,7 @@
           <a href="downloads/contract.pdf" class="download-btn" download>下載</a>
         </div>
 
-        <div style="height:30px;"></div>
+        <div style="height:20px;"></div>
         <div class="subhead">合約填寫快速指引</div>
         <div class="guide-item"><span class="guide-check">✅</span><b>第 1 頁：</b>乙方（寄售人）姓名簽署</div>
         <div class="guide-item"><span class="guide-check">✅</span><b>第 3 頁：</b>乙方收款帳戶資料（限本人帳戶）</div>
