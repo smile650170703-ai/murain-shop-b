@@ -52,7 +52,7 @@
     .subhead { font-size: 16px; font-weight: 700; margin: 0 0 18px; display: flex; align-items: center; color: #000; }
     .subhead::before { content: ""; width: 4px; height: 18px; background: var(--gold); border-radius: 10px; margin-right: 12px; flex-shrink: 0; }
     
-    /* 清單樣式 */
+    /* 清單樣式 - 手機防碎字 */
     .bullets { padding: 0; margin: 0; list-style: none; }
     .bullets li { 
       margin: 15px 0; 
@@ -122,49 +122,22 @@
     .shipping-bullets li { margin: 12px 0; display: flex; align-items: flex-start; font-size: 14px; color: rgba(255,255,255,0.9); }
     .shipping-bullets li::before { content: "•"; color: #F1D279; margin-right: 12px; font-weight: bold; }
 
-    /* 底部導覽 - 全新樣式 */
+    /* 底部導覽 - 深色圖示版 */
     .nav-bar { 
-      position: fixed; 
-      bottom: 15px; 
-      left: 15px; 
-      right: 15px; 
-      background: var(--dark); /* 改為深色背景 */
-      height: 70px; /* 稍微增加高度以容納圖示 */
-      border-radius: 35px; 
-      display: flex; 
-      align-items: center; 
+      position: fixed; bottom: 15px; left: 15px; right: 15px; 
+      background: var(--dark); height: 70px; border-radius: 35px; 
+      display: flex; align-items: center; 
       box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
-      border: none; /* 移除邊框 */
-      z-index: 1000; 
-      padding: 0 10px;
+      z-index: 1000; padding: 0 10px;
     }
     .nav-link { 
-      flex: 1; 
-      text-align: center; 
-      color: #AAAAAA; /* 未選中狀態的顏色改為淺灰 */
-      text-decoration: none; 
-      display: flex;
-      flex-direction: column; /* 垂直排列圖示與文字 */
-      align-items: center;
-      justify-content: center;
+      flex: 1; text-align: center; color: #AAAAAA; 
+      text-decoration: none; display: flex; flex-direction: column; 
+      align-items: center; justify-content: center;
     }
-    /* 圖示樣式設定 */
-    .nav-icon {
-      width: 22px;
-      height: 22px;
-      margin-bottom: 4px;
-      fill: currentColor; /* 讓圖示顏色跟隨文字顏色變化 */
-    }
-    /* 文字樣式設定 */
-    .nav-link span {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-    /* 選中狀態樣式 */
-    .nav-link.active { 
-      color: var(--gold); /* 選中時變為金色 */
-    }
+    .nav-icon { width: 22px; height: 22px; margin-bottom: 4px; fill: currentColor; }
+    .nav-link span { font-size: 10px; font-weight: 600; letter-spacing: 0.5px; }
+    .nav-link.active { color: var(--gold); }
 
     footer { text-align: center; color: var(--gray-text); font-size: 10px; margin-top: 40px; padding: 20px; line-height: 1.8; }
   </style>
@@ -212,31 +185,6 @@
       </div>
     </section>
 
-    <section id="info">
-      <h3 class="section-title">寄賣服務須知</h3>
-      <div class="card">
-        <div style="font-size: 11px; color: var(--gray-text); margin-bottom: 20px;">※ 服務摘要如下，權益請以紙本契約為準。</div>
-        <div class="subhead">正品鑑定與保證</div>
-        <ul class="bullets">
-          <li>僅受理 <b>沐雨精品服飾、栩願國際</b> 售出之品牌商品。</li>
-          <li>需提供 <b>購買證明截圖</b> 作為核對憑據。</li>
-          <li>商品需功能正常，無重大破損或明顯異味。</li>
-        </ul>
-        <div style="height:30px;"></div>
-        <div class="subhead">售出結算與撥款</div>
-        <ul class="bullets">
-          <li>商品售出 7 日內將主動通知，並於 30 日內匯入指定帳戶。</li>
-        </ul>
-        <div style="height:30px;"></div>
-        <div class="subhead">期滿處理方式</div>
-        <ul class="bullets">
-          <li>期滿可協議展延 3 個月或辦理領回。</li>
-          <li>線上簽署：期滿領回採「郵寄寄回」。</li>
-          <li>到店辦理：期滿領回採「現場取回」。</li>
-        </ul>
-      </div>
-    </section>
-
     <section id="example">
       <div class="card">
         <div style="text-align:center; font-size:12px; color:var(--gold-dark); font-weight:700; margin-bottom:15px;">填寫範例 (左右滑動查看)</div>
@@ -261,6 +209,31 @@
            <div id="toast" style="text-align:center; font-size:11px; color:var(--gold-dark); margin-top:8px; min-height:15px;"></div>
            <a class="btn-reserve-giant" href="https://line.me/R/ti/p/@mu88888" target="_blank">我要寄賣 →</a>
         </div>
+      </div>
+    </section>
+
+    <section id="info">
+      <h3 class="section-title">寄賣服務須知</h3>
+      <div class="card">
+        <div style="font-size: 11px; color: var(--gray-text); margin-bottom: 20px;">※ 服務摘要如下，權益請以紙本契約為準。</div>
+        <div class="subhead">正品鑑定與保證</div>
+        <ul class="bullets">
+          <li>僅受理 <b>沐雨精品服飾、栩願國際</b> 售出之品牌商品。</li>
+          <li>需提供 <b>購買證明截圖</b> 作為核對憑據。</li>
+          <li>商品需功能正常，無重大破損或明顯異味。</li>
+        </ul>
+        <div style="height:30px;"></div>
+        <div class="subhead">售出結算與撥款</div>
+        <ul class="bullets">
+          <li>商品售出 7 日內將主動通知，並於 30 日內匯入指定帳戶。</li>
+        </ul>
+        <div style="height:30px;"></div>
+        <div class="subhead">期滿處理方式</div>
+        <ul class="bullets">
+          <li>期滿可協議展延 3 個月或辦理領回。</li>
+          <li>線上簽署：期滿領回採「郵寄寄回」。</li>
+          <li>到店辦理：期滿領回採「現場取回」。</li>
+        </ul>
       </div>
     </section>
 
