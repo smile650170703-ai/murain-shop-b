@@ -73,25 +73,6 @@
     .shipping-card { background: #FDFBF7; border: 1.5px dashed #D1C4A9; border-radius: 15px; padding: 20px; }
     .shipping-info { font-size: 13px; line-height: 1.8; color: #666; }
 
-    /* 下載區 CTA */
-    .cta-row{display:flex; gap:10px; align-items:center; justify-content:flex-end;}
-    .btn-cta{
-      display:inline-block;
-      color:#FFF; background: var(--gold-dark);
-      text-decoration:none;
-      font-weight:800; font-size:12px;
-      padding:9px 14px; border-radius:10px;
-      white-space:nowrap;
-    }
-    .btn-ghost{
-      display:inline-block;
-      color: var(--gold-dark); background: var(--gold-bg);
-      text-decoration:none;
-      font-weight:800; font-size:12px;
-      padding:9px 14px; border-radius:10px;
-      white-space:nowrap;
-    }
-
     /* 底部導覽 */
     .nav-bar { position: fixed; bottom: 20px; left: 15px; right: 15px; background: var(--dark); height: 68px; border-radius: 35px; display: flex; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.25); z-index: 1000; }
     .nav-link { flex: 1; text-align: center; color: #8E8E93; text-decoration: none; display: flex; flex-direction: column; align-items: center; }
@@ -125,7 +106,7 @@
         <ul class="bullets">
           <li><b>LINE 諮詢：</b>提供購證截圖、商品照片及寄賣價</li>
           <li><b>商品審核：</b>初審通過後，安排寄送或親洽門市</li>
-          <li><b>簽署契約：</b>可「線上簽署回傳」或「列印簽署回傳」</li>
+          <li><b>簽署契約：</b>可線上簽署回傳，或列印簽名後拍照回傳</li>
           <li><b>上架銷售：</b>正式進入全通路銷售及售後撥款</li>
         </ul>
         <div class="template-box">
@@ -143,19 +124,15 @@
     <section id="downloads">
       <h3 class="section-title">相關文件與下載</h3>
       <div class="card">
-
-        <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom: 15px; border-bottom: 1px solid #F5F5F5; margin-bottom: 16px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 1px solid #F5F5F5; margin-bottom: 20px;">
           <div style="font-size: 15px; font-weight: 700;">精品寄售契約 (PDF)</div>
+          <a href="https://line.me/R/oaMessage/@mu88888/?%E5%AF%84%E8%B3%A3%E5%A5%91%E7%B4%84%0A%E6%88%91%E6%83%B3%E9%A0%98%E5%8F%96PDF%E8%88%87%E7%B0%BD%E7%BD%B2%E8%AA%AA%E6%98%8E%EF%BC%8C%E8%AC%9D%E8%AC%9D"
+             style="color:#FFF; background: var(--gold-dark); text-decoration:none; font-weight:800; font-size:12px; padding:8px 16px; border-radius:8px;"
+             target="_blank" rel="noopener">到 LINE 領取</a>
+        </div>
 
-          <div class="cta-row">
-            <!-- ✅ 改成到 LINE 領取：你就能知道誰領取（對方會送出訊息給你） -->
-            <a class="btn-cta"
-               href="https://line.me/R/oaMessage/@mu88888/?%E3%80%90%E7%B2%BE%E5%93%81%E5%AF%84%E8%B3%A3%E5%A5%91%E7%B4%84%E3%80%91%E6%88%91%E8%A6%81%E9%A0%98%E5%8F%96%EF%BC%8C%E8%AB%8B%E5%9B%9E%E8%A6%86%E7%B5%A6%E6%88%91%EF%BC%9A%0A1%EF%BC%89%E5%A5%91%E7%B4%84%E9%9B%BB%E5%AD%90%E6%AA%94%E9%80%A3%E7%B5%90%EF%BC%9Ahttps%3A%2F%2Fmurain-shop-b.pages.dev%2Fdownloads%2Fcontract.pdf%0A2%EF%BC%89%E7%B7%9A%E4%B8%8A%E7%B0%BD%E5%90%8D%E6%95%99%E5%AD%B8%0A3%EF%BC%89%E5%88%97%E5%8D%B0%E7%B0%BD%E7%BD%B2%E6%95%99%E5%AD%B8%0A%E8%AC%9D%E8%AC%9D%EF%BC%81"
-               target="_blank" rel="noopener">到 LINE 領取</a>
-
-            <!-- 可選：頁面內教學快速跳轉 -->
-            <a class="btn-ghost" href="#sign-guide">簽名教學</a>
-          </div>
+        <div style="margin-top:10px; font-size:12px; color: var(--gray-text);">
+          點擊後會跳到官方 LINE，請按一次「送出」，系統將自動回覆：PDF 連結＋線上簽名/列印教學。
         </div>
 
         <div class="subhead">合約填寫快速指引</div>
@@ -166,43 +143,6 @@
           <li><b>第 7 頁：</b>寄售商品詳細明細表</li>
           <li><b>第 2 頁：</b>(選填) 同意參與競標處簽名</li>
         </ul>
-
-        <!-- ✅ 新增：線上簽名 / 列印教學（同頁顯示，讓客人照做） -->
-        <div id="sign-guide" style="height:18px;"></div>
-        <div class="subhead">線上簽名 / 列印教學</div>
-
-        <div class="template-box">
-          <div style="font-size:13px; font-weight:800; margin-bottom:8px; color:var(--gold-dark);">✅ iPhone 線上簽名（免裝 App）</div>
-          <ul class="bullets">
-            <li>先把 PDF「儲存到檔案」</li>
-            <li>用「檔案 App」開啟 PDF → 右上角「標示(筆)」</li>
-            <li>點「＋」→「簽名」→ 簽好後拖到簽名欄</li>
-            <li>按「完成」→ 用 LINE 回傳簽好後的 PDF</li>
-          </ul>
-        </div>
-
-        <div class="template-box">
-          <div style="font-size:13px; font-weight:800; margin-bottom:8px; color:var(--gold-dark);">✅ Android 線上簽名（兩種做法）</div>
-          <ul class="bullets">
-            <li>若 PDF 有「註解/標註/筆」：直接手寫簽名＋日期後儲存</li>
-            <li>若沒有：下載 Adobe Acrobat →「填寫與簽名」→ 儲存後用 LINE 回傳</li>
-          </ul>
-        </div>
-
-        <div class="template-box">
-          <div style="font-size:13px; font-weight:800; margin-bottom:8px; color:var(--gold-dark);">🖨️ 列印簽署（不會線上簽就用這個）</div>
-          <ul class="bullets">
-            <li>PDF 以 A4 單面列印（黑白/彩色皆可）</li>
-            <li>手寫簽名＋日期後拍照或掃描</li>
-            <li>用 LINE 回傳照片/掃描檔即可完成</li>
-          </ul>
-        </div>
-
-        <a href="https://line.me/R/ti/p/@mu88888" target="_blank" rel="noopener"
-           style="display:block; text-align:center; color:#FFF; background: var(--dark); text-decoration:none; font-weight:800; font-size:13px; padding:12px 14px; border-radius:12px; margin-top:14px;">
-          我已簽署完成 → 回傳給 LINE
-        </a>
-
       </div>
     </section>
 
@@ -211,9 +151,9 @@
       <div class="card">
         <div class="subhead">📦 準備寄送物品</div>
         <ul class="bullets" style="margin-bottom:20px;">
-          <li><b>寄售商品本體</b></li>
-          <li><b>身分證正反面影本</b></li>
-          <li><b>契約：</b>線上簽署回傳（免寄紙本）；若選列印簽署則請依客服指示寄送</li>
+          <li><b>契約：</b>簽署後回傳即可（免寄紙本；如客服另行通知再寄送）</li>
+          <li>寄售商品本體</li>
+          <li>身分證正反面影本</li>
         </ul>
         <div class="shipping-card">
           <div style="font-size: 15px; font-weight: 700; color: #856404; margin-bottom: 8px;">寄件資訊（如需寄送）</div>
