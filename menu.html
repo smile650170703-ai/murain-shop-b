@@ -41,7 +41,7 @@
     /* 通用卡片 */
     .card { background: var(--card-bg); border-radius: var(--radius); padding: 22px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
     .subhead { font-size: 16px; font-weight: 700; margin: 0 0 12px; display: flex; align-items: center; color: #000; }
-
+    
     /* 清單樣式 */
     .bullets { padding: 0; margin: 0; list-style: none; }
     .bullets li { margin: 10px 0; display: flex; align-items: flex-start; font-size: 14.5px; color: #3A3A3C; }
@@ -89,7 +89,7 @@
   <div class="topbar">
     <div class="topbar-inner">
       <div class="topbar-logo">MURAIN</div>
-      <a class="topbar-btn" href="https://line.me/R/ti/p/@mu88888" target="_blank" rel="noopener">專人諮詢</a>
+      <a class="topbar-btn" href="https://line.me/R/ti/p/@mu88888" target="_blank">專人諮詢</a>
     </div>
   </div>
 
@@ -106,7 +106,7 @@
         <ul class="bullets">
           <li><b>LINE 諮詢：</b>提供購證截圖、商品照片及寄賣價</li>
           <li><b>商品審核：</b>初審通過後，安排寄送或親洽門市</li>
-          <li><b>簽署契約：</b>可線上簽署回傳，或列印簽名後拍照回傳</li>
+          <li><b>簽署契約：</b>以「線上簽署」為主（不會線上可改紙本備援）</li>
           <li><b>上架銷售：</b>正式進入全通路銷售及售後撥款</li>
         </ul>
         <div class="template-box">
@@ -122,41 +122,27 @@
     </section>
 
     <section id="downloads">
-      <h3 class="section-title">相關文件與下載</h3>
+      <h3 class="section-title">相關文件</h3>
       <div class="card">
-        <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 15px; border-bottom: 1px solid #F5F5F5; margin-bottom: 20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:15px; border-bottom:1px solid #F5F5F5; margin-bottom:18px;">
           <div style="font-size: 15px; font-weight: 700;">精品寄售契約 (PDF)</div>
-          <a href="https://line.me/R/oaMessage/@mu88888/?%E5%AF%84%E8%B3%A3%E5%A5%91%E7%B4%84%0A%E6%88%91%E6%83%B3%E9%A0%98%E5%8F%96PDF%E8%88%87%E7%B0%BD%E7%BD%B2%E8%AA%AA%E6%98%8E%EF%BC%8C%E8%AC%9D%E8%AC%9D"
-             style="color:#FFF; background: var(--gold-dark); text-decoration:none; font-weight:800; font-size:12px; padding:8px 16px; border-radius:8px;"
-             target="_blank" rel="noopener">到 LINE 領取</a>
+          <button type="button" onclick="requestContract()" style="color:#FFF; background: var(--gold-dark); border:none; font-weight:700; font-size:12px; padding:8px 16px; border-radius:8px; cursor:pointer;">索取契約</button>
         </div>
-
-        <div style="margin-top:10px; font-size:12px; color: var(--gray-text);">
-          點擊後會跳到官方 LINE，請按一次「送出」，系統將自動回覆：PDF 連結＋線上簽名/列印教學。
         </div>
-
-        <div class="subhead">合約填寫快速指引</div>
-        <ul class="bullets">
-          <li><b>第 1 頁：</b>寄售人(乙方)姓名簽署</li>
-          <li><b>第 3 頁：</b>本人收款帳戶資料</li>
-          <li><b>第 6 頁：</b>身分證號及個資親簽</li>
-          <li><b>第 7 頁：</b>寄售商品詳細明細表</li>
-          <li><b>第 2 頁：</b>(選填) 同意參與競標處簽名</li>
-        </ul>
       </div>
     </section>
 
-    <section id="shipping">
+<section id="shipping">
       <h3 class="section-title">寄送包裹清單</h3>
       <div class="card">
         <div class="subhead">📦 準備寄送物品</div>
         <ul class="bullets" style="margin-bottom:20px;">
-          <li><b>契約：</b>簽署後回傳即可（免寄紙本；如客服另行通知再寄送）</li>
+          <li><b>紙本契約一式兩份</b>（僅「無法線上簽署」才需要）</li>
           <li>寄售商品本體</li>
           <li>身分證正反面影本</li>
         </ul>
         <div class="shipping-card">
-          <div style="font-size: 15px; font-weight: 700; color: #856404; margin-bottom: 8px;">寄件資訊（如需寄送）</div>
+          <div style="font-size: 15px; font-weight: 700; color: #856404; margin-bottom: 8px;">寄件資訊</div>
           <div class="shipping-info">
             <b>地址：</b>臺南市佳里區文新里義民街 339 號 1 樓<br>
             <b>收件：</b>沐雨精品服飾 / <b>電話：</b>06-7238700
@@ -179,13 +165,13 @@
       <h3 class="section-title">寄賣服務須知</h3>
       <div class="card">
         <div style="background: #F8F8F8; padding: 12px; border-radius: 10px; margin-bottom: 20px; font-size: 13px; color: #666; text-align: center;">
-          ※ 服務摘要如下，正式權益請以雙方簽署之紙本契約為準。
+          ※ 服務摘要如下，正式權益請以雙方簽署之契約為準（線上簽署為主，紙本備援）。
         </div>
 
         <div class="subhead">🛡️ 正品鑑定與保證</div>
         <ul class="bullets" style="margin-bottom: 25px;">
-          <li>僅受理 <b>沐雨精品服飾、栩願國際</b> 售出之品牌商品。</li>
-          <li>需提供 <b>購買證明截圖</b> 作為核對憑據。</li>
+          <li>僅受理<b>沐雨精品服飾、栩願國際</b>售出之品牌商品。</li>
+          <li>需提供<b>購買證明截圖</b>作為核對憑據。</li>
           <li>商品需功能正常，無重大破損或明顯異味。</li>
         </ul>
 
@@ -197,7 +183,7 @@
         <div class="subhead">⚖️ 權益保障與提醒</div>
         <div class="warning-box">
           <div style="font-size: 14px; font-weight: 700; color: #333; margin-bottom: 15px; border-bottom: 1px solid #FFEBEB; padding-bottom: 8px;">委託法律責任</div>
-
+          
           <div class="warning-item">
             <b>◆ 仿品賠償：</b>若寄售非本公司售出或為贗品，須賠償 NT$200,000，商譽損失賠償 NT$300,000 另計。
           </div>
@@ -240,12 +226,47 @@
   </nav>
 
   <script>
+    const LINE_OA_ID = "@mu88888";
+
+    function openLinePrefill(message) {
+      const oa = encodeURIComponent(LINE_OA_ID);      // 例如：%40mu88888
+      const msg = encodeURIComponent(message || "");  // UTF-8 percent-encoding
+      // 會打開官方帳號聊天室並「預填」訊息（使用者仍需按送出）
+      window.location.href = `https://line.me/R/oaMessage/${oa}/?${msg}`;
+    }
+
+    function safeCopy(text) {
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text);
+          return;
+        }
+      } catch {}
+      // fallback
+      const tmp = document.createElement("textarea");
+      tmp.value = text;
+      tmp.style.position = "fixed";
+      tmp.style.opacity = "0";
+      document.body.appendChild(tmp);
+      tmp.focus();
+      tmp.select();
+      try { document.execCommand("copy"); } catch {}
+      document.body.removeChild(tmp);
+    }
+
     function copyTemplate() {
       const ta = document.getElementById("templateText");
-      ta.select();
-      navigator.clipboard.writeText(ta.value);
-      alert("✅ 模板已複製！即將前往 LINE");
-      window.location.href = "https://line.me/R/ti/p/@mu88888";
+      const text = ta.value;
+      safeCopy(text);
+      alert("✅ 已帶入 LINE 訊息框，請按『送出』");
+      openLinePrefill(text);
+    }
+
+    function requestContract() {
+      // 讓 LINE OA 自動回覆用的關鍵字（你在 OA 後台設定此關鍵字回覆即可）
+      const keyword = "合約";
+      alert("✅ 已帶入 LINE 訊息框，請按『送出』以索取契約");
+      openLinePrefill(keyword);
     }
   </script>
 </body>
