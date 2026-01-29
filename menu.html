@@ -21,10 +21,10 @@
       margin: 0; background-color: var(--bg); color: #1C1C1E;
       font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", sans-serif;
       line-height: 1.6; -webkit-font-smoothing: antialiased;
-      padding-bottom: 120px;
+      padding-bottom: 150px; /* 增加底部緩衝，防止內容被導覽列遮擋 */
     }
 
-    /* 頂部欄 - 參考 image_5dbbe1.png */
+    /* 頂部欄 */
     .topbar { position: sticky; top: 0; z-index: 200; background: rgba(255,255,255,0.9); backdrop-filter: blur(20px); border-bottom: 0.5px solid rgba(0,0,0,0.05); }
     .topbar-inner { max-width: 600px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; }
     .topbar-logo { font-family: "Times New Roman", serif; font-size: 22px; font-weight: 700; letter-spacing: 5px; }
@@ -32,7 +32,7 @@
 
     .container { max-width: 600px; margin: 0 auto; padding: 15px 20px; }
 
-    /* Hero 卡片 - 參考 image_5dbbe1.png */
+    /* Hero 卡片 */
     .hero {
       background: #111; color: white; border-radius: var(--radius); padding: 50px 30px;
       margin: 10px 0 30px; position: relative; overflow: hidden;
@@ -52,31 +52,48 @@
     .subhead { font-size: 16px; font-weight: 700; margin: 0 0 18px; display: flex; align-items: center; color: #000; }
     .subhead::before { content: ""; width: 4px; height: 18px; background: var(--gold); border-radius: 10px; margin-right: 12px; flex-shrink: 0; }
     
-    /* 清單樣式 */
+    /* 清單樣式 - 已修復斷行問題 */
     .bullets { padding: 0; margin: 0; list-style: none; }
-    .bullets li { margin: 15px 0; display: flex; align-items: flex-start; font-size: 14.5px; color: #3A3A3C; }
-    .bullets li::before { content: "•"; color: var(--gold); margin-right: 12px; font-weight: bold; }
+    .bullets li { 
+      margin: 15px 0; 
+      display: flex; 
+      align-items: flex-start; 
+      font-size: 14.5px; 
+      color: #3A3A3C; 
+      text-align: justify; /* 讓文字排列整齊 */
+    }
+    .bullets li::before { 
+      content: "•"; 
+      color: var(--gold); 
+      margin-right: 12px; 
+      font-weight: bold; 
+      flex-shrink: 0; /* 防止圓點被擠扁 */
+    }
+    .bullets li b { 
+      white-space: nowrap; /* 重要：防止店名在手機上被切斷 */
+      display: inline-block;
+    }
 
-    /* 法律責任 - 參考 image_5dbb68.png */
+    /* 法律責任 */
     .warn-card .subhead { color: #A94442; }
     .warn-card .subhead::before { background: #A94442; }
     .law-list { padding: 0; margin: 0; list-style: none; }
     .law-list li { margin-bottom: 20px; display: flex; font-size: 14px; color: #333; line-height: 1.7; }
     .law-list li span { color: #A94442; margin-right: 12px; font-size: 14px; margin-top: 2px; }
 
-    /* 福利黑卡 - 參考 image_5db843.png */
+    /* 福利黑卡 */
     .bonus-card-dark { background: #1C1C1E; color: white; padding: 35px 25px; border-radius: var(--radius); margin-bottom: 20px; }
     .bonus-card-dark h3 { font-size: 22px; font-weight: 700; margin: 0 0 20px; color: #F1D279; }
     .bonus-card-dark p { font-size: 14px; margin-bottom: 25px; opacity: 0.8; }
     .bonus-row { background: rgba(255,255,255,0.08); border-radius: 12px; padding: 18px; margin-bottom: 12px; display: flex; align-items: center; font-size: 14px; }
     .bonus-row span { color: #F1D279; margin-right: 15px; font-size: 16px; }
 
-    /* 流程步驟 - 參考 螢幕擷取畫面 091011.png */
+    /* 流程步驟 */
     .step-item { position: relative; padding-left: 50px; margin-bottom: 30px; }
     .step-num { position: absolute; left: 0; top: 0; width: 30px; height: 30px; background: #F4EFE6; color: var(--gold-dark); border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 700; }
     .step-item h4 { font-size: 16px; margin: 0 0 8px; font-weight: 700; color: #000; }
 
-    /* 表格與模板 - 參考 image_5db822.png */
+    /* 表格與模板 */
     .table-wrap { overflow-x: auto; margin: 15px 0; border: 1px solid #EEE; border-radius: 12px; -webkit-overflow-scrolling: touch; }
     table { width: 100%; border-collapse: collapse; min-width: 450px; font-size: 12px; }
     th { background: #F8F8F8; padding: 14px; text-align: left; color: var(--gray-text); font-weight: 600; }
@@ -93,7 +110,7 @@
       box-shadow: 0 10px 20px rgba(197,160,89,0.2);
     }
 
-    /* 下載與收件 - 參考 image_5db7ff.png */
+    /* 下載與收件 */
     .download-row { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 0.5px solid #EEE; margin-bottom: 25px; }
     .download-btn { color: var(--gold-dark); text-decoration: none; font-weight: 700; font-size: 12px; padding: 8px 16px; background: #F4EFE6; border-radius: 8px; }
     
@@ -203,7 +220,7 @@
    競標價格：</textarea>
            <button id="copyBtn" onclick="copyTemplate()">一鍵複製資料模板</button>
            <div id="toast" style="text-align:center; font-size:11px; color:var(--gold-dark); margin-top:8px; min-height:15px;"></div>
-           <a class="btn-reserve-giant" href="https://line.me" target="_blank">立即預約專人申請 →</a>
+           <a class="btn-reserve-giant" href="https://line.me/R/ti/p/@mu88888" target="_blank">我要寄賣 →</a>
         </div>
       </div>
     </section>
@@ -250,7 +267,7 @@
         <div class="guide-item"><span>✅</span>第 3 頁：乙方收款帳戶資料（限本人帳戶）</div>
         <div class="guide-item"><span>✅</span>第 6 頁：個資、身分證號及蓋章親簽</div>
         <div class="guide-item"><span>✅</span>第 7 頁：寄售商品明細清冊</div>
-        <div class="guide-item"><span>💜</span>第 2 頁：(選填) 同意參與競標處簽名</div>
+        <div class="guide-item"><span>☑️</span>第 2 頁：(選填) 同意參與競標處簽名</div>
 
         <div class="shipping-card">
           <div style="font-size: 17px; font-weight: 700; color: #F1D279; margin-bottom: 15px;">📦 寄送包裹（契約＋商品＋證件）</div>
@@ -260,9 +277,9 @@
             <li>身分證正反面影本</li>
           </ul>
           <div style="font-size: 13px; line-height: 2.2; opacity: 0.9; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
-            <b>收件單位：</b>沐雨精品服飾<br>
-            <b>專線電話：</b>06-7238700<br>
-            <b>物流地址：</b>臺南市佳里區文新里義民街 339 號 1 樓
+            <b>地址：</b>臺南市佳里區文新里義民街 339 號 1 樓<br>
+            <b>姓名：</b>沐雨精品服飾<br>
+            <b>電話：</b>06-7238700
           </div>
         </div>
       </div>
